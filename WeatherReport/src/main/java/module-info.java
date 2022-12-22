@@ -8,6 +8,7 @@ module com.weatherreport.weatherreport {
     requires org.kordamp.bootstrapfx.core;
     requires lombok;
     requires io.github.cdimascio.dotenv.java;
+    requires com.google.gson;
 
     opens com.weatherreport.weatherreport to javafx.fxml;
     exports com.weatherreport.weatherreport;
