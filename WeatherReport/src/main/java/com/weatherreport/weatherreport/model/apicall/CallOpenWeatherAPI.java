@@ -1,7 +1,7 @@
 package com.weatherreport.weatherreport.model.apicall;
 
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
-import com.weatherreport.weatherreport.model.meteorology.Meteorology;
+import com.weatherreport.weatherreport.model.meteorology.*;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.BufferedReader;
@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 public interface CallOpenWeatherAPI {
     default String getJSONAsAString(GeographicLocation location) {
@@ -30,9 +29,12 @@ public interface CallOpenWeatherAPI {
             reader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        }finally {
+            CreateConnection.getConnectionInstance().closeConnection();
         }
         return response.toString();
     }
-    List<Meteorology> getJSONAsObject();
+    Meteorology getMeteorologyObject(GeographicLocation location);
+
 
 }
