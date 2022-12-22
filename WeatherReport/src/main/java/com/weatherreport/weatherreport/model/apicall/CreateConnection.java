@@ -12,18 +12,25 @@ public class CreateConnection {
     private static HttpURLConnection httpURLConnection;
     private CreateConnection() {}
     public static synchronized CreateConnection getConnectionInstance() {
-        if(connectionInstance == null) {
-           connectionInstance = new CreateConnection();
+        if (connectionInstance == null) {
+            connectionInstance = new CreateConnection();
         }
         return connectionInstance;
     }
+
     public HttpURLConnection getApiConnection(URL url) {
         try {
-            if(this.httpURLConnection == null) httpURLConnection = (HttpURLConnection) url.openConnection();
-        }catch (IOException e) {
+            if (this.httpURLConnection == null) httpURLConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
         return httpURLConnection;
+    }
+
+    public void closeConnection() {
+        if (httpURLConnection != null) {
+            httpURLConnection.disconnect();
+        }
     }
 }
