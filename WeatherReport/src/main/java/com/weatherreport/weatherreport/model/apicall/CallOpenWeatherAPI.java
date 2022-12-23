@@ -14,7 +14,7 @@ public interface CallOpenWeatherAPI {
     default String getJSONAsAString(GeographicLocation location) {
         StringBuilder response = new StringBuilder();
         try {
-            URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + location.getCity() + "," + location.getCountry() + "&appid=" + Dotenv.load().get("APIKEY") + "&units=" + location.getMeasureUnits());
+            URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + location.getCity() + "," + location.getCountry() + "&appid=" + Dotenv.load().get("APIKEY_OPEN_WEATHER") + "&units=" + location.getMeasureUnits());
             HttpURLConnection connection = CreateConnection
                     .getConnectionInstance()
                     .getApiConnection(url);
