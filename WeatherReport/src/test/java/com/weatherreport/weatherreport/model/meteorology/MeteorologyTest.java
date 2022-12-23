@@ -1,6 +1,8 @@
 package com.weatherreport.weatherreport.model.meteorology;
 
 import com.google.gson.Gson;
+import com.weatherreport.weatherreport.model.location.GeographicLocation;
+import com.weatherreport.weatherreport.service.ApiWeatherCallService;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,10 +12,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 class MeteorologyTest {
-
     @Test
     @DisplayName("API connection testing")
     void getJsonObject() throws IOException {
@@ -57,5 +59,32 @@ class MeteorologyTest {
         String apiKey = Dotenv.load().get("APIKEY");
         System.out.println(apiKey);
     }
-  
+
+    @Test
+    @DisplayName("Testing weather report")
+    void getDataJson() {
+        GeographicLocation defaultGeoLocation = GeographicLocation
+                .builder()
+                .city("Montreal")
+                .country("Canada")
+                .measureUnits("metric")
+                .build();
+        Meteorology forecast = ApiWeatherCallService
+                .getApiWeatherCallServiceInstance()
+                .getMeteorologyObject(defaultGeoLocation);
+
+        String cityName = forecast.getName();
+        String countryName = forecast.getSys().getCountry().toUpperCase();
+        int feels_like = (int) (Math.floor(forecast.getMain().getFeels_like()));
+        int temp = (int) Math.floor(forecast.getMain().getTemp());
+
+
+
+        System.out.println(cityName);
+        System.out.println(countryName);
+        System.out.println(feels_like);
+        System.out.println(temp);
+        System.out.println(new Date(forecast.getSys().getSunrise()*1000));
+        System.out.println(forecast.getSys().getSunset());
+    }
 }
