@@ -10,11 +10,16 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 class MeteorologyTest {
     @Test
     @DisplayName("API connection testing")
@@ -23,7 +28,7 @@ class MeteorologyTest {
         String city = "Montreal";
         String country = "CA";
         String units = "metric";
-        URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + country + "&appid=" + apiKey+"&units="+units);
+        URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + country + "&appid=" + apiKey + "&units=" + units);
         // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
         // Open a connection to the API endpoint
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -77,14 +82,18 @@ class MeteorologyTest {
         String countryName = forecast.getSys().getCountry().toUpperCase();
         int feels_like = (int) (Math.floor(forecast.getMain().getFeels_like()));
         int temp = (int) Math.floor(forecast.getMain().getTemp());
+        final Date date = new Date(forecast.getSys().getSunrise() * 1000);
 
-
-
+        String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
+        String description = new Weather().getWeatherAttributes(forecast, Weather::getDescription);
+        System.out.println(date.getHours() + ":" + date.getMinutes());
+        System.out.println(forecast);
         System.out.println(cityName);
         System.out.println(countryName);
         System.out.println(feels_like);
         System.out.println(temp);
-        System.out.println(new Date(forecast.getSys().getSunrise()*1000));
-        System.out.println(forecast.getSys().getSunset());
+        System.out.println(new Date(forecast.getSys().getSunrise() * 1000));
+        System.out.println(new Date(forecast.getSys().getSunset() * 1000));
     }
+
 }
