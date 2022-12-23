@@ -19,9 +19,10 @@ public interface CallOpenWeatherAPI {
                     .getConnectionInstance()
                     .getApiConnection(url);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
                 response.append(line);
