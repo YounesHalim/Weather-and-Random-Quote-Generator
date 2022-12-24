@@ -5,10 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class GeographicLocation {
-    private String country, city, measureUnits;
+    private String country, name, lat, lng, measureUnits;
+    private List<GeographicLocation> data;
 }
