@@ -72,7 +72,7 @@ public class WeatherReportController implements Initializable {
         // Work in progress
         GeographicLocation defaultGeoLocation = GeographicLocation
                 .builder()
-                .city("Montreal")
+                .name("Montreal")
                 .country("Canada")
                 .measureUnits("metric")
                 .build();
