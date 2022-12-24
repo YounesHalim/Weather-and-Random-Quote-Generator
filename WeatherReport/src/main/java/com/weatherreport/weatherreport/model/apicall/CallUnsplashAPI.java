@@ -3,6 +3,7 @@ package com.weatherreport.weatherreport.model.apicall;
 import com.weatherreport.weatherreport.model.images.ImageDataObject;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import io.github.cdimascio.dotenv.Dotenv;
+import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,12 +15,10 @@ public interface CallUnsplashAPI {
     default String getJSONAsAString(GeographicLocation location) {
         StringBuilder response = new StringBuilder();
         try {
-            URL url = new URL("https://api.unsplash.com/search/photos?page=1&query=" + location.getCity() +"&client_id=" + Dotenv.load().get("APIKEY_UNSPLASH"));
+            URL url = new URL("https://api.unsplash.com/search/photos?page=1&query=" + location.getName() +"&client_id=" + Dotenv.load().get("APIKEY_UNSPLASH"));
             HttpURLConnection connection = CreateConnection
                     .getConnectionInstance()
                     .getApiConnection(url);
-
-
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -37,4 +36,7 @@ public interface CallUnsplashAPI {
     }
 
     ImageDataObject deserializeUnsplashJsonObject(GeographicLocation location);
+    Image getRandomImageBasedOnLocation(URL url);
+
+
 }
