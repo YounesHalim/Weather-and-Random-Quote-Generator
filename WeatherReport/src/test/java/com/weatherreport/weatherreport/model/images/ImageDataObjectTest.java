@@ -69,8 +69,7 @@ class ImageDataObjectTest {
             GeographicLocation data = gson.fromJson(bufferedReader, GeographicLocation.class);
             List<String> listOfCities = data.getData()
                     .parallelStream()
-                    .map(GeographicLocation::getName)
-                    .filter(city-> city.equals("Paris"))
+                    .map((city) -> city.getName() +", "+ city.getCountry())
                     .toList();
 
         listOfCities.forEach(System.out::println);
