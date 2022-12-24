@@ -12,13 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MeteorologyTest {
     @Test
@@ -70,7 +63,7 @@ class MeteorologyTest {
     void getDataJson() {
         GeographicLocation defaultGeoLocation = GeographicLocation
                 .builder()
-                .city("Montreal")
+                .name("Montreal")
                 .country("Canada")
                 .measureUnits("metric")
                 .build();
