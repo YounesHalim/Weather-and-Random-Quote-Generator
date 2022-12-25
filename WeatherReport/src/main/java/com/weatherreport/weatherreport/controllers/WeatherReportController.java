@@ -23,37 +23,37 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class WeatherReportController implements Initializable {
+public class WeatherReportController implements Initializable{
     @FXML private Label date, feelsLike, sunsetHour, degree, countryLocation;
-    @FXML private Circle weatherIcon;
-    @FXML private BorderPane mainApplicationLayout;
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Meteorology forecast = getUserLocationBasedOnInput();
+    @FXML
+    private Circle weatherIcon;
+    @FXML
+    private BorderPane mainApplicationLayout;
+    public static GeographicLocation defaultLocation = GeographicLocation.builder().country("CA").name("Montreal").build();
+    private void execution(GeographicLocation geographicLocation) {
+        Meteorology forecast = setWeatherApiCall(geographicLocation);
         setWeatherIcon(forecast);
         long sunset = forecast.getSys().getSunset();
-        setHeliosTime("LAST",sunset);
+        setHeliosTime("LAST", sunset);
         setCountryLocation(forecast, forecast.getSys());
         setFeelsLike(forecast.getMain());
         setTemperature(forecast.getMain());
         setDate();
-        sceneInjector("SearchBar-Scene");
     }
-
     private void setWeatherIcon(Meteorology forecast) {
         String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
         try {
             String iconPath = ApiWeatherCallService.getApiWeatherCallServiceInstance().getAppropriateWeatherIcon(icon).toString();
             weatherIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(iconPath))));
-        }catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-
     }
     private void setHeliosTime(String firstOrLastLight, long sunriseSunsetTime) {
         Date convertedDate = new Date(sunriseSunsetTime * 1000);
         switch (firstOrLastLight) {
-            case "LAST" -> sunsetHour.setText(sunsetHour.getText()+" "+convertedDate.getHours()+":"+convertedDate.getMinutes());
+            case "LAST" ->
+                    sunsetHour.setText(sunsetHour.getText() + " " + convertedDate.getHours() + ":" + convertedDate.getMinutes());
         }
     }
     private void setCountryLocation(Meteorology forecast, Sys country) {
@@ -64,25 +64,18 @@ public class WeatherReportController implements Initializable {
         feelsLike.setText("%s %d".formatted(feelsLike.getText(), feelsLikeTemp));
     }
     private void setTemperature(MainWeather mainWeather) {
-        degree.setText(String.valueOf(Math.floor(mainWeather.getTemp())));
+        degree.setText(String.valueOf((int) Math.floor(mainWeather.getTemp())));
     }
     private void setDate() {
         date.setText(new Date().toString());
     }
-    private Meteorology getUserLocationBasedOnInput() {
-        // Work in progress
-        GeographicLocation defaultGeoLocation = GeographicLocation
-                .builder()
-                .name("Montreal")
-                .country("Canada")
-                .measureUnits("metric")
-                .build();
-
-        Meteorology forecast = ApiWeatherCallService
-                .getApiWeatherCallServiceInstance()
-                .getMeteorologyObject(defaultGeoLocation);
-        return forecast;
+    protected Meteorology setWeatherApiCall(GeographicLocation geographicLocation) {
+        return ApiWeatherCallService.getApiWeatherCallServiceInstance().weatherApiCall(geographicLocation);
     }
+    public static void setDefaultLocation(GeographicLocation defaultLocation) {
+        WeatherReportController.defaultLocation = defaultLocation;
+    }
+
     private void sceneInjector(String FXMLFileName) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -93,5 +86,9 @@ public class WeatherReportController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        execution(defaultLocation);
+        sceneInjector("SearchBar-Scene");
+    }
 }
