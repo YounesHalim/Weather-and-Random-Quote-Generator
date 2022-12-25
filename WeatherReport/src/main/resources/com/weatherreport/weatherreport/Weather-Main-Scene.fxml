@@ -16,7 +16,7 @@
                   <Label fx:id="feelsLike" layoutX="14.0" layoutY="192.0" prefHeight="17.0" prefWidth="90.0" text="Feels like" textFill="#eeeeee" />
                   <Label fx:id="sunsetHour" layoutX="142.0" layoutY="192.0" prefHeight="17.0" prefWidth="81.0" text="Sunset" textFill="#eeeeee" />
                   <Label fx:id="date" alignment="CENTER" layoutX="42.0" layoutY="31.0" prefHeight="17.0" prefWidth="155.0" textFill="#eeeeee" />
-                  <Label fx:id="degree" alignment="CENTER_RIGHT" layoutX="57.0" layoutY="57.0" prefHeight="63.0" prefWidth="61.0" text="10" textFill="#eeeeee">
+                  <Label fx:id="degree" alignment="CENTER_RIGHT" layoutX="12.0" layoutY="57.0" prefHeight="63.0" prefWidth="106.0" textFill="#eeeeee">
                      <font>
                         <Font name="Arial Bold" size="40.0" />
                      </font>
