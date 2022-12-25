@@ -28,10 +28,9 @@ public interface CallOpenWeatherAPI {
                 response.append(line);
             }
             reader.close();
+            connection.disconnect();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        }finally {
-            CreateConnection.getConnectionInstance().closeConnection();
         }
         return response.toString();
     }
