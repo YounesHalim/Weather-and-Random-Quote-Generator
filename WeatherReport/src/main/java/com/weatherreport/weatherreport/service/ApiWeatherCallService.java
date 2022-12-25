@@ -28,9 +28,20 @@ public class ApiWeatherCallService implements CallOpenWeatherAPI {
         meteorology = gson.fromJson(getJSONAsAString(cityLocation), Meteorology.class);
         return meteorology;
     }
-
     public URL getAppropriateWeatherIcon(String fetchedWeatherConditionIcon) throws MalformedURLException {
         return new URL("http://openweathermap.org/img/wn/%s@2x.png".formatted(fetchedWeatherConditionIcon));
+    }
+    public Meteorology weatherApiCall(GeographicLocation location) {
+        GeographicLocation geographicLocation = GeographicLocation
+                .builder()
+                .name(location.getName())
+                .country(location.getCountry())
+                .measureUnits("metric")
+                .build();
+
+        return ApiWeatherCallService
+                .getApiWeatherCallServiceInstance()
+                .getMeteorologyObject(geographicLocation);
     }
 
 }
