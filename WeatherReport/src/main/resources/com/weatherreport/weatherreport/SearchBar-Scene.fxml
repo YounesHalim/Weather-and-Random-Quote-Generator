@@ -6,9 +6,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="30.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.SearchBarController">
+<AnchorPane fx:id="anchorPane" prefHeight="30.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.SearchBarController">
    <children>
-      <TextField fx:id="searchBar" layoutX="14.0" layoutY="6.0" opacity="0.9" prefHeight="21.0" prefWidth="160.0" promptText="Search">
+      <TextField fx:id="searchBar" focusTraversable="false" layoutX="14.0" layoutY="6.0" opacity="0.9" prefHeight="21.0" prefWidth="160.0" promptText="Search">
          <font>
             <Font name="Arial Italic" size="8.0" />
          </font>
