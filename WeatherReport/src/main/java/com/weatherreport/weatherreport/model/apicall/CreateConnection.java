@@ -9,7 +9,6 @@ import java.net.URL;
  */
 public class CreateConnection {
     private static CreateConnection connectionInstance;
-    private static HttpURLConnection httpURLConnection;
     private CreateConnection() {}
     public static synchronized CreateConnection getConnectionInstance() {
         if (connectionInstance == null) {
@@ -19,18 +18,15 @@ public class CreateConnection {
     }
 
     public HttpURLConnection getApiConnection(URL url) {
+        HttpURLConnection httpURLConnection = null;
         try {
-            if (this.httpURLConnection == null) httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection = (HttpURLConnection) url.openConnection();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+
         return httpURLConnection;
     }
 
-    public void closeConnection() {
-        if (httpURLConnection != null) {
-            httpURLConnection.disconnect();
-        }
-    }
 }
