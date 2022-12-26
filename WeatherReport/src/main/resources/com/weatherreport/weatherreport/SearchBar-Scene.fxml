@@ -2,17 +2,14 @@
 
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="anchorPane" prefHeight="30.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.SearchBarController">
+<AnchorPane fx:id="anchorPane" prefHeight="40.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.SearchBarController">
    <children>
-      <TextField fx:id="searchBar" focusTraversable="false" layoutX="14.0" layoutY="6.0" opacity="0.9" prefHeight="21.0" prefWidth="160.0" promptText="Search">
+      <TextField fx:id="searchBar" focusTraversable="false" layoutX="526.0" layoutY="7.0" opacity="0.9" prefHeight="27.0" prefWidth="160.0" promptText="Search">
          <font>
-            <Font name="Arial Italic" size="8.0" />
+            <Font name="Arial Italic" size="11.0" />
          </font>
       </TextField>
-      <Pane layoutX="460.0" prefHeight="33.0" prefWidth="240.0" style="-fx-background-color: #0f173f;" />
    </children>
 </AnchorPane>
