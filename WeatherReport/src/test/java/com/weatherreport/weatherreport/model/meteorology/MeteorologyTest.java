@@ -79,6 +79,7 @@ class MeteorologyTest {
 
         String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
         String description = new Weather().getWeatherAttributes(forecast, Weather::getDescription);
+        System.out.println(description);
         System.out.println(date.getHours() + ":" + date.getMinutes());
         System.out.println(forecast);
         System.out.println(cityName);
