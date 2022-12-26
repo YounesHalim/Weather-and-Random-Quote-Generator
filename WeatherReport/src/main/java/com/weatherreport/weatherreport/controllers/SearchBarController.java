@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.weatherreport.weatherreport.WeatherReportApplication;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,6 +40,7 @@ public class SearchBarController implements Initializable{
                 case ENTER ->  {
                     if(!searchBar.getText().isEmpty() || !searchBar.getText().isBlank()) {
                         Function<TextField, String[]> nextDestination = (textField) -> textField.getText().split(",");
+
                         new Thread(()-> {
                             GeographicLocation newLocation = searchedLocation(nextDestination);
                             WeatherReportController.setDefaultLocation(newLocation);
@@ -50,7 +52,6 @@ public class SearchBarController implements Initializable{
                                 }
                             });
                         }).start();
-
                     }
                 }
             }
@@ -58,12 +59,14 @@ public class SearchBarController implements Initializable{
     }
 
     private static void newDestinationSetter(KeyEvent keyEvent, GeographicLocation newLocation) throws IOException {
-        FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource("Weather-Main-Scene.fxml"));
+        FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource("todaysOverViewLayout.fxml"));
         Parent parent = loader.load();
         WeatherReportController reportController = loader.getController();
-        reportController.setWeatherApiCall(newLocation);
+        new Thread(()-> reportController.setWeatherApiCall(newLocation)).start();
+        FXMLLoader sceneLoader = new FXMLLoader(WeatherReportApplication.class.getResource("MainScene.fxml"));
+        Parent root = sceneLoader.load();
         Stage stage = (Stage) ((Node) keyEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(parent);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
