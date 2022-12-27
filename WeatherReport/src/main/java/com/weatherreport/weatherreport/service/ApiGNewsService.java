@@ -16,6 +16,12 @@ import java.util.concurrent.Future;
 public class ApiGNewsService implements CallGNewsAPI {
     private static ApiGNewsService ApiGNewsService;
 
+    public enum Type {
+        IMAGES,
+        URLs,
+        SOURCE_NAMES,
+        SOURCE_LINKS
+    }
     private ApiGNewsService() {
     }
 
@@ -42,13 +48,31 @@ public class ApiGNewsService implements CallGNewsAPI {
     }
 
 
-    public List<String> getListOfHeadlinesURL(List<Articles> newsBatch, String type) {
+    public List<String> getListOfHeadlinesURL(List<Articles> newsBatch, Type type) {
         switch (type){
-            case "IMAGES" -> {
-                return newsBatch.parallelStream().map(Articles::getImage).toList();
+            case IMAGES -> {
+                return newsBatch
+                        .parallelStream()
+                        .map(Articles::getImage)
+                        .toList();
             }
-            case "URL" -> {
-                return newsBatch.parallelStream().map(Articles::getUrl).toList();
+            case URLs -> {
+                return newsBatch
+                        .parallelStream()
+                        .map(Articles::getUrl)
+                        .toList();
+            }
+            case SOURCE_NAMES ->{
+                return newsBatch
+                        .parallelStream()
+                        .map((articles -> articles.getSource().getName()))
+                        .toList();
+            }
+            case SOURCE_LINKS -> {
+                return newsBatch
+                        .parallelStream()
+                        .map((articles -> articles.getSource().getUrl()))
+                        .toList();
             }
         }
         return null;
