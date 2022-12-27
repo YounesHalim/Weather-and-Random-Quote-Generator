@@ -112,7 +112,6 @@
                   </Pane>
                </children>
             </Group>
-            <Label fx:id="date" alignment="CENTER" layoutX="43.0" layoutY="290.0" prefHeight="17.0" prefWidth="155.0" />
          </children>
       </Pane>
       <Pane layoutX="238.0" prefHeight="99.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
