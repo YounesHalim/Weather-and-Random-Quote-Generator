@@ -97,7 +97,9 @@ class NewsJsonObjectObjectTest {
     @Test
     @DisplayName("Timezone")
     void getTimeZoneTEST() {
-        System.out.println(ZonedDateTime.now(ZoneId.of("Toronto")));
+        String url = "https://www.letemps.ch/sites/default/files/styles/share/public/media/2022/12/27/885b85e_doc7o8c4vafght1m80wvhc9.jpeg?h=07d740a0&itok=qlOXPbUr";
+        System.out.println(url.split(".jpeg")[0]);
+
     }
 
 
