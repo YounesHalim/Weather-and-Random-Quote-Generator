@@ -6,17 +6,12 @@ import com.weatherreport.weatherreport.model.news.Articles;
 import com.weatherreport.weatherreport.model.news.News;
 import com.weatherreport.weatherreport.model.news.NewsObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
 
 public class ApiGNewsService implements CallGNewsAPI {
     private static ApiGNewsService ApiGNewsService;
@@ -46,8 +41,17 @@ public class ApiGNewsService implements CallGNewsAPI {
         return newsObject;
     }
 
-    public List<URL> getListOfHeadlinesURL(List<Articles> newsBatch, Function<Articles, URL> mapper) {
-        return newsBatch.parallelStream().map(mapper).toList();
+
+    public List<String> getListOfHeadlinesURL(List<Articles> newsBatch, String type) {
+        switch (type){
+            case "IMAGES" -> {
+                return newsBatch.parallelStream().map(Articles::getImage).toList();
+            }
+            case "URL" -> {
+                return newsBatch.parallelStream().map(Articles::getUrl).toList();
+            }
+        }
+        return null;
     }
 
 }
