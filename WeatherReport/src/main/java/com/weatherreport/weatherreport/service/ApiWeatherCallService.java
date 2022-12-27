@@ -23,7 +23,7 @@ public class ApiWeatherCallService implements CallOpenWeatherAPI {
     }
     @Override
     public Meteorology getMeteorologyObject(GeographicLocation cityLocation) {
-        Meteorology meteorology ;
+        Meteorology meteorology;
         Gson gson = new Gson();
         meteorology = gson.fromJson(getJSONAsAString(cityLocation), Meteorology.class);
         return meteorology;
@@ -32,7 +32,7 @@ public class ApiWeatherCallService implements CallOpenWeatherAPI {
         return new URL("http://openweathermap.org/img/wn/%s@2x.png".formatted(fetchedWeatherConditionIcon));
     }
     public Meteorology weatherApiCall(GeographicLocation location) {
-        GeographicLocation geographicLocation = GeographicLocation
+        GeographicLocation news = GeographicLocation
                 .builder()
                 .name(location.getName())
                 .country(location.getCountry())
@@ -41,7 +41,7 @@ public class ApiWeatherCallService implements CallOpenWeatherAPI {
 
         return ApiWeatherCallService
                 .getApiWeatherCallServiceInstance()
-                .getMeteorologyObject(geographicLocation);
+                .getMeteorologyObject(news);
     }
 
 }
