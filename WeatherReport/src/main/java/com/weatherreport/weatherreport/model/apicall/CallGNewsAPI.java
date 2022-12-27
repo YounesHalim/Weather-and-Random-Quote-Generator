@@ -1,21 +1,21 @@
 package com.weatherreport.weatherreport.model.apicall;
 
-import com.weatherreport.weatherreport.model.images.ImageDataObject;
-import com.weatherreport.weatherreport.model.location.GeographicLocation;
+import com.weatherreport.weatherreport.model.news.News;
+import com.weatherreport.weatherreport.model.news.NewsObject;
 import io.github.cdimascio.dotenv.Dotenv;
-import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
-public interface CallUnsplashAPI {
-    default String getJSONAsAString(GeographicLocation location) {
+public interface CallGNewsAPI {
+    default String getJSONAsAString(News news) {
         StringBuilder response = new StringBuilder();
         try {
-            URL url = new URL("https://api.unsplash.com/search/photos?page=1&query=" + location.getName() +"&client_id=" + Dotenv.load().get("APIKEY_UNSPLASH"));
+            URL url = new URL("https://gnews.io/api/v4/top-headlines?topic=" + news.getTopic() +"&token=" + Dotenv.load().get("APIKEY_NEWS") +"&lang="+news.getLanguage()+"&country="+news.getCountry());
             HttpURLConnection connection = CreateConnection
                     .getConnectionInstance()
                     .getApiConnection(url);
@@ -33,8 +33,7 @@ public interface CallUnsplashAPI {
         }
         return response.toString();
     }
-    ImageDataObject deserializeUnsplashJsonObject(GeographicLocation location);
-    Image getRandomImageBasedOnLocation(URL url);
+    NewsObject deserializeGNewsJsonObject(News news);
 
 
 }
