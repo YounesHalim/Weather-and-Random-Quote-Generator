@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.weatherreport.weatherreport.WeatherReportApplication;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -60,7 +59,7 @@ public class SearchBarController implements Initializable{
 
     private static void newDestinationSetter(KeyEvent keyEvent, GeographicLocation newLocation) throws IOException {
         FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource("todaysOverViewLayout.fxml"));
-        Parent parent = loader.load();
+        loader.load();
         WeatherReportController reportController = loader.getController();
         new Thread(()-> reportController.setWeatherApiCall(newLocation)).start();
         FXMLLoader sceneLoader = new FXMLLoader(WeatherReportApplication.class.getResource("MainScene.fxml"));
