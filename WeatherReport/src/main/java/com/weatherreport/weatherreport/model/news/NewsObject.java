@@ -1,4 +1,4 @@
-package com.weatherreport.weatherreport.model.images;
+package com.weatherreport.weatherreport.model.news;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ImageDataObject {
-    private int total, total_pages;
-    private List<Results> results;
+public class NewsObject {
+    private int totalArticles;
+    private List<Articles> articles;
 }
+
