@@ -1,4 +1,4 @@
-package com.weatherreport.weatherreport.model.images;
+package com.weatherreport.weatherreport.model.news;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Url {
-    private String full,regular, small;
+public class Source {
+    private String name, url;
 }
 
