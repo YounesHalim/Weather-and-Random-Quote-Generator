@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane prefHeight="300.0" prefWidth="70.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.WidgetController">
+<AnchorPane prefHeight="400.0" prefWidth="70.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.WidgetController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" prefHeight="300.0" prefWidth="70.0" style="-fx-background-color: #1b1b1b;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane hbarPolicy="NEVER" prefHeight="400.0" prefWidth="70.0" style="-fx-background-color: #1b1b1b;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
-            <VBox fx:id="widgetContainer" alignment="CENTER" prefHeight="300.0" prefWidth="70.0" style="-fx-background-color: #1b1b1b;" />
+            <VBox fx:id="widgetContainer" alignment="CENTER" prefHeight="400.0" prefWidth="70.0" style="-fx-background-color: #1b1b1b;" />
          </content>
       </ScrollPane>
    </children>
