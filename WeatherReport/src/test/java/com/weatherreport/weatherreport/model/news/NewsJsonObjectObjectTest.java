@@ -1,33 +1,32 @@
-package com.weatherreport.weatherreport.model.images;
+package com.weatherreport.weatherreport.model.news;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
-import com.weatherreport.weatherreport.service.ApiUnsplashCallService;
+import com.weatherreport.weatherreport.service.ApiGNewsService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
+import java.util.concurrent.*;
 
-class ImageDataObjectTest {
+class NewsJsonObjectObjectTest {
     @Test
     @DisplayName("Connection to unsplash")
     void getConnectionResults() {
-        GeographicLocation city = GeographicLocation.builder().name("Montreal").build();
-        String jsonAsAString = ApiUnsplashCallService.unsplashCallServiceInstance().getJSONAsAString(city);
-        System.out.println(jsonAsAString);
+
     }
 
     @Test
     @DisplayName("Parse JSON")
-    void parseJSON() {
-        GeographicLocation city = GeographicLocation.builder().name("Toronto-city").build();
-        ImageDataObject imageDataObject = ApiUnsplashCallService.unsplashCallServiceInstance().deserializeUnsplashJsonObject(city);
-        imageDataObject.getResults().parallelStream().forEach(System.out::println);
+    void parseJSON() throws ExecutionException, InterruptedException {
+
     }
 
     @Test
@@ -77,6 +76,32 @@ class ImageDataObjectTest {
             System.out.println(e.getMessage());
         }
     }
+
+    @Test
+    @DisplayName("Deserializing JSON Object")
+    void deserializedJSONTEST() {
+        News news = News.builder().topic("breaking-news").language("EN").country("US").build();
+        System.out.println(news.toString());
+        NewsObject newsObject = ApiGNewsService.getGNewsInstance().deserializeGNewsJsonObject(news);
+
+    }
+
+    @Test
+    @DisplayName("Testing URLS")
+    void URLTester() {
+        News news = News.builder().topic("breaking-news").language("EN").country("US").build();
+        NewsObject newsObject = ApiGNewsService.getGNewsInstance().deserializeGNewsJsonObject(news);
+        List<URL> newsUrls = ApiGNewsService.getGNewsInstance().getListOfHeadlinesURL(newsObject.getArticles(),(articles)-> {
+            try {
+                return new URL(articles.getUrl());
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        newsUrls.forEach((url -> System.out.println(url.toString())));
+    }
+
 
 
 }
