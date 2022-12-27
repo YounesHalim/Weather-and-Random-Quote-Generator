@@ -11,7 +11,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.text.MessageFormat;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.Set;
 
 class MeteorologyTest {
     @Test
@@ -63,8 +66,8 @@ class MeteorologyTest {
     void getDataJson() {
         GeographicLocation defaultGeoLocation = GeographicLocation
                 .builder()
-                .name("Montreal")
-                .country("Canada")
+                .name("Casablanca")
+                .country("MA")
                 .measureUnits("metric")
                 .build();
         Meteorology forecast = ApiWeatherCallService
@@ -77,17 +80,17 @@ class MeteorologyTest {
         int temp = (int) Math.floor(forecast.getMain().getTemp());
         final Date date = new Date(forecast.getSys().getSunrise() * 1000);
 
-        String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
-        String description = new Weather().getWeatherAttributes(forecast, Weather::getDescription);
-        System.out.println(description);
-        System.out.println(date.getHours() + ":" + date.getMinutes());
-        System.out.println(forecast);
-        System.out.println(cityName);
-        System.out.println(countryName);
-        System.out.println(feels_like);
-        System.out.println(temp);
+        Set<String> zoneIds = ZoneId.getAvailableZoneIds();
+        String timeZone = zoneIds.parallelStream().filter((zone)->zone.contains(cityName)).findFirst().orElse(null);
+
+        if(timeZone.split("/")[0].equalsIgnoreCase("africa")) {
+
+        }
         System.out.println(new Date(forecast.getSys().getSunrise() * 1000));
         System.out.println(new Date(forecast.getSys().getSunset() * 1000));
+
+        System.out.println(MessageFormat.format("Time of calculation: {0}",new Date((long) (forecast.getDt() * 1000))));
+        System.out.println(new Date((long) forecast.getTimeZone() * 100));
     }
 
 }
