@@ -13,6 +13,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -89,17 +91,13 @@ class NewsJsonObjectObjectTest {
     @Test
     @DisplayName("Testing URLS")
     void URLTester() {
-        News news = News.builder().topic("breaking-news").language("EN").country("US").build();
-        NewsObject newsObject = ApiGNewsService.getGNewsInstance().deserializeGNewsJsonObject(news);
-        List<URL> newsUrls = ApiGNewsService.getGNewsInstance().getListOfHeadlinesURL(newsObject.getArticles(),(articles)-> {
-            try {
-                return new URL(articles.getUrl());
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
-        newsUrls.forEach((url -> System.out.println(url.toString())));
+    }
+
+    @Test
+    @DisplayName("Timezone")
+    void getTimeZoneTEST() {
+        System.out.println(ZonedDateTime.now(ZoneId.of("Toronto")));
     }
 
 
