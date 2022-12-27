@@ -1,31 +1,26 @@
 package com.weatherreport.weatherreport.controllers;
 
+import com.weatherreport.weatherreport.WeatherReportApplication;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import com.weatherreport.weatherreport.model.meteorology.MainWeather;
 import com.weatherreport.weatherreport.model.meteorology.Meteorology;
 import com.weatherreport.weatherreport.model.meteorology.Sys;
 import com.weatherreport.weatherreport.model.meteorology.Weather;
-import com.weatherreport.weatherreport.model.news.News;
-import com.weatherreport.weatherreport.model.news.NewsObject;
-import com.weatherreport.weatherreport.service.ApiGNewsService;
 import com.weatherreport.weatherreport.service.ApiWeatherCallService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,19 +29,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class WeatherReportController implements Initializable {
     @FXML public AnchorPane rightAnchorPane;
-    @FXML private Label date, newsTitle, feelsLike, sunsetHour,sunriseHour, degree, countryLocation, weatherDescription, mainDescription;
-    @FXML private Circle weatherIcon, testCircle;
-    @FXML private VBox vboxContainer;
-    @FXML private Button addButton;
-    @FXML private Rectangle mainImageArticle;
+    @FXML private Label newsTitle, feelsLike, sunsetHour,sunriseHour, degree, countryLocation, weatherDescription, mainDescription;
+    @FXML private Label pressure, humidity, visibility;
+    @FXML private Circle weatherIcon, sunsetIcon, sunriseIcon;
     public static GeographicLocation defaultLocation = GeographicLocation.builder().country("CA").name("Montreal").build();
-    public static News defaultNews = News.builder().language("EN").topic("breaking-news").country("CA").build();
     private String celsius = "%d°C";
     private void setWeatherIcon(Meteorology forecast) {
         String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
         try {
             String iconPath = ApiWeatherCallService.getApiWeatherCallServiceInstance().getAppropriateWeatherIcon(icon).toString();
             weatherIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(iconPath))));
+            sunsetIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunset.png")))));
+            sunriseIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunrise.png")))));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -63,6 +57,7 @@ public class WeatherReportController implements Initializable {
     private void setCountryLocation(Meteorology forecast, Sys country) {
         String s = "%s, %s".formatted(forecast.getName(), country.getCountry());
         countryLocation.setText(s);
+        visibility.setText(MessageFormat.format("{0} km", forecast.getVisibility()));
     }
     private void setFeelsLike(MainWeather mainWeather) {
         int feelsLikeTemp = (int) (Math.floor(mainWeather.getFeels_like()));
@@ -70,9 +65,8 @@ public class WeatherReportController implements Initializable {
     }
     private void setTemperature(MainWeather mainWeather) {
         degree.setText(String.format(celsius,(int) Math.floor(mainWeather.getTemp())));
-    }
-    private void setDate() {
-        date.setText(LocalDate.now().toString());
+        pressure.setText((MessageFormat.format("{0} hPa", mainWeather.getPressure())));
+        humidity.setText(MessageFormat.format("{0}%",mainWeather.getHumidity()));
     }
     private void setDescription(String description) {
         // Capitalize
@@ -86,22 +80,13 @@ public class WeatherReportController implements Initializable {
     protected Meteorology setWeatherApiCall(GeographicLocation news) {
         return ApiWeatherCallService.getApiWeatherCallServiceInstance().weatherApiCall(news);
     }
-
-    protected NewsObject setNewsApiCall(News news) {
-        return ApiGNewsService.getGNewsInstance().deserializeGNewsJsonObject(news);
-    }
-
     public static void setDefaultLocation(GeographicLocation defaultLocation) {
         WeatherReportController.defaultLocation = defaultLocation;
     }
-    private void setNewsImage() {
 
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Meteorology forecast = setWeatherApiCall(defaultLocation);
-        NewsObject newsBatch = setNewsApiCall(defaultNews);
-
         setWeatherIcon(forecast);
         long sunset = forecast.getSys().getSunset();
         long sunrise = forecast.getSys().getSunrise();
@@ -110,7 +95,6 @@ public class WeatherReportController implements Initializable {
         setCountryLocation(forecast, forecast.getSys());
         setFeelsLike(forecast.getMain());
         setTemperature(forecast.getMain());
-        setDate();
         setDescription(new Weather().getWeatherAttributes(forecast, Weather::getDescription));
         setMainDescription(new Weather().getWeatherAttributes(forecast, Weather::getMain));
     }
