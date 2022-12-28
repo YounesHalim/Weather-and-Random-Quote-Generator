@@ -7,11 +7,15 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="35.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.SearchBarController">
    <children>
-      <TextField fx:id="searchBar" focusTraversable="false" layoutX="526.0" layoutY="4.0" opacity="0.9" prefHeight="27.0" prefWidth="160.0" promptText="Search">
-         <font>
-            <Font name="Arial Italic" size="11.0" />
-         </font>
-      </TextField>
-      <Pane layoutY="-7.0" prefHeight="42.0" prefWidth="70.0" style="-fx-background-color: #1b1b1b;" />
+      <Pane layoutY="-7.0">
+         <children>
+            <TextField fx:id="searchBar" focusTraversable="false" layoutX="526.0" layoutY="11.0" opacity="0.9" prefHeight="27.0" prefWidth="160.0" promptText="Search">
+               <font>
+                  <Font name="Arial Italic" size="11.0" />
+               </font>
+            </TextField>
+            <Pane prefHeight="42.0" prefWidth="150.0" style="-fx-background-color: #1b1b1b;" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
