@@ -26,49 +26,56 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 
 
-public class SearchBarController implements Initializable{
+public class SearchBarController implements Initializable {
     @FXML
     private TextField searchBar;
-    @FXML private AnchorPane anchorPane;
+    @FXML
+    private AnchorPane anchorPane;
     public static List<String> worldCitiesList = new ArrayList<>();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         autoCompletionBinding();
         searchBar.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
-                case ENTER ->  {
-                    if(!searchBar.getText().isEmpty() || !searchBar.getText().isBlank()) {
+                case ENTER -> {
+                    if (!searchBar.getText().isEmpty() || !searchBar.getText().isBlank()) {
                         Function<TextField, String[]> nextDestination = (textField) -> textField.getText().split(",");
-
-                        new Thread(()-> {
-                            GeographicLocation newLocation = searchedLocation(nextDestination);
-                            WeatherReportController.setDefaultLocation(newLocation);
-                            Platform.runLater(()-> {
-                                try {
-                                    newDestinationSetter(keyEvent, newLocation);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            });
-                        }).start();
+                        GeographicLocation newLocation = searchedLocation(nextDestination);
+                        WeatherReportController.setDefaultLocation(newLocation);
+                        Platform.runLater(() -> newDestination(newLocation));
+                        new Thread(()-> Platform.runLater(()-> sceneRefresh(keyEvent))).start();
                     }
                 }
             }
         });
     }
 
-    private static void newDestinationSetter(KeyEvent keyEvent, GeographicLocation newLocation) throws IOException {
-        FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource("todaysOverViewLayout.fxml"));
-        loader.load();
-        WeatherReportController reportController = loader.getController();
-        new Thread(()-> reportController.setWeatherApiCall(newLocation)).start();
+    private static void sceneRefresh(KeyEvent keyEvent) {
         FXMLLoader sceneLoader = new FXMLLoader(WeatherReportApplication.class.getResource("MainScene.fxml"));
-        Parent root = sceneLoader.load();
+        Parent root;
+        try {
+            root = sceneLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Stage stage = (Stage) ((Node) keyEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 700, 460);
         stage.setScene(scene);
         stage.show();
     }
+
+    private static void newDestination(GeographicLocation newLocation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource("todaysOverViewLayout.fxml"));
+            loader.load();
+            WeatherReportController reportController = loader.getController();
+            new Thread(() -> reportController.setWeatherApiCall(newLocation)).start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static void fetchJSONData() {
         String path = "src/main/resources/com/weatherreport/weatherreport/cities.json";
@@ -83,9 +90,11 @@ public class SearchBarController implements Initializable{
             System.out.println(e.getMessage());
         }
     }
+
     protected void autoCompletionBinding() {
         TextFields.bindAutoCompletion(searchBar, worldCitiesList);
     }
+
     protected GeographicLocation searchedLocation(Function<TextField, String[]> searchedLocation) {
         return GeographicLocation
                 .builder()
