@@ -12,7 +12,7 @@ public class WeatherReportApplication extends Application {
     public void start(Stage stage) throws IOException {
         new Thread(SearchBarController::fetchJSONData).start();
         FXMLLoader fxmlLoader = new FXMLLoader(WeatherReportApplication.class.getResource("MainScene.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load(),700,460);
         stage.setTitle("Weather report");
         stage.setScene(scene);
         stage.show();
