@@ -7,6 +7,7 @@ import com.weatherreport.weatherreport.model.meteorology.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.*;
 
 public class ApiWeatherCallService implements CallOpenWeatherAPI {
     private static ApiWeatherCallService apiWeatherCallService;
@@ -25,7 +26,15 @@ public class ApiWeatherCallService implements CallOpenWeatherAPI {
     public Meteorology getMeteorologyObject(GeographicLocation cityLocation) {
         Meteorology meteorology;
         Gson gson = new Gson();
-        meteorology = gson.fromJson(getJSONAsAString(cityLocation), Meteorology.class);
+        try {
+            Callable<Meteorology> meteorologyCallable = () -> gson.fromJson(getJSONAsAString(cityLocation), Meteorology.class);
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            Future<Meteorology> meteorologyFuture = executorService.submit(meteorologyCallable);
+            meteorology = meteorologyFuture.get();
+            executorService.shutdown();
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return meteorology;
     }
     public URL getAppropriateWeatherIcon(String fetchedWeatherConditionIcon) throws MalformedURLException {
