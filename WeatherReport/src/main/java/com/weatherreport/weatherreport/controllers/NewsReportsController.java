@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -26,6 +27,7 @@ public class NewsReportsController implements Initializable {
     private Rectangle mainImageArticle;
     @FXML private Label textDescription, pageIndex, sourceLink;
     @FXML private Button nextArticle, previousArticle;
+    @FXML public Pane newsPane;
     private static int indexCount = 0;
     public static News defaultNews = News.builder().language("EN").topic("breaking-news").country("CA").build();
     public static NewsObject newsObject = getGNewsInstance().deserializeGNewsJsonObject(defaultNews);
@@ -47,8 +49,6 @@ public class NewsReportsController implements Initializable {
         });
 
     }
-
-
     private void setArticleImage(List<Articles> listOfArticles, int indexPOS) {
         List<String> listOfImages = getGNewsInstance().getListOfHeadlinesURL(listOfArticles, Type.IMAGES);
         int size = listOfImages.size();
