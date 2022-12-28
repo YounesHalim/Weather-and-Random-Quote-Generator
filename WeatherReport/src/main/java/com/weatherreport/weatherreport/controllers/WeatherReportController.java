@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import lombok.AllArgsConstructor;
@@ -21,17 +21,20 @@ import lombok.NoArgsConstructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class WeatherReportController implements Initializable {
-    @FXML public AnchorPane rightAnchorPane;
-    @FXML private Label newsTitle, feelsLike, sunsetHour,sunriseHour, degree, countryLocation, weatherDescription, mainDescription;
-    @FXML private Label pressure, humidity, visibility;
-    @FXML private Circle weatherIcon, sunsetIcon, sunriseIcon;
+    @FXML public StackPane weatherStackPane;
+    @FXML private Label lowTemp, highTemp, newsTitle, feelsLike, sunsetHour,sunriseHour, degree, countryLocation, weatherDescription, mainDescription;
+    @FXML private Label pressure, humidity, visibility, windData;
+    @FXML private Circle weatherIcon, sunsetIcon, sunriseIcon, visibilityIcon, humidityIcon, pressureIcon, windIcon, minTempIcon, maxTempIcon;
     public static GeographicLocation defaultLocation = GeographicLocation.builder().country("CA").name("Montreal").build();
     private String celsius = "%d°C";
     private void setWeatherIcon(Meteorology forecast) {
@@ -41,6 +44,7 @@ public class WeatherReportController implements Initializable {
             weatherIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(iconPath))));
             sunsetIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunset.png")))));
             sunriseIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunrise.png")))));
+            humidityIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/humidity.png")))));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +61,8 @@ public class WeatherReportController implements Initializable {
     private void setCountryLocation(Meteorology forecast, Sys country) {
         String s = "%s, %s".formatted(forecast.getName(), country.getCountry());
         countryLocation.setText(s);
-        visibility.setText(MessageFormat.format("{0} km", forecast.getVisibility()));
+        visibility.setText(MessageFormat.format("{0}km", forecast.getVisibility()));
+        windData.setText(MessageFormat.format("{0}km/h", (int) Math.floor(forecast.getWind().getSpeed())));
     }
     private void setFeelsLike(MainWeather mainWeather) {
         int feelsLikeTemp = (int) (Math.floor(mainWeather.getFeels_like()));
@@ -67,12 +72,15 @@ public class WeatherReportController implements Initializable {
         degree.setText(String.format(celsius,(int) Math.floor(mainWeather.getTemp())));
         pressure.setText((MessageFormat.format("{0} hPa", mainWeather.getPressure())));
         humidity.setText(MessageFormat.format("{0}%",mainWeather.getHumidity()));
+        lowTemp.setText(String.format(celsius,(int) Math.floor(mainWeather.getTemp_min())));
+        highTemp.setText(String.format(celsius,(int) Math.floor(mainWeather.getTemp_max())));
+
     }
     private void setDescription(String description) {
         // Capitalize
         mainDescription.setText(Arrays.stream(description.split(" "))
                 .map((word)-> word.toUpperCase().charAt(0) + word.substring(1))
-                .collect(Collectors.joining("\n")));
+                .collect(Collectors.joining(" ")));
     }
     private void setMainDescription(String description)  {
         weatherDescription.setText(description);
