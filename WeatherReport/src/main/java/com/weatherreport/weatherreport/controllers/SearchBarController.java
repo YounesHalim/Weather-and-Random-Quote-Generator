@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -25,12 +26,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
+import static com.weatherreport.weatherreport.service.ApiGNewsService.*;
+
 
 public class SearchBarController implements Initializable {
     @FXML
     private TextField searchBar;
     @FXML
-    private AnchorPane anchorPane;
+    private MenuItem closeApplicationButton;
     public static List<String> worldCitiesList = new ArrayList<>();
 
     @Override
@@ -44,11 +47,12 @@ public class SearchBarController implements Initializable {
                         GeographicLocation newLocation = searchedLocation(nextDestination);
                         WeatherReportController.setDefaultLocation(newLocation);
                         Platform.runLater(() -> newDestination(newLocation));
-                        new Thread(()-> Platform.runLater(()-> sceneRefresh(keyEvent))).start();
+                        Platform.runLater(()-> sceneRefresh(keyEvent));
                     }
                 }
             }
         });
+        quitAndFlush();
     }
 
     private static void sceneRefresh(KeyEvent keyEvent) {
@@ -76,7 +80,6 @@ public class SearchBarController implements Initializable {
         }
     }
 
-
     public static void fetchJSONData() {
         String path = "src/main/resources/com/weatherreport/weatherreport/cities.json";
         Gson gson = new Gson();
@@ -102,5 +105,11 @@ public class SearchBarController implements Initializable {
                 .country(searchedLocation.apply(searchBar)[1].trim())
                 .build();
     }
+    protected void quitAndFlush() {
+        closeApplicationButton.setOnAction((actionEvent)-> {
+            getGNewsInstance().fileDeleter();
+            System.exit(0);
+        });
 
+    }
 }
