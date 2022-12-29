@@ -11,12 +11,9 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.*;
+
 
 class NewsJsonObjectObjectTest {
     @Test
@@ -97,9 +94,18 @@ class NewsJsonObjectObjectTest {
     @Test
     @DisplayName("Timezone")
     void getTimeZoneTEST() {
-        String url = "https://www.letemps.ch/sites/default/files/styles/share/public/media/2022/12/27/885b85e_doc7o8c4vafght1m80wvhc9.jpeg?h=07d740a0&itok=qlOXPbUr";
-        System.out.println(url.split(".jpeg")[0]);
 
+        String[] TEST = {"https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/V7N7LFZP47MBWHN52KXLBB6WCQ.jpg&w=1440"
+        ,"https://nfcms-mainsiteoss.southcn.com/__cms_base/__tpl_asset/img/nfw.ico","https://akamai.vgc.no/v2/images/65bfd908-ce76-4837-99ad-c6ad6c5726ed?fit=crop&format=auto&h=1181&w=1900&s=aed2d3af25d1c0498dc3b5116516b5079558705f","",""};
+
+        String[] extensions = {".jpeg",".jpg",".png",".webmp",".gif"};
+        int index = 0;
+        for(String str: extensions) {
+            if(TEST[index].contains(str)) {
+
+            }
+            index++;
+        }
     }
 
 
