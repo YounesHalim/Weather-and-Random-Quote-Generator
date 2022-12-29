@@ -6,7 +6,6 @@ import com.weatherreport.weatherreport.model.meteorology.MainWeather;
 import com.weatherreport.weatherreport.model.meteorology.Meteorology;
 import com.weatherreport.weatherreport.model.meteorology.Sys;
 import com.weatherreport.weatherreport.model.meteorology.Weather;
-import com.weatherreport.weatherreport.service.ApiWeatherCallService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -27,6 +26,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import static com.weatherreport.weatherreport.service.ApiWeatherCallService.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,7 +41,7 @@ public class WeatherReportController implements Initializable {
     private void setWeatherIcon(Meteorology forecast) {
         String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
         try {
-            String iconPath = ApiWeatherCallService.getApiWeatherCallServiceInstance().getAppropriateWeatherIcon(icon).toString();
+            String iconPath = getApiWeatherCallServiceInstance().getAppropriateWeatherIcon(icon).toString();
             weatherIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(iconPath))));
             sunsetIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunset.png")))));
             sunriseIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunrise.png")))));
@@ -86,7 +87,7 @@ public class WeatherReportController implements Initializable {
         weatherDescription.setText(description);
     }
     protected Meteorology setWeatherApiCall(GeographicLocation news) {
-        return ApiWeatherCallService.getApiWeatherCallServiceInstance().weatherApiCall(news);
+        return getApiWeatherCallServiceInstance().weatherApiCall(news);
     }
     public static void setDefaultLocation(GeographicLocation defaultLocation) {
         WeatherReportController.defaultLocation = defaultLocation;
