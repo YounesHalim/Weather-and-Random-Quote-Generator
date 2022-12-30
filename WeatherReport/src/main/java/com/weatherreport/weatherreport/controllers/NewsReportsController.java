@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.*;
 
 import static com.weatherreport.weatherreport.service.ApiGNewsService.Type;
 import static com.weatherreport.weatherreport.service.ApiGNewsService.getGNewsInstance;
@@ -44,7 +45,7 @@ public class NewsReportsController implements Initializable {
         List<Articles> articlesList = newsObject.getArticles();
         int size = articlesList.size();
 
-        setArticleImage(indexCount);
+        setArticleImage(articlesList,indexCount);
         setArticleDescription(articlesList, indexCount);
         setSourceLink(articlesList, indexCount);
 
@@ -55,7 +56,11 @@ public class NewsReportsController implements Initializable {
                 return;
             }
             previousArticle.setVisible(true);
-            showNext(articlesList, size);
+            try {
+                showNext(articlesList, size);
+            } catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             pageIndex.setText(String.valueOf(indexCount));
         });
         previousArticle.setCursor(Cursor.HAND);
@@ -66,7 +71,11 @@ public class NewsReportsController implements Initializable {
                 return;
             }
             nextArticle.setVisible(true);
-            showPrevious(articlesList, size);
+            try {
+                showPrevious(articlesList, size);
+            } catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             pageIndex.setText(String.valueOf(indexCount));
         });
 
@@ -111,9 +120,9 @@ public class NewsReportsController implements Initializable {
         textDescription.setText(listOfArticles.parallelStream().map((Articles::getDescription)).toList().get(indexPOS));
     }
 
-    private int showNext(List<Articles> articlesList, int articleListLength) {
+    private int showNext(List<Articles> articlesList, int articleListLength) throws ExecutionException, InterruptedException {
         indexCount++;
-        setArticleImage(indexCount);
+        setArticleImage(articlesList,indexCount);
         setArticleDescription(articlesList, indexCount);
         setSourceLink(articlesList, indexCount);
         if (indexCount >= articleListLength) {
@@ -122,9 +131,9 @@ public class NewsReportsController implements Initializable {
         return indexCount;
     }
 
-    private int showPrevious(List<Articles> articlesList, int articleListLength) {
+    private int showPrevious(List<Articles> articlesList, int articleListLength) throws ExecutionException, InterruptedException {
         indexCount--;
-        setArticleImage( indexCount);
+        setArticleImage( articlesList,indexCount);
         setArticleDescription(articlesList, indexCount);
         setSourceLink(articlesList, indexCount);
         if (indexCount < 0) {
@@ -141,17 +150,25 @@ public class NewsReportsController implements Initializable {
         return newsObject;
     }
 
-    private void setArticleImage(int POS) {
+    private void setArticleImage(int POS) throws ExecutionException, InterruptedException {
         File dir = new File("src/main/resources/com/weatherreport/weatherreport/thumbnail");
         File[] listOfImages = dir.listFiles();
-        assert listOfImages != null;
-        StringBuilder imagePath = new StringBuilder("thumbnail/");
-        for(File img: listOfImages) {
-            if(img.getName().contains(String.valueOf(POS))) {
-                imagePath.append(img.getName());
+
+        Callable<StringBuilder> builderCallable = ()-> {
+            StringBuilder imagePath = new StringBuilder("thumbnail/");
+            for(File img: listOfImages) {
+                if(img.getName().contains(String.valueOf(POS))) {
+                    imagePath.append(img.getName());
+                    break;
+                }
             }
-        }
-        System.out.println(imagePath);
-        mainImageArticle.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream(imagePath.toString())))));
+            return imagePath;
+        };
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<StringBuilder> stringFuture = executorService.submit(builderCallable);
+        String futureImagePath = stringFuture.get().toString();
+        System.out.println(futureImagePath);
+        Platform.runLater(()->mainImageArticle.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream(futureImagePath))))));
+
     }
 }
