@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -26,17 +27,18 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import static com.weatherreport.weatherreport.service.ApiWeatherCallService.*;
+import static com.weatherreport.weatherreport.service.ApiWeatherCallService.getApiWeatherCallServiceInstance;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class WeatherReportController implements Initializable {
     @FXML public StackPane weatherStackPane;
+    @FXML public BorderPane mapContainer;
     @FXML private Label lowTemp, highTemp, newsTitle, feelsLike, sunsetHour,sunriseHour, degree, countryLocation, weatherDescription, mainDescription;
     @FXML private Label pressure, humidity, visibility, windData;
     @FXML private Circle weatherIcon, sunsetIcon, sunriseIcon, visibilityIcon, humidityIcon, pressureIcon, windIcon, minTempIcon, maxTempIcon;
-    public static GeographicLocation defaultLocation = GeographicLocation.builder().country("CA").name("Montreal").build();
+    public static GeographicLocation defaultLocation = GeographicLocation.builder().country("CA").name("Montreal").lng("45.5019").lat("73.5674").build();
     private String celsius = "%d°C";
     private void setWeatherIcon(Meteorology forecast) {
         String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
@@ -46,6 +48,8 @@ public class WeatherReportController implements Initializable {
             sunsetIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunset.png")))));
             sunriseIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunrise.png")))));
             humidityIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/humidity.png")))));
+            visibilityIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/visible.png")))));
+            windIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/wind.png")))));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -92,7 +96,6 @@ public class WeatherReportController implements Initializable {
     public static void setDefaultLocation(GeographicLocation defaultLocation) {
         WeatherReportController.defaultLocation = defaultLocation;
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Meteorology forecast = setWeatherApiCall(defaultLocation);
