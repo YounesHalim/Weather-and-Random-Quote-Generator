@@ -28,49 +28,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
-public class SearchBarController implements Initializable {
-    @FXML
-    private TextField searchBar;
-    @FXML
-    private MenuItem closeApplicationButton;
-    @FXML
-    private Menu helpButton, optionsButton;
+public class SearchBarController{
+
     public static List<String> worldCitiesList = new ArrayList<>();
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        helpButton.setStyle("-fx-text-fill: white");
-        optionsButton.setStyle("-fx-text-fill: white");
-        autoCompletionBinding();
-        searchBar.setOnKeyPressed(keyEvent -> {
-            switch (keyEvent.getCode()) {
-                case ENTER -> {
-                    if (!searchBar.getText().isEmpty() || !searchBar.getText().isBlank()) {
-                        Function<TextField, String[]> nextDestination = (textField) -> textField.getText().split(",");
-                        GeographicLocation newLocation = searchedLocation(nextDestination);
-                        WeatherReportController.setDefaultLocation(newLocation);
-                        Platform.runLater(()-> sceneRefresh(keyEvent));
-                    }
-                }
-            }
-        });
-
-    }
-
-    private static void sceneRefresh(KeyEvent keyEvent) {
-        FXMLLoader sceneLoader = new FXMLLoader(WeatherReportApplication.class.getResource("MainScene.fxml"));
-        Parent root;
-        try {
-            root = sceneLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Stage stage = (Stage) ((Node) keyEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 460);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-
     public static void fetchJSONData() {
         String path = "src/main/resources/com/weatherreport/weatherreport/cities.json";
         Gson gson = new Gson();
@@ -85,15 +45,19 @@ public class SearchBarController implements Initializable {
         }
     }
 
-    protected void autoCompletionBinding() {
+    protected void autoCompletionBinding(TextField searchBar) {
         TextFields.bindAutoCompletion(searchBar, worldCitiesList);
     }
 
-    protected GeographicLocation searchedLocation(Function<TextField, String[]> searchedLocation) {
+    protected GeographicLocation searchedLocation(TextField searchBar, Function<TextField, String[]> searchedLocation) {
         return GeographicLocation
                 .builder()
                 .name(searchedLocation.apply(searchBar)[0].trim())
                 .country(searchedLocation.apply(searchBar)[1].trim())
                 .build();
+    }
+
+    protected void searchBarExecutioner(TextField searchBar) {
+        autoCompletionBinding(searchBar);
     }
 }
