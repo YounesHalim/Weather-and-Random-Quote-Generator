@@ -10,6 +10,8 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
@@ -20,6 +22,7 @@ import java.util.concurrent.Future;
 
 public class ApiGNewsService implements CallGNewsAPI {
     private static ApiGNewsService ApiGNewsService;
+    private static List<String> imageNames = new ArrayList<>();
 
     public enum Type {
         IMAGES,
@@ -108,6 +111,10 @@ public class ApiGNewsService implements CallGNewsAPI {
             inputStream.close();
             index++;
         }
+        String[] fileNames = dir.list();
+        assert fileNames != null;
+        imageNames = (Arrays.asList(fileNames).parallelStream().sorted().toList());
+        imageNames.forEach(System.out::println);
     }
 
     public void fileDeleter() {
@@ -122,5 +129,7 @@ public class ApiGNewsService implements CallGNewsAPI {
         }
     }
 
-
+    public static List<String> getImageNames() {
+        return imageNames;
+    }
 }
