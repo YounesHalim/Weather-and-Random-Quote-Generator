@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
-import com.weatherreport.weatherreport.service.ApiGNewsService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -80,9 +79,6 @@ class NewsJsonObjectObjectTest {
     @Test
     @DisplayName("Deserializing JSON Object")
     void deserializedJSONTEST() {
-        News news = News.builder().topic("breaking-news").language("EN").country("US").build();
-        System.out.println(news.toString());
-        NewsObject newsObject = ApiGNewsService.getGNewsInstance().deserializeGNewsJsonObject(news);
 
     }
 
