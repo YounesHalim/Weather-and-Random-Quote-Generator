@@ -1,6 +1,6 @@
 package com.weatherreport.weatherreport;
 
-import com.weatherreport.weatherreport.controllers.MainController;
+
 import com.weatherreport.weatherreport.controllers.SearchBarController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
