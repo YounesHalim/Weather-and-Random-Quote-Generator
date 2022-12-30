@@ -119,6 +119,7 @@ public class WeatherReportController{
                     if (!searchBar.getText().isEmpty() || !searchBar.getText().isBlank()) {
                         Function<TextField, String[]> nextDestination = (textField) -> textField.getText().split(",");
                         GeographicLocation newLocation = new SearchBarController().searchedLocation(searchBar,nextDestination);
+                        if(newLocation.getName().equals(defaultLocation.getName())) return;
                         WeatherReportController.setDefaultLocation(newLocation);
                         initialize();
                     }
