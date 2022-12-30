@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainApplicationLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #f0f8fc;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.weatherreport.weatherreport.controllers.MainController" >
+<BorderPane fx:id="mainApplicationLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #f0f8fc;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.MainController">
 
     <top>
-        <fx:include source="SearchBar-Scene.fxml"/>
+        <fx:include source="fxml/seachScene.fxml" />
     </top>
     <center>
-        <fx:include source="todaysOverviewLayout.fxml"/>
+        <fx:include source="fxml/weatherScene.fxml" />
     </center>
 <left>
-    <fx:include source="menuNavigator.fxml"/>
+    
 </left>
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="126.0" style="-fx-background-color: #1b1b1b;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutX="9.0" layoutY="94.0" prefHeight="60.0" prefWidth="109.0" style="-fx-spacing: 10;">
+               <children>
+                  <Button fx:id="weather" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-radius: 10; -fx-background-color: dodgerblue;" text="Weather">
+                     <font>
+                        <Font name="PT Serif" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="quotes" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-radius: 10; -fx-background-color: dodgerblue;" text="Quotes">
+                     <font>
+                        <Font name="PT Serif" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
 </BorderPane>
