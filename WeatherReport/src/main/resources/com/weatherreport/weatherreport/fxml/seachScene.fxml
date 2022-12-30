@@ -8,25 +8,25 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="35.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.SearchBarController">
+<AnchorPane fx:id="anchorPane" prefHeight="35.0" prefWidth="700.0" style="-fx-background-color: #201932;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.SearchBarController">
    <children>
-      <Pane layoutY="-7.0">
+      <Pane layoutY="-7.0" prefWidth="686.0">
          <children>
             <TextField fx:id="searchBar" focusTraversable="false" layoutX="526.0" layoutY="11.0" opacity="0.9" prefHeight="27.0" prefWidth="160.0" promptText="Search">
                <font>
-                  <Font name="Arial Italic" size="11.0" />
+                  <Font name="PT Serif" size="11.0" />
                </font>
             </TextField>
             <Pane prefHeight="42.0" prefWidth="150.0" style="-fx-background-color: #1b1b1b;">
                <children>
-                  <MenuBar layoutX="-6.0" layoutY="7.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="35.0" prefWidth="156.0">
+                  <MenuBar layoutX="-6.0" layoutY="7.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #1b1b1b; -fx-text-fill: white;">
                     <menus>
-                      <Menu mnemonicParsing="false" text="Options">
+                      <Menu fx:id="optionsButton" mnemonicParsing="false" style="-fx-text-fill: white" text="Options">
                         <items>
                           <MenuItem fx:id="closeApplicationButton" mnemonicParsing="false" text="Close" />
                         </items>
                       </Menu>
-                      <Menu mnemonicParsing="false" text="Help">
+                      <Menu fx:id="helpButton" mnemonicParsing="false" style="-fx-text-fill: white" text="Help">
                         <items>
                           <MenuItem mnemonicParsing="false" text="About" />
                         </items>
