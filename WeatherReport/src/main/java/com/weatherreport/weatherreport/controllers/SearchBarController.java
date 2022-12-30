@@ -27,15 +27,12 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 
 import static com.weatherreport.weatherreport.service.ApiGNewsService.*;
-
-
 public class SearchBarController implements Initializable {
     @FXML
     private TextField searchBar;
     @FXML
     private MenuItem closeApplicationButton;
     public static List<String> worldCitiesList = new ArrayList<>();
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         autoCompletionBinding();
