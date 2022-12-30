@@ -7,11 +7,10 @@ import com.weatherreport.weatherreport.model.meteorology.Meteorology;
 import com.weatherreport.weatherreport.model.meteorology.Sys;
 import com.weatherreport.weatherreport.model.meteorology.Weather;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import lombok.AllArgsConstructor;
@@ -19,12 +18,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.weatherreport.weatherreport.service.ApiWeatherCallService.getApiWeatherCallServiceInstance;
@@ -32,14 +30,31 @@ import static com.weatherreport.weatherreport.service.ApiWeatherCallService.getA
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WeatherReportController implements Initializable {
-    @FXML public StackPane weatherStackPane;
-    @FXML public BorderPane mapContainer;
+public class WeatherReportController{
+    @FXML private AnchorPane weatherAnchorPane;
+    @FXML private TextField searchBar;
     @FXML private Label lowTemp, highTemp, newsTitle, feelsLike, sunsetHour,sunriseHour, degree, countryLocation, weatherDescription, mainDescription;
     @FXML private Label pressure, humidity, visibility, windData;
     @FXML private Circle weatherIcon, sunsetIcon, sunriseIcon, visibilityIcon, humidityIcon, pressureIcon, windIcon, minTempIcon, maxTempIcon;
     public static GeographicLocation defaultLocation = GeographicLocation.builder().country("CA").name("Montreal").lng("45.5019").lat("73.5674").build();
     private String celsius = "%d°C";
+
+    public void initialize() {
+        new SearchBarController().searchBarExecutioner(searchBar);
+        searchBarFunction();
+        Meteorology forecast = setWeatherApiCall(defaultLocation);
+        setWeatherIcon(forecast);
+        long sunset = forecast.getSys().getSunset();
+        long sunrise = forecast.getSys().getSunrise();
+        setHeliosTime("LAST", sunset);
+        setHeliosTime("FIRST", sunrise);
+        setCountryLocation(forecast, forecast.getSys());
+        setFeelsLike(forecast.getMain());
+        setTemperature(forecast.getMain());
+        setDescription(new Weather().getWeatherAttributes(forecast, Weather::getDescription));
+        setMainDescription(new Weather().getWeatherAttributes(forecast, Weather::getMain));
+    }
+
     private void setWeatherIcon(Meteorology forecast) {
         String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
         try {
@@ -96,18 +111,19 @@ public class WeatherReportController implements Initializable {
     public static void setDefaultLocation(GeographicLocation defaultLocation) {
         WeatherReportController.defaultLocation = defaultLocation;
     }
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Meteorology forecast = setWeatherApiCall(defaultLocation);
-        setWeatherIcon(forecast);
-        long sunset = forecast.getSys().getSunset();
-        long sunrise = forecast.getSys().getSunrise();
-        setHeliosTime("LAST", sunset);
-        setHeliosTime("FIRST", sunrise);
-        setCountryLocation(forecast, forecast.getSys());
-        setFeelsLike(forecast.getMain());
-        setTemperature(forecast.getMain());
-        setDescription(new Weather().getWeatherAttributes(forecast, Weather::getDescription));
-        setMainDescription(new Weather().getWeatherAttributes(forecast, Weather::getMain));
+
+    protected void searchBarFunction() {
+        searchBar.setOnKeyPressed(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case ENTER -> {
+                    if (!searchBar.getText().isEmpty() || !searchBar.getText().isBlank()) {
+                        Function<TextField, String[]> nextDestination = (textField) -> textField.getText().split(",");
+                        GeographicLocation newLocation = new SearchBarController().searchedLocation(searchBar,nextDestination);
+                        WeatherReportController.setDefaultLocation(newLocation);
+                        initialize();
+                    }
+                }
+            }
+        });
     }
 }
