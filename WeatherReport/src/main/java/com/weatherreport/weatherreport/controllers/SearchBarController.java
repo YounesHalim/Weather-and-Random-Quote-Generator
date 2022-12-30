@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -26,15 +28,18 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
-import static com.weatherreport.weatherreport.service.ApiGNewsService.*;
 public class SearchBarController implements Initializable {
     @FXML
     private TextField searchBar;
     @FXML
     private MenuItem closeApplicationButton;
+    @FXML
+    private Menu helpButton, optionsButton;
     public static List<String> worldCitiesList = new ArrayList<>();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        helpButton.setStyle("-fx-text-fill: white");
+        optionsButton.setStyle("-fx-text-fill: white");
         autoCompletionBinding();
         searchBar.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
@@ -43,13 +48,12 @@ public class SearchBarController implements Initializable {
                         Function<TextField, String[]> nextDestination = (textField) -> textField.getText().split(",");
                         GeographicLocation newLocation = searchedLocation(nextDestination);
                         WeatherReportController.setDefaultLocation(newLocation);
-                        Platform.runLater(() -> newDestination(newLocation));
                         Platform.runLater(()-> sceneRefresh(keyEvent));
                     }
                 }
             }
         });
-        quitAndFlush();
+
     }
 
     private static void sceneRefresh(KeyEvent keyEvent) {
@@ -66,16 +70,6 @@ public class SearchBarController implements Initializable {
         stage.show();
     }
 
-    private static void newDestination(GeographicLocation newLocation) {
-        try {
-            FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource("todaysOverViewLayout.fxml"));
-            loader.load();
-            WeatherReportController reportController = loader.getController();
-            new Thread(() -> reportController.setWeatherApiCall(newLocation)).start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static void fetchJSONData() {
         String path = "src/main/resources/com/weatherreport/weatherreport/cities.json";
@@ -101,12 +95,5 @@ public class SearchBarController implements Initializable {
                 .name(searchedLocation.apply(searchBar)[0].trim())
                 .country(searchedLocation.apply(searchBar)[1].trim())
                 .build();
-    }
-    protected void quitAndFlush() {
-        closeApplicationButton.setOnAction((actionEvent)-> {
-            getGNewsInstance().fileDeleter();
-            System.exit(0);
-        });
-
     }
 }
