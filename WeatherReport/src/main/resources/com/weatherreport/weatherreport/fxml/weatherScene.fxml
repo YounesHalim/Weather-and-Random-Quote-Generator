@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -15,7 +16,7 @@
    <children>
       <VBox alignment="TOP_CENTER" style="-fx-spacing: 3;">
          <children>
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="36.0" prefWidth="600.0">
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="35.0" prefWidth="596.0">
                <children>
                   <TextField fx:id="searchBar" alignment="TOP_LEFT" focusTraversable="false" promptText="Search">
                      <font>
@@ -23,6 +24,9 @@
                      </font>
                   </TextField>
                </children>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER">
                <children>
