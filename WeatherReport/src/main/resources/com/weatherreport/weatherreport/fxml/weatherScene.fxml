@@ -2,219 +2,238 @@
 
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="weatherAnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #201932;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.WeatherReportController">
    <children>
-      <Group layoutX="30.0" layoutY="5.0">
+      <VBox alignment="TOP_CENTER" style="-fx-spacing: 3;">
          <children>
-            <Pane layoutX="64.0" layoutY="8.0" prefHeight="99.0" prefWidth="244.0" style="-fx-background-color: #1b1b1b; -fx-background-radius: 10;">
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="36.0" prefWidth="600.0">
                <children>
-                  <Pane layoutX="3.0">
+                  <TextField fx:id="searchBar" alignment="TOP_LEFT" focusTraversable="false" promptText="Search">
+                     <font>
+                        <Font name="PT Serif" size="12.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Group>
                      <children>
-                        <Label fx:id="countryLocation" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="237.0" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="PT Serif" size="20.0" />
-                           </font>
-                        </Label>
+                        <Pane layoutX="64.0" layoutY="8.0" prefHeight="99.0" prefWidth="244.0" style="-fx-background-color: #1b1b1b; -fx-background-radius: 10;">
+                           <children>
+                              <Pane layoutX="3.0">
+                                 <children>
+                                    <Label fx:id="countryLocation" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="237.0" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="PT Serif" size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="20.0" layoutY="15.0" prefHeight="74.0" prefWidth="206.0">
+                                 <children>
+                                    <Label fx:id="degree" alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="9.0" prefHeight="56.0" prefWidth="206.0" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="PT Serif" size="40.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="weatherDescription" alignment="CENTER" layoutX="18.0" layoutY="57.0" prefHeight="17.0" prefWidth="166.0" textFill="WHITE">
+                                       <font>
+                                          <Font name="PT Serif" size="13.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                           </children>
+                           <effect>
+                              <DropShadow blurType="ONE_PASS_BOX" />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="64.0" layoutY="116.0" prefHeight="83.0" prefWidth="90.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
+                           <children>
+                              <Label fx:id="sunsetHour" layoutX="6.0" layoutY="21.0" prefHeight="42.0" prefWidth="56.0" textFill="#a300a3">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="12.0" layoutY="6.0" text="SUNSET" textFill="WHITE">
+                                 <font>
+                                    <Font name="PT Serif" size="11.0" />
+                                 </font>
+                              </Label>
+                              <Circle fx:id="sunsetIcon" fill="DODGERBLUE" layoutX="72.0" layoutY="63.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+                           </children>
+                           <effect>
+                              <DropShadow blurType="ONE_PASS_BOX" />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="163.0" layoutY="116.0" prefHeight="83.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
+                           <children>
+                              <Label fx:id="feelsLike" layoutX="7.0" layoutY="21.0" prefHeight="42.0" prefWidth="90.0" textFill="#a300a3">
+                                 <font>
+                                    <Font name="Arial Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="7.0" layoutY="6.0" text="FEELS LIKE" textFill="WHITE">
+                                 <font>
+                                    <Font name="PT Serif Caption" size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <effect>
+                              <DropShadow blurType="ONE_PASS_BOX" />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="64.0" layoutY="206.0" prefHeight="83.0" prefWidth="90.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
+                           <children>
+                              <Label layoutX="14.0" layoutY="7.0" text="SUNRISE" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="PT Serif" size="11.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="sunriseHour" layoutX="7.0" layoutY="21.0" prefHeight="42.0" prefWidth="49.0" textFill="#a300a3">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Circle fx:id="sunriseIcon" fill="DODGERBLUE" layoutX="71.0" layoutY="63.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="163.0" layoutY="206.0" prefHeight="83.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
+                           <children>
+                              <Circle fx:id="weatherIcon" fill="DODGERBLUE" layoutX="109.0" layoutY="58.0" radius="21.0" stroke="TRANSPARENT" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <Label fx:id="mainDescription" contentDisplay="CENTER" layoutX="10.0" layoutY="7.0" prefHeight="30.0" prefWidth="120.0" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial Bold" size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <Group layoutX="323.0">
+                           <children>
+                              <Pane layoutX="9.0" layoutY="9.0" prefHeight="99.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="7.0" prefHeight="14.0" prefWidth="64.0" text="PRESSURE" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="PT Serif" size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="pressure" layoutX="14.0" layoutY="23.0" prefHeight="42.0" prefWidth="82.0" textFill="#a300a3">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Circle fx:id="pressureIcon" fill="DODGERBLUE" layoutX="114.0" layoutY="65.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+                                 </children>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </Pane>
+                              <Pane layoutX="9.0" layoutY="116.0" prefHeight="83.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="7.0" prefHeight="14.0" prefWidth="56.0" text="HUMIDITY" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="PT Serif" size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="humidity" layoutX="14.0" layoutY="21.0" prefHeight="42.0" prefWidth="56.0" textFill="#a300a3">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Circle fx:id="humidityIcon" fill="DODGERBLUE" layoutX="113.0" layoutY="51.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+                                 </children>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </Pane>
+                              <Pane layoutX="9.0" layoutY="205.0" prefHeight="83.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="7.0" prefHeight="14.0" prefWidth="56.0" text="VISIBILITY" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="PT Serif" size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="visibility" layoutX="14.0" layoutY="21.0" prefHeight="42.0" prefWidth="82.0" textFill="#a300a3">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Circle fx:id="visibilityIcon" fill="DODGERBLUE" layoutX="113.0" layoutY="51.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+                                 </children>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </Pane>
+                           </children>
+                        </Group>
+                        <Pane layoutX="64.0" layoutY="299.0" prefHeight="83.0" prefWidth="120.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
+                           <children>
+                              <Label layoutX="14.0" layoutY="7.0" text="WIND" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="PT Serif" size="11.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="windData" layoutX="11.0" layoutY="27.0" prefHeight="42.0" prefWidth="64.0" textFill="#a300a3">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Circle fx:id="windIcon" fill="DODGERBLUE" layoutX="92.0" layoutY="48.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="202.0" layoutY="299.0" prefHeight="83.0" prefWidth="274.0" style="-fx-background-color: #1b1b1b; -fx-background-radius: 10;">
+                           <effect>
+                              <DropShadow blurType="ONE_PASS_BOX" />
+                           </effect>
+                           <children>
+                              <Circle fx:id="minTempIcon" fill="DODGERBLUE" layoutX="109.0" layoutY="48.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="maxTempIcon" fill="DODGERBLUE" layoutX="246.0" layoutY="48.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="64.0" text="TEMP MIN" textFill="WHITE">
+                                 <font>
+                                    <Font name="PT Serif" size="11.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="137.0" layoutY="6.0" prefHeight="17.0" prefWidth="64.0" text="TEMP MAX" textFill="WHITE">
+                                 <font>
+                                    <Font name="PT Serif" size="11.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lowTemp" layoutX="14.0" layoutY="33.0" prefHeight="30.0" prefWidth="56.0" textFill="#a300a3">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="highTemp" layoutX="148.0" layoutY="33.0" prefHeight="30.0" prefWidth="56.0" textFill="#a300a3">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children>
-                  </Pane>
-                  <Pane layoutX="20.0" layoutY="15.0" prefHeight="74.0" prefWidth="206.0">
-                     <children>
-                        <Label fx:id="degree" alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="9.0" prefHeight="56.0" prefWidth="206.0" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="PT Serif" size="40.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="weatherDescription" alignment="CENTER" layoutX="18.0" layoutY="57.0" prefHeight="17.0" prefWidth="166.0" textFill="WHITE">
-                           <font>
-                              <Font name="PT Serif" size="13.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
+                  </Group>
                </children>
-               <effect>
-                  <DropShadow blurType="ONE_PASS_BOX" />
-               </effect>
-            </Pane>
-            <Pane layoutX="64.0" layoutY="116.0" prefHeight="83.0" prefWidth="90.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
-               <children>
-                  <Label fx:id="sunsetHour" layoutX="6.0" layoutY="21.0" prefHeight="42.0" prefWidth="56.0" textFill="#a300a3">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="12.0" layoutY="6.0" text="SUNSET" textFill="WHITE">
-                     <font>
-                        <Font name="PT Serif" size="11.0" />
-                     </font>
-                  </Label>
-                  <Circle fx:id="sunsetIcon" fill="DODGERBLUE" layoutX="72.0" layoutY="63.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-               </children>
-               <effect>
-                  <DropShadow blurType="ONE_PASS_BOX" />
-               </effect>
-            </Pane>
-            <Pane layoutX="163.0" layoutY="116.0" prefHeight="83.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
-               <children>
-                  <Label fx:id="feelsLike" layoutX="7.0" layoutY="21.0" prefHeight="42.0" prefWidth="90.0" textFill="#a300a3">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="7.0" layoutY="6.0" text="FEELS LIKE" textFill="WHITE">
-                     <font>
-                        <Font name="PT Serif Caption" size="11.0" />
-                     </font>
-                  </Label>
-               </children>
-               <effect>
-                  <DropShadow blurType="ONE_PASS_BOX" />
-               </effect>
-            </Pane>
-            <Pane layoutX="64.0" layoutY="206.0" prefHeight="83.0" prefWidth="90.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
-               <children>
-                  <Label layoutX="14.0" layoutY="7.0" text="SUNRISE" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="PT Serif" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="sunriseHour" layoutX="7.0" layoutY="21.0" prefHeight="42.0" prefWidth="49.0" textFill="#a300a3">
-                     <font>
-                        <Font name="Arial" size="16.0" />
-                     </font>
-                  </Label>
-                  <Circle fx:id="sunriseIcon" fill="DODGERBLUE" layoutX="71.0" layoutY="63.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-               </children>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Pane>
-            <Pane layoutX="163.0" layoutY="206.0" prefHeight="83.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
-               <children>
-                  <Circle fx:id="weatherIcon" fill="DODGERBLUE" layoutX="109.0" layoutY="58.0" radius="21.0" stroke="TRANSPARENT" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <Label fx:id="mainDescription" contentDisplay="CENTER" layoutX="10.0" layoutY="7.0" prefHeight="30.0" prefWidth="120.0" textFill="WHITE">
-                     <font>
-                        <Font name="Arial Bold" size="11.0" />
-                     </font>
-                  </Label>
-               </children>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Pane>
-            <Group layoutX="323.0">
-               <children>
-                  <Pane layoutX="9.0" layoutY="9.0" prefHeight="99.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
-                     <children>
-                        <Label layoutX="14.0" layoutY="7.0" prefHeight="14.0" prefWidth="64.0" text="PRESSURE" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="PT Serif" size="11.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="pressure" layoutX="14.0" layoutY="23.0" prefHeight="42.0" prefWidth="82.0" textFill="#a300a3">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Label>
-                        <Circle fx:id="pressureIcon" fill="DODGERBLUE" layoutX="114.0" layoutY="65.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-                     </children>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Pane>
-                  <Pane layoutX="9.0" layoutY="116.0" prefHeight="83.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
-                     <children>
-                        <Label layoutX="14.0" layoutY="7.0" prefHeight="14.0" prefWidth="56.0" text="HUMIDITY" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="PT Serif" size="11.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="humidity" layoutX="14.0" layoutY="21.0" prefHeight="42.0" prefWidth="56.0" textFill="#a300a3">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Label>
-                        <Circle fx:id="humidityIcon" fill="DODGERBLUE" layoutX="113.0" layoutY="51.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-                     </children>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Pane>
-                  <Pane layoutX="9.0" layoutY="205.0" prefHeight="83.0" prefWidth="145.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
-                     <children>
-                        <Label layoutX="14.0" layoutY="7.0" prefHeight="14.0" prefWidth="56.0" text="VISIBILITY" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="PT Serif" size="11.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="visibility" layoutX="14.0" layoutY="21.0" prefHeight="42.0" prefWidth="82.0" textFill="#a300a3">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Label>
-                        <Circle fx:id="visibilityIcon" fill="DODGERBLUE" layoutX="113.0" layoutY="51.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-                     </children>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Pane>
-               </children>
-            </Group>
-            <Pane layoutX="64.0" layoutY="299.0" prefHeight="83.0" prefWidth="120.0" style="-fx-background-color: #1b1b1b; -fx-border-radius: 10; -fx-background-radius: 10;">
-               <children>
-                  <Label layoutX="14.0" layoutY="7.0" text="WIND" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="PT Serif" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="windData" layoutX="11.0" layoutY="27.0" prefHeight="42.0" prefWidth="64.0" textFill="#a300a3">
-                     <font>
-                        <Font name="Arial" size="16.0" />
-                     </font>
-                  </Label>
-                  <Circle fx:id="windIcon" fill="DODGERBLUE" layoutX="92.0" layoutY="48.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-               </children>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Pane>
-            <Pane layoutX="202.0" layoutY="299.0" prefHeight="83.0" prefWidth="274.0" style="-fx-background-color: #1b1b1b; -fx-background-radius: 10;">
-               <effect>
-                  <DropShadow blurType="ONE_PASS_BOX" />
-               </effect>
-               <children>
-                  <Circle fx:id="minTempIcon" fill="DODGERBLUE" layoutX="109.0" layoutY="48.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="maxTempIcon" fill="DODGERBLUE" layoutX="246.0" layoutY="48.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="64.0" text="TEMP MIN" textFill="WHITE">
-                     <font>
-                        <Font name="PT Serif" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="137.0" layoutY="6.0" prefHeight="17.0" prefWidth="64.0" text="TEMP MAX" textFill="WHITE">
-                     <font>
-                        <Font name="PT Serif" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lowTemp" layoutX="14.0" layoutY="33.0" prefHeight="30.0" prefWidth="56.0" textFill="#a300a3">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="highTemp" layoutX="148.0" layoutY="33.0" prefHeight="30.0" prefWidth="56.0" textFill="#a300a3">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
+            </HBox>
          </children>
-      </Group>
+      </VBox>
    </children>
 </AnchorPane>
