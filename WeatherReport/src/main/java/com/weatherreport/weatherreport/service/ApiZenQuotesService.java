@@ -37,13 +37,9 @@ public class ApiZenQuotesService implements CallZenQuotesAPI {
         Callable<Quote[]> quotesObject = () -> gson.fromJson(getJSONAsAString(), Quote[].class);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Quote[]> quoteFuture = executorService.submit(quotesObject);
+
         return quoteFuture.get();
     }
-
-    public static void setQuotesServiceInstance(ApiZenQuotesService quotesServiceInstance) {
-        ApiZenQuotesService.quotesServiceInstance = quotesServiceInstance;
-    }
-
     public static Quote[] getQuotes() {
         return quotes;
     }
