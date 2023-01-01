@@ -1,4 +1,4 @@
-package com.weatherreport.weatherreport.model.news;
+package com.weatherreport.weatherreport.model.unsplash;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
