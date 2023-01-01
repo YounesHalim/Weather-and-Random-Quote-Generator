@@ -33,6 +33,5 @@ public interface CallZenQuotesAPI {
         }
         return response.toString();
     }
-
     Quote[] deserializedGsonObject();
 }
