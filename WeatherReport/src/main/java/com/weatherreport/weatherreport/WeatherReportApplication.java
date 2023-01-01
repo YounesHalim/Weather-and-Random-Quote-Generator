@@ -2,6 +2,7 @@ package com.weatherreport.weatherreport;
 
 
 import com.weatherreport.weatherreport.controllers.SearchBarController;
+import com.weatherreport.weatherreport.service.ApiUnsplashService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ public class WeatherReportApplication extends Application {
     }
     public static void main(String[] args) {
         new Thread(SearchBarController::fetchJSONData).start();
+        new Thread(()-> new ApiUnsplashService().setListOfURLs()).start();
         launch();
     }
 }
