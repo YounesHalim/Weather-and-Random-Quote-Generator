@@ -114,32 +114,42 @@ public class QuoteController implements Initializable {
     private void extractImage() throws IOException {
         Canvas canvas = new Canvas(1080 , 720);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-        graphicsContext.setFont(new Font(quoteTextField.getFont().toString(),30));
+        graphicsContext.setFont(new Font(quoteTextField.getFont().toString(),25));
         Image fetchedImage = new Image(ApiUnsplashService.getListOfURLs().get(POS), 1080, 720, false, false);
         graphicsContext.drawImage(fetchedImage, 0, 0);
-        System.out.println(quoteTextField.getLayoutBounds().toString());
-        graphicsContext.setLineWidth(300);
-        graphicsContext.setTextAlign(TextAlignment.CENTER);
-        graphicsContext.setTextBaseline(VPos.CENTER);
-        graphicsContext.setFill(quoteTextField.getFill());
-        graphicsContext.fillText(quoteTextField.getText(), canvas.getWidth() /2 , canvas.getHeight() / 2, 1080);
-        graphicsContext.setTextAlign(TextAlignment.RIGHT);
-        graphicsContext.setTextBaseline(VPos.BOTTOM);
-        graphicsContext.fillText("Author",canvas.getWidth(),700);
+        authorQuote(canvas, graphicsContext);
+        authorWatermark(canvas, graphicsContext);
         WritableImage writableImage = new WritableImage(1080, 720);
-
 
         Platform.runLater(() -> {
             canvas.snapshot(null, writableImage);
             File file = new File("icos/output.jpeg");
             try {
-
                 BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
                 ImageIO.write(bufferedImage, "jpeg", file.getAbsoluteFile());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    private void authorQuote(Canvas canvas, GraphicsContext graphicsContext) {
+        graphicsContext.setLineWidth(300);
+        graphicsContext.setTextAlign(TextAlignment.CENTER);
+        graphicsContext.setTextBaseline(VPos.CENTER);
+        graphicsContext.setFill(quoteTextField.getFill());
+        graphicsContext.fillText(quoteTextField.getText(), canvas.getWidth() /2 , canvas.getHeight() / 2, 1080);
+    }
+
+    private void authorWatermark(Canvas canvas, GraphicsContext graphicsContext) {
+        graphicsContext.setTextAlign(TextAlignment.RIGHT);
+        graphicsContext.setTextBaseline(VPos.BOTTOM);
+        graphicsContext.fillText(authorName.getText(), canvas.getWidth(),700);
+    }
+
+
+    private void shareQuote(Byte[] imageData) {
+
     }
 
 }
