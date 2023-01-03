@@ -2,18 +2,19 @@ package com.weatherreport.weatherreport.service;
 
 import com.google.gson.Gson;
 import com.weatherreport.weatherreport.model.Quotes.Quote;
-import com.weatherreport.weatherreport.model.apicall.CallZenQuotesAPI;
+import com.weatherreport.weatherreport.model.apicall.ApiCall;
 import lombok.SneakyThrows;
 
 
+import java.net.URL;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-public class ZenQuotesService implements CallZenQuotesAPI {
+public class ZenQuotesService implements ApiCall {
     private static ZenQuotesService quotesServiceInstance;
-    private static final Quote[] quotes = getQuotesInstance().deserializedGsonObject();
+    private static final Quote[] quotes = getQuotesInstance().deserializedJSONObject();
+
     public enum Type{
         QUOTE, AUTHOR, COUNT_CHAR, FORMATTED_HTML
     }
@@ -25,22 +26,22 @@ public class ZenQuotesService implements CallZenQuotesAPI {
         }
         return quotesServiceInstance;
     }
-    @Override
-    public String getJSONAsAString() {
-        return CallZenQuotesAPI.super.getJSONAsAString();
+    public static Quote[] getQuotes() {
+        return quotes;
     }
 
+    @Override
+    public <T> T serializedJSONObject(T url) {
+        return ApiCall.super.serializedJSONObject(url);
+    }
     @SneakyThrows
     @Override
-    public Quote[] deserializedGsonObject() {
+    public <T> T  deserializedJSONObject() {
         Gson gson  = new Gson();
-        Callable<Quote[]> quotesObject = () -> gson.fromJson(getJSONAsAString(), Quote[].class);
+        Callable<Quote[]> quotesObject = () -> gson.fromJson(serializedJSONObject(new URL("https://zenquotes.io/api/quotes/").toString()), Quote[].class);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Quote[]> quoteFuture = executorService.submit(quotesObject);
 
-        return quoteFuture.get();
-    }
-    public static Quote[] getQuotes() {
-        return quotes;
+        return (T) quoteFuture.get();
     }
 }
