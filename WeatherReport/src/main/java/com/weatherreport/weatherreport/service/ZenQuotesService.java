@@ -11,17 +11,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class ApiZenQuotesService implements CallZenQuotesAPI {
-    private static ApiZenQuotesService quotesServiceInstance;
+public class ZenQuotesService implements CallZenQuotesAPI {
+    private static ZenQuotesService quotesServiceInstance;
     private static final Quote[] quotes = getQuotesInstance().deserializedGsonObject();
     public enum Type{
         QUOTE, AUTHOR, COUNT_CHAR, FORMATTED_HTML
     }
-    private ApiZenQuotesService() {}
+    private ZenQuotesService() {}
 
-    public static synchronized ApiZenQuotesService getQuotesInstance() {
+    public static synchronized ZenQuotesService getQuotesInstance() {
         if(quotesServiceInstance == null) {
-            quotesServiceInstance = new ApiZenQuotesService();
+            quotesServiceInstance = new ZenQuotesService();
         }
         return quotesServiceInstance;
     }
