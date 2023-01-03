@@ -1,10 +1,12 @@
 package com.weatherreport.weatherreport.service;
 
 import com.google.gson.Gson;
-import com.weatherreport.weatherreport.model.apicall.CallUnsplashAPI;
+import com.weatherreport.weatherreport.model.apicall.ApiCall;
 import com.weatherreport.weatherreport.model.unsplash.Unsplash;
+import io.github.cdimascio.dotenv.Dotenv;
 import lombok.SneakyThrows;
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class UnsplashService implements CallUnsplashAPI {
+public class UnsplashService implements ApiCall {
     private static UnsplashService unsplashService;
     public static List<String> listOfURLs = new ArrayList<>();
     public UnsplashService() {
@@ -24,23 +26,10 @@ public class UnsplashService implements CallUnsplashAPI {
         }
         return unsplashService;
     }
-    @Override
-    public String getJSONAsAString() {
-        return CallUnsplashAPI.super.getJSONAsAString();
-    }
-    @SneakyThrows
-    @Override
-    public <T> T deserializedJsonObject() {
-        Gson gson = new Gson();
-        Callable<Unsplash> unsplashCallable = () -> gson.fromJson(getJSONAsAString(), Unsplash.class);
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<Unsplash> unsplashFuture = executorService.submit(unsplashCallable);
 
-        return (T) unsplashFuture.get();
-    }
 
     public void setListOfURLs() {
-        Unsplash unsplashObject = deserializedJsonObject();
+        Unsplash unsplashObject = deserializedJSONObject();
         listOfURLs = unsplashObject
                 .getResults()
                 .parallelStream()
@@ -61,5 +50,20 @@ public class UnsplashService implements CallUnsplashAPI {
         for(File file: files) {
             file.delete();
         }
+    }
+
+    @Override
+    public <T> T serializedJSONObject(T url) {
+        return ApiCall.super.serializedJSONObject(url);
+    }
+    @SneakyThrows
+    @Override
+    public <T> T deserializedJSONObject() {
+        String url = MessageFormat.format("https://api.unsplash.com/search/photos?page=10&query=outer-space&client_id={0}", Dotenv.load().get("APIKEY_UNSPLASH"));
+        Gson gson = new Gson();
+        Callable<Unsplash> unsplashCallable = () -> gson.fromJson(serializedJSONObject(url), Unsplash.class);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<Unsplash> unsplashFuture = executorService.submit(unsplashCallable);
+        return (T) unsplashFuture.get();
     }
 }
