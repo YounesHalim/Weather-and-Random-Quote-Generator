@@ -8,7 +8,7 @@ class ZenQuotesServiceTest {
     @Test
     @DisplayName("API call test")
     void quoteCall() {
-        Quote[] quoteObject = ZenQuotesService.getQuotesInstance().deserializedGsonObject();
+        Quote[] quoteObject = ZenQuotesService.getQuotesInstance().deserializedJSONObject();
         System.out.println(quoteObject[0].getA());
         System.out.println(quoteObject[0].getQ());
     }
