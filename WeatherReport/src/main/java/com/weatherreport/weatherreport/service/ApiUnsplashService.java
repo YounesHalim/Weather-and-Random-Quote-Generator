@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.weatherreport.weatherreport.model.apicall.CallUnsplashAPI;
 import com.weatherreport.weatherreport.model.unsplash.Unsplash;
 import lombok.SneakyThrows;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -47,5 +49,17 @@ public class ApiUnsplashService implements CallUnsplashAPI {
     }
     public static List<String> getListOfURLs() {
         return listOfURLs;
+    }
+
+    public void flushData() {
+        File dir = new File("src/main/resources/com/weatherreport/weatherreport/thumbnail");
+        if(Objects.requireNonNull(dir.listFiles()).length == 0) {
+            return;
+        }
+        File[] files = dir.listFiles();
+        assert files != null;
+        for(File file: files) {
+            file.delete();
+        }
     }
 }
