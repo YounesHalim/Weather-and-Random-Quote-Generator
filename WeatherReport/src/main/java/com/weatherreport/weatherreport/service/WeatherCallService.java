@@ -9,14 +9,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.*;
 
-public class ApiWeatherCallService implements CallOpenWeatherAPI {
-    private static ApiWeatherCallService apiWeatherCallService;
-    private ApiWeatherCallService() {}
-    public static ApiWeatherCallService getApiWeatherCallServiceInstance() {
-        if(apiWeatherCallService == null) {
-            apiWeatherCallService = new ApiWeatherCallService();
+public class WeatherCallService implements CallOpenWeatherAPI {
+    private static WeatherCallService weatherCallService;
+    private WeatherCallService() {}
+    public static WeatherCallService getApiWeatherCallServiceInstance() {
+        if(weatherCallService == null) {
+            weatherCallService = new WeatherCallService();
         }
-        return apiWeatherCallService;
+        return weatherCallService;
     }
     @Override
     public String getJSONAsAString(GeographicLocation location) {
@@ -48,7 +48,7 @@ public class ApiWeatherCallService implements CallOpenWeatherAPI {
                 .measureUnits("metric")
                 .build();
 
-        return ApiWeatherCallService
+        return WeatherCallService
                 .getApiWeatherCallServiceInstance()
                 .getMeteorologyObject(news);
     }
