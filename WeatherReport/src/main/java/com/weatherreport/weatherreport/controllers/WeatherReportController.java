@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.weatherreport.weatherreport.service.ApiWeatherCallService.getApiWeatherCallServiceInstance;
+import static com.weatherreport.weatherreport.service.WeatherCallService.getApiWeatherCallServiceInstance;
 
 @Data
 @NoArgsConstructor
