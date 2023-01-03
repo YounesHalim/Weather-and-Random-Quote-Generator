@@ -13,16 +13,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class ApiUnsplashService implements CallUnsplashAPI {
-    private static ApiUnsplashService apiUnsplashService;
+public class UnsplashService implements CallUnsplashAPI {
+    private static UnsplashService unsplashService;
     public static List<String> listOfURLs = new ArrayList<>();
-    public ApiUnsplashService() {
+    public UnsplashService() {
     }
-    public static synchronized ApiUnsplashService getApiUnsplashService() {
-        if(apiUnsplashService == null) {
-            apiUnsplashService = new ApiUnsplashService();
+    public static synchronized UnsplashService getApiUnsplashService() {
+        if(unsplashService == null) {
+            unsplashService = new UnsplashService();
         }
-        return apiUnsplashService;
+        return unsplashService;
     }
     @Override
     public String getJSONAsAString() {
