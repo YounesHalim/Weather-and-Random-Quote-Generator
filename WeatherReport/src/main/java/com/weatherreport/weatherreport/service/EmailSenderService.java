@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import static jakarta.mail.internet.InternetAddress.parse;
 
+
 public class EmailSenderService implements EmailProperties {
     private static EmailSenderService emailSender;
     private BodyPart imageBodyPart, messageBodyPart;
@@ -71,26 +72,26 @@ public class EmailSenderService implements EmailProperties {
         return getEmailSenderInstance().defaultSender(null);
     }
     @SneakyThrows
-    private Message headerFieldSetter() {
+    private Message headerFieldSetter(String[] addresses) {
         Message message = senderSetter();
-        message.setRecipients(Message.RecipientType.TO,parse("younes.halim@gmail.com"));
+        message.setRecipients(Message.RecipientType.TO,parse(String.join(",", addresses)));
         message.setSubject("Quote of the day");
         return message;
     }
 
     @SneakyThrows
-    protected BodyPart setImagePart() {
+    protected BodyPart setImagePart(String path) {
         imageBodyPart = new MimeBodyPart();
-        DataSource dataSource = new FileDataSource("src/main/resources/com/weatherreport/weatherreport/output/quote.jpeg");
+        DataSource dataSource = new FileDataSource(path);
         imageBodyPart.setDataHandler(new DataHandler(dataSource));
         imageBodyPart.setHeader("Content-ID","<image>");
         return imageBodyPart;
     }
     @SneakyThrows
-    public void shareByEmail() {
-        Message message = headerFieldSetter();
+    public void shareByEmail(String[] addresses, String imagePath) {
+        Message message = headerFieldSetter(addresses);
         MimeMultipart multipart = new MimeMultipart();
-        multipart.addBodyPart(setImagePart());
+        multipart.addBodyPart(setImagePart(imagePath));
         message.setContent(multipart);
         Transport.send(message);
         System.out.println("Email sent!");
