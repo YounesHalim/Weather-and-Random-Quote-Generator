@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="rootQuoteAnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #201932;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.QuoteController">
    <children>
-      <Group layoutX="71.0" layoutY="70.0">
+      <AnchorPane fx:id="imagePane" layoutX="19.0" layoutY="18.0" prefHeight="349.0" prefWidth="557.0">
          <children>
-            <ImageView fx:id="imageContainer" fitHeight="261.0" fitWidth="458.0" pickOnBounds="true" preserveRatio="true" />
-            <Rectangle fx:id="rectangleContainer" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="261.0" stroke="BLACK" strokeType="INSIDE" visible="false" width="458.0" />
-            <HBox alignment="CENTER" layoutX="89.0" layoutY="36.0" prefHeight="189.0" prefWidth="286.0">
+            <ImageView fx:id="imageContainer" fitHeight="349.0" fitWidth="574.0" layoutX="-6.0" pickOnBounds="true" preserveRatio="true" />
+            <HBox fx:id="imageNode" alignment="CENTER" layoutX="27.0" layoutY="10.0" prefHeight="330.0" prefWidth="515.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="189.0" prefWidth="287.0">
+                  <VBox alignment="CENTER" prefHeight="316.0" prefWidth="287.0">
                      <children>
                         <Text fx:id="quoteTextField" fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on generate " textAlignment="CENTER" wrappingWidth="287.0">
                            <font>
@@ -39,55 +35,23 @@
                </children>
             </HBox>
          </children>
-      </Group>
-      <Group layoutX="350.0" layoutY="344.0">
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutX="128.0" layoutY="373.0" prefHeight="30.0" prefWidth="345.0" style="-fx-spacing: 5;">
          <children>
-            <HBox>
-               <children>
-                  <Button fx:id="generateQuote" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-radius: 4;" text="Generate" />
-                  <Pane prefHeight="25.0" prefWidth="9.0" />
-                  <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" style="-fx-background-radius: 4;" text="Save" />
-               </children>
-            </HBox>
+            <Label text="Text" textFill="#e1e1e1">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+            </Label>
+            <ColorPicker fx:id="textColorPicker" focusTraversable="false" prefHeight="25.0" prefWidth="47.0">
+               <value>
+                  <Color />
+               </value>
+            </ColorPicker>
+            <Button fx:id="generateQuote" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" style="-fx-background-radius: 4;" text="Generate" />
+            <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" style="-fx-background-radius: 4;" text="Save" />
+            <Button fx:id="shareButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Share" />
          </children>
-      </Group>
-      <Group layoutX="71.0" layoutY="344.0">
-         <children>
-            <HBox>
-               <children>
-                  <Group>
-                     <children>
-                        <ColorPicker fx:id="textColorPicker" focusTraversable="false" layoutX="36.0" prefHeight="25.0" prefWidth="47.0">
-                           <value>
-                              <Color />
-                           </value>
-                        </ColorPicker>
-                        <Label layoutY="4.0" text="Text" textFill="#e1e1e1">
-                           <font>
-                              <Font name="Arial" size="13.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Group>
-                  <Pane prefHeight="26.0" prefWidth="10.0" />
-                  <Group>
-                     <children>
-                        <Label layoutY="4.0" text="BG" textFill="#e1e1e1">
-                           <font>
-                              <Font name="Arial" size="13.0" />
-                           </font>
-                        </Label>
-                        <ColorPicker fx:id="bgColorPicker" layoutX="26.0" prefHeight="25.0" prefWidth="47.0" />
-                     </children>
-                  </Group>
-               </children>
-            </HBox>
-         </children>
-      </Group>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="204.0" layoutY="38.0" text="Inspirational quote generator" textAlignment="CENTER">
-         <font>
-            <Font name="PT Serif Caption" size="13.0" />
-         </font>
-      </Label>
+      </HBox>
    </children>
 </AnchorPane>
