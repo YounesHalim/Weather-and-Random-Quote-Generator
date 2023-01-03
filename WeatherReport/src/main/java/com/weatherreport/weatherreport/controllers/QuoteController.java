@@ -1,28 +1,32 @@
 package com.weatherreport.weatherreport.controllers;
 
+import com.weatherreport.weatherreport.WeatherReportApplication;
 import com.weatherreport.weatherreport.model.Quotes.Quote;
-import com.weatherreport.weatherreport.service.ApiUnsplashService;
-import com.weatherreport.weatherreport.service.ApiZenQuotesService;
+import com.weatherreport.weatherreport.service.UnsplashService;
+import com.weatherreport.weatherreport.service.ZenQuotesService;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.*;
 import javafx.scene.Cursor;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Transform;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+import lombok.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -30,8 +34,15 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import static com.weatherreport.weatherreport.service.EmailSenderService.getEmailSenderInstance;
 
 @Data
 @NoArgsConstructor
@@ -52,32 +63,31 @@ public class QuoteController implements Initializable {
     private ImageView imageContainer;
     @FXML
     private AnchorPane imagePane;
-
+    @FXML private HBox optionBar;
     private static int POS = 0;
 
+    @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        generateQuote.setCursor(Cursor.HAND);
+        applyCursor();
         generateQuote.setOnAction(actionEvent -> execution());
-        saveButton.setOnAction(actionEvent -> new Thread(
-                () -> {
-                    try {
-                        saveImage();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .start());
+        saveButton.setOnAction(actionEvent -> {
+            try {
+                savePicture();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        shareButton.setOnAction(actionEvent -> shareByEmail());
     }
 
     private void execution() {
         new Thread(this::getRandomQuote).start();
-
-        //new Thread(this::setContainerColor).start();
+        optionBar.getChildren().forEach((button) -> button.setVisible(true));
     }
 
     private void getRandomQuote() {
-        Quote[] quotes = ApiZenQuotesService.getQuotes();
+        Quote[] quotes = ZenQuotesService.getQuotes();
         int randPOS = new Random().nextInt(0, quotes.length);
         Platform.runLater(() -> setRandomQuote(quotes[randPOS]));
         setRandomBG();
@@ -95,83 +105,83 @@ public class QuoteController implements Initializable {
     }
 
     private void setRandomBG() {
-        List<String> urls = ApiUnsplashService.getListOfURLs();
+        List<String> urls = UnsplashService.getListOfURLs();
         int size = urls.size();
         int rand = new Random().nextInt(0, size);
         POS = rand;
-        Platform.runLater(() -> imageContainer.setImage(new Image(urls.get(rand),574,349,false,false)));
+        Platform.runLater(() -> imageContainer.setImage(new Image(urls.get(rand), 574, 349, false, false)));
     }
 
-    private void saveImage() throws IOException {
-
-        Platform.runLater(() -> {
-            WritableImage writableImage = imagePane.snapshot(null,null);
-            File file = new File("src/main/resources/com/weatherreport/weatherreport/output/quote.jpeg");
-            try {
-                BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
-                ImageIO.write(bufferedImage, "png", file);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }finally {
-                //getEmailSenderInstance().shareByEmail();
-            }
-        });
-
+    @SneakyThrows
+    private void saveImage(String path) {
+        WritableImage writableImage = imagePane.snapshot(null, null);
+        File file = new File(path);
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
+        ImageIO.write(bufferedImage, "png", file);
     }
-    public  WritableImage pixelScaleAwareCanvasSnapshot(Canvas canvas, double pixelScale) {
-        WritableImage writableImage = new WritableImage((int)Math.rint(pixelScale*canvas.getWidth()), (int)Math.rint(pixelScale*canvas.getHeight()));
+
+    public WritableImage pixelScaleAwareCanvasSnapshot(Canvas canvas, double pixelScale) {
+        WritableImage writableImage = new WritableImage((int) Math.rint(pixelScale * canvas.getWidth()), (int) Math.rint(pixelScale * canvas.getHeight()));
         SnapshotParameters spa = new SnapshotParameters();
         spa.setTransform(Transform.scale(pixelScale, pixelScale));
         return canvas.snapshot(spa, writableImage);
     }
 
+    private void savePicture() throws IOException {
+        FileChooser fileChooser = getFileChooser();
+        File file = fileChooser.showSaveDialog(getWindow());
+        if (file != null) {
+            Platform.runLater(()->saveImage(file.getAbsolutePath()));
+        }
+    }
 
+    private FileChooser getFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setTitle("Save image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpeg", "*.gif", "*.jpeg"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+        return fileChooser;
+    }
 
+    @SneakyThrows
+    private Window getWindow(){
+        FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource(MainController.interfaceLoader.WEATHER_INTERFACE.getInterface()));
+        Callable<Window> windowCallable = () -> new Scene(loader.load()).getWindow();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<Window> windowFuture = executorService.submit(windowCallable);
+        return windowFuture.get();
+    }
+    private void applyCursor() {
+        ObservableList<Node> list = optionBar.getChildren();
+        list.forEach((button) -> button.setCursor(Cursor.HAND));
+    }
+
+    private void shareByEmail() {
+        StringBuilder pathBuilder = new StringBuilder();
+        TextInputDialog emailDialog = new TextInputDialog();
+        emailDialog.setTitle("Share");
+        emailDialog.setHeaderText("Enter the email addresses to share with (separated by a comma or semicolon):");
+        FileChooser imageSelector = getFileChooser();
+        File file = imageSelector.showOpenDialog(getWindow());
+        if(file!= null) {
+            pathBuilder.append(file.getAbsolutePath());
+            System.out.println(pathBuilder);
+        }
+        Optional<String> result = emailDialog.showAndWait();
+        if(result.isPresent()) {
+            String emails = result.get();
+            String[] emailArray = emails.split("[,;]");
+            for(String email: emailArray) {
+                email = email.toLowerCase().trim();
+                if(!email.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$")) {
+                    System.out.println("false");
+                }else {
+                    new Thread(() -> getEmailSenderInstance().shareByEmail(emailArray, pathBuilder.toString())).start();
+                }
+            }
+        }
+    }
 }
-
-
-//        WritableImage writableImage = new WritableImage((int) newImage.getWidth(), (int) newImage.getHeight());
-//        PixelWriter pixelWriter = writableImage.getPixelWriter();
-
-
-// Write the pixels of the Image to the WritableImage
-//        pixelWriter.setPixels(0, 0, (int) newImage.getWidth(), (int) newImage.getHeight(), PixelFormat.getByteBgraInstance(),
-//                newImage.getPixelReader().getPixels(0, 0,
-//                        (int) newImage.getWidth(),
-//                        (int) newImage.getHeight(),
-//                        PixelFormat.getByteBgraInstance(),
-//                        null), 0, (int) newImage.getWidth() * 4);
-
-
-//        // Create a FileOutputStream for the output file
-//        FileOutputStream fos = new FileOutputStream("image.png");
-//
-//        // Get a FileChannel for the FileOutputStream
-//        FileChannel channel = fos.getChannel();
-//
-//        // Create a ByteBuffer with the size of the WritableImage
-//        ByteBuffer buffer = ByteBuffer.allocate((int) (writableImage.getWidth() * writableImage.getHeight() * 4));
-//
-//        // Write the pixels of the WritableImage to the ByteBuffer
-//        pixelWriter.setPixels(0, 0, (int) writableImage.getWidth(), (int) writableImage.getHeight(), PixelFormat.getByteBgraInstance(), buffer, (int) writableImage.getWidth() * 4);
-//
-//        // Write the ByteBuffer to the FileChannel
-//        channel.write(buffer);
-//
-//        // Close the FileOutputStream and FileChannel
-//        fos.close();
-//        channel.close();
-
-
-
-// Another method to write an image
-//    ImageWriter writer = ImageIO.getImageWritersByFormatName("png").next();
-//    IIOImage iioImage = new IIOImage(bufferedImage,null,null);
-//    ImageWriteParam param = writer.getDefaultWriteParam();
-//                param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-//                        param.setCompressionQuality(1.0f);
-//                        ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(file);
-//                        writer.setOutput(imageOutputStream);
-//                        writer.write(null,iioImage,param);
-//                        writer.dispose();
-//                        imageOutputStream.close();
