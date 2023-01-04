@@ -2,6 +2,7 @@ package com.weatherreport.weatherreport.service;
 
 import com.google.gson.Gson;
 import com.weatherreport.weatherreport.model.apicall.ApiCall;
+import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import com.weatherreport.weatherreport.model.unsplash.Unsplash;
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.SneakyThrows;
@@ -64,6 +65,9 @@ public class UnsplashService implements ApiCall {
         Callable<Unsplash> unsplashCallable = () -> gson.fromJson(serializedJSONObject(url), Unsplash.class);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Unsplash> unsplashFuture = executorService.submit(unsplashCallable);
+        executorService.shutdown();
         return (T) unsplashFuture.get();
     }
+
+
 }
