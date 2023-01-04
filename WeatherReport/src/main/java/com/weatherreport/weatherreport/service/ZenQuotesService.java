@@ -41,7 +41,8 @@ public class ZenQuotesService implements ApiCall {
         Callable<Quote[]> quotesObject = () -> gson.fromJson(serializedJSONObject(new URL("https://zenquotes.io/api/quotes/").toString()), Quote[].class);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Quote[]> quoteFuture = executorService.submit(quotesObject);
-
+        executorService.shutdown();
         return (T) quoteFuture.get();
     }
+
 }
