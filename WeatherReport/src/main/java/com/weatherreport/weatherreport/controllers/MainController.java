@@ -41,6 +41,7 @@ public class MainController implements Initializable {
         NEWS_INTERFACE("newsScene.fxml"),
         MENU_NAV("fxml/menuNavigator.fxml"),
         QUOTE_INTERFACE("fxml/QuotesEditor.fxml"),
+        SHARE_INTERFACE("fxml/share.fxml"),
         MAIN("MainScene.fxml");
         private String fxmlFile;
 
