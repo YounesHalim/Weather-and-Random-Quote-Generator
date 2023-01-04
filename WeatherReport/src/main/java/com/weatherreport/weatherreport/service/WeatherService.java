@@ -1,33 +1,32 @@
 package com.weatherreport.weatherreport.service;
 
 import com.google.gson.Gson;
-import com.weatherreport.weatherreport.model.apicall.CallOpenWeatherAPI;
+import com.weatherreport.weatherreport.controllers.WeatherReportController;
+import com.weatherreport.weatherreport.model.apicall.ApiCall;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import com.weatherreport.weatherreport.model.meteorology.*;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.*;
 
-public class WeatherCallService implements CallOpenWeatherAPI {
-    private static WeatherCallService weatherCallService;
-    private WeatherCallService() {}
-    public static WeatherCallService getApiWeatherCallServiceInstance() {
-        if(weatherCallService == null) {
-            weatherCallService = new WeatherCallService();
+public class WeatherService implements ApiCall{
+    private static WeatherService weatherService;
+    private WeatherService() {}
+    public static WeatherService getWeatherServiceInstance() {
+        if (weatherService == null) {
+            weatherService = new WeatherService();
         }
-        return weatherCallService;
+        return weatherService;
     }
-    @Override
-    public String getJSONAsAString(GeographicLocation location) {
-        return CallOpenWeatherAPI.super.getJSONAsAString(location);
-    }
-    @Override
+
     public Meteorology getMeteorologyObject(GeographicLocation cityLocation) {
         Meteorology meteorology;
         Gson gson = new Gson();
+        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityLocation.getName() + "," + cityLocation.getCountry() + "&appid=" + Dotenv.load().get("APIKEY_OPEN_WEATHER") + "&units=" + cityLocation.getMeasureUnits();
         try {
-            Callable<Meteorology> meteorologyCallable = () -> gson.fromJson(getJSONAsAString(cityLocation), Meteorology.class);
+            Callable<Meteorology> meteorologyCallable = () -> gson.fromJson(serializedJSONObject(url), Meteorology.class);
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             Future<Meteorology> meteorologyFuture = executorService.submit(meteorologyCallable);
             meteorology = meteorologyFuture.get();
@@ -48,9 +47,18 @@ public class WeatherCallService implements CallOpenWeatherAPI {
                 .measureUnits("metric")
                 .build();
 
-        return WeatherCallService
-                .getApiWeatherCallServiceInstance()
+        return WeatherService
+                .getWeatherServiceInstance()
                 .getMeteorologyObject(news);
     }
 
+    @Override
+    public <T> T serializedJSONObject(T url) {
+        return ApiCall.super.serializedJSONObject(url);
+    }
+
+    @Override
+    public <T> T deserializedJSONObject() {
+        return (T) getMeteorologyObject(WeatherReportController.defaultLocation);
+    }
 }
