@@ -36,21 +36,22 @@
             </HBox>
          </children>
       </AnchorPane>
-      <HBox fx:id="optionBar" alignment="CENTER" layoutX="128.0" layoutY="373.0" prefHeight="30.0" prefWidth="345.0" style="-fx-spacing: 5;">
+      <HBox fx:id="optionBar" alignment="CENTER" layoutY="373.0" prefHeight="30.0" prefWidth="600.0" style="-fx-spacing: 5;">
          <children>
-            <Label text="Text" textFill="#e1e1e1">
+            <Label prefHeight="16.0" prefWidth="33.0" text="Text" textFill="#e1e1e1">
                <font>
                   <Font name="Arial" size="13.0" />
                </font>
             </Label>
-            <ColorPicker fx:id="textColorPicker" focusTraversable="false" prefHeight="25.0" prefWidth="47.0">
+            <ColorPicker fx:id="textColorPicker" focusTraversable="false" prefHeight="25.0" prefWidth="60.0">
                <value>
                   <Color />
                </value>
             </ColorPicker>
-            <Button fx:id="generateQuote" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" style="-fx-background-radius: 4;" text="Generate" />
-            <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" style="-fx-background-radius: 4;" text="Save" visible="false" />
-            <Button fx:id="shareButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Share" visible="false" />
+            <Button fx:id="generateQuote" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Generate" />
+            <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Save" />
+            <Button fx:id="shareButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Share" textAlignment="CENTER" />
+            <Button fx:id="directShare" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Direct Share" />
          </children>
       </HBox>
    </children>
