@@ -32,7 +32,6 @@ public class EmailSenderService implements EmailProperties {
     public Properties gmailProperties() {
         return EmailProperties.super.gmailProperties();
     }
-
     @Override
     public Properties setProperties() {
         return null;
@@ -96,12 +95,5 @@ public class EmailSenderService implements EmailProperties {
         Transport.send(message);
         System.out.println("Email sent!");
     }
-    private Boolean emailChecker(TextField email) {
-        String mail = (email.getText().isEmpty() || email.getText().isBlank() || !email.getText().contains("@"))
-                ? null : email.getText().toLowerCase().trim();
-        return mail != null;
-    }
-
-
 
 }
