@@ -2,7 +2,7 @@ package com.weatherreport.weatherreport.model.meteorology;
 
 import com.google.gson.Gson;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
-import com.weatherreport.weatherreport.service.WeatherCallService;
+import com.weatherreport.weatherreport.service.WeatherService;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -70,8 +70,8 @@ class MeteorologyTest {
                 .country("MA")
                 .measureUnits("metric")
                 .build();
-        Meteorology forecast = WeatherCallService
-                .getApiWeatherCallServiceInstance()
+        Meteorology forecast = WeatherService
+                .getWeatherServiceInstance()
                 .getMeteorologyObject(defaultGeoLocation);
 
         String cityName = forecast.getName();
