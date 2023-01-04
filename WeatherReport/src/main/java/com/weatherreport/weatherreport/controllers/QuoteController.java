@@ -152,6 +152,7 @@ public class QuoteController implements Initializable {
         Callable<Window> windowCallable = () -> new Scene(loader.load()).getWindow();
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Window> windowFuture = executorService.submit(windowCallable);
+        executorService.shutdown();
         return windowFuture.get();
     }
     private void applyCursor() {
