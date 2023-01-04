@@ -16,7 +16,6 @@ import javafx.scene.shape.Circle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -25,7 +24,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.weatherreport.weatherreport.service.WeatherCallService.getApiWeatherCallServiceInstance;
+import static com.weatherreport.weatherreport.service.WeatherService.getWeatherServiceInstance;
 
 @Data
 @NoArgsConstructor
@@ -58,7 +57,7 @@ public class WeatherReportController{
     private void setWeatherIcon(Meteorology forecast) {
         String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
         try {
-            String iconPath = getApiWeatherCallServiceInstance().getAppropriateWeatherIcon(icon).toString();
+            String iconPath = getWeatherServiceInstance().getAppropriateWeatherIcon(icon).toString();
             weatherIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(iconPath))));
             sunsetIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunset.png")))));
             sunriseIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(WeatherReportApplication.class.getResourceAsStream("icons/sunrise.png")))));
@@ -73,9 +72,9 @@ public class WeatherReportController{
         Date convertedDate = new Date(sunriseSunsetTime * 1000);
         switch (firstOrLastLight) {
             case "LAST" ->
-                    sunsetHour.setText(sunsetHour.getText() + " " + convertedDate.getHours() + ":" + convertedDate.getMinutes());
+                    sunsetHour.setText(convertedDate.getHours() + ":" + convertedDate.getMinutes());
             case "FIRST"->
-                    sunriseHour.setText(sunriseHour.getText() + " " + convertedDate.getHours() + ":" + convertedDate.getMinutes());
+                    sunriseHour.setText(convertedDate.getHours() + ":" + convertedDate.getMinutes());
         }
     }
     private void setCountryLocation(Meteorology forecast, Sys country) {
@@ -106,7 +105,7 @@ public class WeatherReportController{
         weatherDescription.setText(description);
     }
     protected Meteorology setWeatherApiCall(GeographicLocation news) {
-        return getApiWeatherCallServiceInstance().weatherApiCall(news);
+        return getWeatherServiceInstance().weatherApiCall(news);
     }
     public static void setDefaultLocation(GeographicLocation defaultLocation) {
         WeatherReportController.defaultLocation = defaultLocation;
@@ -119,7 +118,6 @@ public class WeatherReportController{
                     if (!searchBar.getText().isEmpty() || !searchBar.getText().isBlank()) {
                         Function<TextField, String[]> nextDestination = (textField) -> textField.getText().split(",");
                         GeographicLocation newLocation = new SearchBarController().searchedLocation(searchBar,nextDestination);
-                        if(newLocation.getName().equals(defaultLocation.getName())) return;
                         WeatherReportController.setDefaultLocation(newLocation);
                         initialize();
                     }
