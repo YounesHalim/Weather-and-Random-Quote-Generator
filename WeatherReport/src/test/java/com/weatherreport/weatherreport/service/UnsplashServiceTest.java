@@ -11,7 +11,7 @@ class UnsplashServiceTest {
     @Test
     @DisplayName("Testing API CALL")
     void callAPI() {
-        Unsplash unsplash = UnsplashService.getApiUnsplashService().deserializedJsonObject();
+        Unsplash unsplash = UnsplashService.getApiUnsplashService().deserializedJSONObject();
         System.out.println(unsplash.getTotal());
         System.out.println(unsplash.getTotal_pages());
         unsplash.getResults().forEach((element)-> System.out.println(element.getUrls().getFull()));
