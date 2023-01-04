@@ -12,4 +12,8 @@ public interface EmailProperties {
         return props;
     }
     Properties setProperties();
+
+    default String HTML_Template() {
+        return "";
+    }
 }
