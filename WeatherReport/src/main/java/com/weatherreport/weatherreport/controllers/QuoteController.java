@@ -10,21 +10,22 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.*;
 import javafx.scene.Cursor;
-import javafx.scene.canvas.Canvas;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Transform;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import lombok.*;
 
@@ -34,7 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -42,7 +42,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static com.weatherreport.weatherreport.service.EmailSenderService.getEmailSenderInstance;
+import static com.weatherreport.weatherreport.controllers.MainController.interfaceLoader;
 
 @Data
 @NoArgsConstructor
@@ -52,19 +52,19 @@ public class QuoteController implements Initializable {
     @FXML
     private AnchorPane rootQuoteAnchorPane;
     @FXML
-    private Text quoteTextField;
+    private Text quoteTextField, imagePath;
     @FXML
     private Label authorName;
     @FXML
-    private Button generateQuote, saveButton, shareButton;
+    private Button generateQuote, saveButton, shareButton, directShare;
     @FXML
     private ColorPicker textColorPicker;
     @FXML
     private ImageView imageContainer;
     @FXML
     private AnchorPane imagePane;
-    @FXML private HBox optionBar;
-    private static int POS = 0;
+    @FXML
+    private HBox optionBar;
 
     @SneakyThrows
     @Override
@@ -78,7 +78,7 @@ public class QuoteController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
-        shareButton.setOnAction(actionEvent -> shareByEmail());
+        shareButton.setOnAction(actionEvent -> Platform.runLater(this::shareLayoutOpener));
     }
 
     private void execution() {
@@ -108,7 +108,6 @@ public class QuoteController implements Initializable {
         List<String> urls = UnsplashService.getListOfURLs();
         int size = urls.size();
         int rand = new Random().nextInt(0, size);
-        POS = rand;
         Platform.runLater(() -> imageContainer.setImage(new Image(urls.get(rand), 574, 349, false, false)));
     }
 
@@ -120,22 +119,15 @@ public class QuoteController implements Initializable {
         ImageIO.write(bufferedImage, "png", file);
     }
 
-    public WritableImage pixelScaleAwareCanvasSnapshot(Canvas canvas, double pixelScale) {
-        WritableImage writableImage = new WritableImage((int) Math.rint(pixelScale * canvas.getWidth()), (int) Math.rint(pixelScale * canvas.getHeight()));
-        SnapshotParameters spa = new SnapshotParameters();
-        spa.setTransform(Transform.scale(pixelScale, pixelScale));
-        return canvas.snapshot(spa, writableImage);
-    }
-
     private void savePicture() throws IOException {
         FileChooser fileChooser = getFileChooser();
         File file = fileChooser.showSaveDialog(getWindow());
         if (file != null) {
-            Platform.runLater(()->saveImage(file.getAbsolutePath()));
+            Platform.runLater(() -> saveImage(file.getAbsolutePath()));
         }
     }
 
-    private FileChooser getFileChooser() {
+    protected FileChooser getFileChooser() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.setTitle("Save image");
@@ -147,42 +139,28 @@ public class QuoteController implements Initializable {
     }
 
     @SneakyThrows
-    private Window getWindow(){
-        FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource(MainController.interfaceLoader.WEATHER_INTERFACE.getInterface()));
+    protected Window getWindow() {
+        FXMLLoader loader = new FXMLLoader(WeatherReportApplication.class.getResource(interfaceLoader.WEATHER_INTERFACE.getInterface()));
         Callable<Window> windowCallable = () -> new Scene(loader.load()).getWindow();
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Window> windowFuture = executorService.submit(windowCallable);
         executorService.shutdown();
         return windowFuture.get();
     }
+
     private void applyCursor() {
         ObservableList<Node> list = optionBar.getChildren();
         list.forEach((button) -> button.setCursor(Cursor.HAND));
     }
-
-    private void shareByEmail() {
-        StringBuilder pathBuilder = new StringBuilder();
-        TextInputDialog emailDialog = new TextInputDialog();
-        emailDialog.setTitle("Share");
-        emailDialog.setHeaderText("Enter the email addresses to share with (separated by a comma or semicolon):");
-        FileChooser imageSelector = getFileChooser();
-        File file = imageSelector.showOpenDialog(getWindow());
-        if(file!= null) {
-            pathBuilder.append(file.getAbsolutePath());
-            System.out.println(pathBuilder);
-        }
-        Optional<String> result = emailDialog.showAndWait();
-        if(result.isPresent()) {
-            String emails = result.get();
-            String[] emailArray = emails.split("[,;]");
-            for(String email: emailArray) {
-                email = email.toLowerCase().trim();
-                if(!email.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$")) {
-                    System.out.println("false");
-                }else {
-                    new Thread(() -> getEmailSenderInstance().shareByEmail(emailArray, pathBuilder.toString())).start();
-                }
-            }
-        }
+    @SneakyThrows
+    private void shareLayoutOpener() {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(WeatherReportApplication.class.getResource(interfaceLoader.SHARE_INTERFACE.getInterface()));
+        Parent parent = loader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(parent));
+        stage.show();
     }
+
 }
