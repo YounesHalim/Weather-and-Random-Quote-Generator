@@ -3,7 +3,6 @@ package com.weatherreport.weatherreport.controllers;
 import com.weatherreport.weatherreport.WeatherReportApplication;
 import com.weatherreport.weatherreport.model.Quotes.Quote;
 import com.weatherreport.weatherreport.service.UnsplashService;
-import com.weatherreport.weatherreport.service.ZenQuotesService;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -35,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -43,6 +43,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import static com.weatherreport.weatherreport.controllers.MainController.interfaceLoader;
+import static com.weatherreport.weatherreport.service.ZenQuotesService.*;
 
 @Data
 @NoArgsConstructor
@@ -65,6 +66,7 @@ public class QuoteController implements Initializable {
     private AnchorPane imagePane;
     @FXML
     private HBox optionBar;
+    protected static int POS;
 
     @SneakyThrows
     @Override
@@ -87,8 +89,10 @@ public class QuoteController implements Initializable {
     }
 
     private void getRandomQuote() {
-        Quote[] quotes = ZenQuotesService.getQuotes();
+        Quote[] quotes = getQuotes();
         int randPOS = new Random().nextInt(0, quotes.length);
+        POS = randPOS;
+        new Thread(()-> setFormattedHTMLQuote(quotes[randPOS])).start();
         Platform.runLater(() -> setRandomQuote(quotes[randPOS]));
         setRandomBG();
         textColorPicker.setOnAction(actionEvent -> Platform.runLater(this::setQuoteColor));
@@ -97,6 +101,11 @@ public class QuoteController implements Initializable {
     private void setRandomQuote(Quote quotes) {
         quoteTextField.setText(quotes.getQ());
         authorName.setText(quotes.getA());
+    }
+
+    protected static String setFormattedHTMLQuote(Quote quotes) {
+        Optional<String> html = getQuotesInstance().getHTML(quotes.getH());
+        return html.orElse(null);
     }
 
     private void setQuoteColor() {
