@@ -1,6 +1,7 @@
 package com.weatherreport.weatherreport.service;
-import com.weatherreport.weatherreport.model.email.EmailProps;
+
 import com.weatherreport.weatherreport.model.email.EmailProperties;
+import com.weatherreport.weatherreport.model.email.EmailProps;
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.FileDataSource;
@@ -11,8 +12,8 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import lombok.SneakyThrows;
 
-import java.awt.*;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 
 import static jakarta.mail.internet.InternetAddress.parse;
@@ -20,7 +21,7 @@ import static jakarta.mail.internet.InternetAddress.parse;
 
 public class EmailSenderService implements EmailProperties {
     private static EmailSenderService emailSender;
-    private BodyPart imageBodyPart, messageBodyPart;
+
     private EmailSenderService() {}
     public static EmailSenderService getEmailSenderInstance() {
         if(emailSender == null) {
@@ -36,22 +37,6 @@ public class EmailSenderService implements EmailProperties {
     public Properties setProperties() {
         return null;
     }
-
-    public static void main(String[] args) throws MessagingException {
-//        EmailSender emailSender = new EmailSender();
-//        Session session = setSession(emailSender);
-//
-//        Message message = new MimeMessage(session);
-//        message.setFrom(new InternetAddress(new EmailProps().getEmail()));
-//        message.setRecipients(
-//                Message.RecipientType.TO,
-//                InternetAddress.parse("younes.halim@gmail.com"));
-//        message.setSubject("This is a test");
-//        message.setText("This is a test of an email sent via IntelliJ");
-//        Transport.send(message);
-//        System.out.println("Sent");
-    }
-
     private Session setSession(Properties props) {
         return Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -77,19 +62,29 @@ public class EmailSenderService implements EmailProperties {
         message.setSubject("Quote of the day");
         return message;
     }
-
+    @SneakyThrows
+    private BodyPart setMessagePart(String quote) {
+        BodyPart messageBodyPart = new MimeBodyPart();
+        Optional<String> html = ZenQuotesService.getQuotesInstance().getHTML(quote);
+        if(html.isPresent()) {
+            messageBodyPart.setContent(html.get(),"text/html; charset=utf-8");
+            return messageBodyPart;
+        }
+        return null;
+    }
     @SneakyThrows
     protected BodyPart setImagePart(String path) {
-        imageBodyPart = new MimeBodyPart();
+        BodyPart imageBodyPart = new MimeBodyPart();
         DataSource dataSource = new FileDataSource(path);
         imageBodyPart.setDataHandler(new DataHandler(dataSource));
         imageBodyPart.setHeader("Content-ID","<image>");
         return imageBodyPart;
     }
     @SneakyThrows
-    public void shareByEmail(String[] addresses, String imagePath) {
+    public void shareByEmail(String[] addresses, String imagePath, String quote) {
         Message message = headerFieldSetter(addresses);
         MimeMultipart multipart = new MimeMultipart();
+        multipart.addBodyPart(setMessagePart(quote));
         multipart.addBodyPart(setImagePart(imagePath));
         message.setContent(multipart);
         Transport.send(message);
