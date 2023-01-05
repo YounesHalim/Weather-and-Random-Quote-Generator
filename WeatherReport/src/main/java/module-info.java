@@ -12,6 +12,7 @@ module com.weatherreport.weatherreport {
     requires javafx.swing;
     requires jakarta.mail;
     requires jakarta.activation;
+    requires javafx.web;
 
     opens com.weatherreport.weatherreport to javafx.fxml;
     opens com.weatherreport.weatherreport.controllers to javafx.fxml;
