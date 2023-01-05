@@ -6,16 +6,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.web.HTMLEditor?>
 
-<AnchorPane fx:id="shareContainerLayout" prefHeight="220.0" prefWidth="400.0" style="-fx-background-color: #201932;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.ShareController">
+<AnchorPane fx:id="shareContainerLayout" prefHeight="434.0" prefWidth="600.0" style="-fx-background-color: #201932;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.ShareController">
    <children>
-      <VBox layoutX="150.0" layoutY="-2.0" prefHeight="198.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="150.0" layoutY="-2.0" prefHeight="198.0" prefWidth="400.0" style="-fx-spacing: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="51.0" prefWidth="400.0">
+            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="600.0">
                <children>
                   <Text fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the email adresses to share with (seperated by a comma or semicolon)" textAlignment="CENTER" wrappingWidth="245.66796875">
                      <font>
@@ -30,7 +30,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="uploadHBox" alignment="CENTER" prefHeight="57.0" prefWidth="400.0" spacing="15.0">
+            <HBox fx:id="uploadHBox" alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="400.0" spacing="15.0">
                <children>
                   <Button fx:id="openButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" style="-fx-background-radius: 5; -fx-background-color: dodgerblue;" text="Upload">
                      <HBox.margin>
@@ -42,32 +42,19 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
             </HBox>
-            <VBox alignment="CENTER" prefHeight="83.0" prefWidth="400.0" style="-fx-spacing: 10;">
+            <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="600.0" style="-fx-spacing: 10;">
                <children>
-                  <Pane>
-                     <children>
-                        <TextField fx:id="emailTextField" focusTraversable="false" layoutX="66.0" prefHeight="25.0" prefWidth="277.0" promptText="email">
-                           <font>
-                              <Font name="System Italic" size="13.0" />
-                           </font>
-                        </TextField>
-                     </children>
-                  </Pane>
-                  <Pane>
-                     <children>
-                        <Button fx:id="sendButton" layoutX="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-radius: 5; -fx-background-color: dodgerblue;" text="Send" />
-                        <ProgressIndicator fx:id="spinnerIndicator" layoutX="250.0" prefHeight="25.0" prefWidth="52.0" visible="false" />
-                     </children>
-                  </Pane>
+                  <TextField fx:id="emailTextField" focusTraversable="false" prefHeight="25.0" prefWidth="396.0" promptText="EMAIL">
+                     <font>
+                        <Font name="System Italic" size="13.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="sendButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-radius: 5; -fx-background-color: dodgerblue;" text="Send" />
+                  <ProgressIndicator fx:id="spinnerIndicator" prefHeight="25.0" prefWidth="44.0" visible="false" />
                </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </VBox>
+            </HBox>
+            <HTMLEditor fx:id="editor" htmlText="" prefHeight="201.0" prefWidth="600.0" />
          </children>
       </VBox>
    </children>
