@@ -6,6 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static com.weatherreport.weatherreport.service.EmailSenderService.getEmailSenderInstance;
+import static com.weatherreport.weatherreport.service.ZenQuotesService.getQuotes;
 
 public class ShareController implements Initializable {
     @FXML
@@ -27,10 +29,12 @@ public class ShareController implements Initializable {
     private TextField emailTextField;
     @FXML
     private ProgressIndicator spinnerIndicator;
+    @FXML  private HTMLEditor editor;
     private StringBuilder pathBuilder = new StringBuilder();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         applyCursor();
+        HTMLTextSetter();
         openButton.setOnAction(actionEvent -> setImagePath());
         sendButton.setOnAction(actionEvent -> sendEmailExecutioner());
     }
@@ -43,6 +47,9 @@ public class ShareController implements Initializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+    private void HTMLTextSetter() {
+        editor.setHtmlText(QuoteController.setFormattedHTMLQuote(getQuotes()[QuoteController.POS]));
     }
 
     private void applyCursor() {
@@ -70,7 +77,7 @@ public class ShareController implements Initializable {
                 if (!email.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$")) {
                     System.out.println("false");
                 } else {
-                    Thread thread = new Thread(() -> getEmailSenderInstance().shareByEmail(emailArray, pathBuilder.toString()));
+                    Thread thread = new Thread(() -> getEmailSenderInstance().shareByEmail(emailArray, pathBuilder.toString(), editor.getHtmlText()));
                     thread.start();
                     thread.join();
                     successMessage();
