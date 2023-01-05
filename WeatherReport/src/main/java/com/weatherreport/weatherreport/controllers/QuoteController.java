@@ -50,24 +50,15 @@ import static com.weatherreport.weatherreport.service.ZenQuotesService.*;
 @AllArgsConstructor
 @Builder
 public class QuoteController implements Initializable {
-    @FXML
-    private AnchorPane rootQuoteAnchorPane;
-    @FXML
-    private Text quoteTextField, imagePath;
-    @FXML
-    private Label authorName;
-    @FXML
-    private Button generateQuote, saveButton, shareButton, directShare;
-    @FXML
-    private ColorPicker textColorPicker;
-    @FXML
-    private ImageView imageContainer;
-    @FXML
-    private AnchorPane imagePane;
-    @FXML
-    private HBox optionBar;
+    @FXML private AnchorPane rootQuoteAnchorPane;
+    @FXML private Text quoteTextField, imagePath;
+    @FXML private Label authorName;
+    @FXML private Button generateQuote, saveButton, shareButton, directShare;
+    @FXML private ColorPicker textColorPicker;
+    @FXML private ImageView imageContainer;
+    @FXML private AnchorPane imagePane;
+    @FXML private HBox optionBar;
     protected static int POS;
-
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
