@@ -5,8 +5,8 @@ import com.weatherreport.weatherreport.model.Quotes.Quote;
 import com.weatherreport.weatherreport.model.apicall.ApiCall;
 import lombok.SneakyThrows;
 
-
 import java.net.URL;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,6 +43,11 @@ public class ZenQuotesService implements ApiCall {
         Future<Quote[]> quoteFuture = executorService.submit(quotesObject);
         executorService.shutdown();
         return (T) quoteFuture.get();
+    }
+
+    public Optional<String> getHTML(String quote) {
+        Optional<String> formattedHTMLQuote = quote.describeConstable();
+        return formattedHTMLQuote.isPresent() ? formattedHTMLQuote : Optional.empty();
     }
 
 }
