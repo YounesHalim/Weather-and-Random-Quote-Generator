@@ -79,7 +79,7 @@ public class WeatherReportController {
     private void setCountryLocation(Meteorology forecast, Sys country) {
         String s = "%s, %s".formatted(forecast.getName(), country.getCountry());
         countryLocation.setText(s);
-        visibility.setText(MessageFormat.format("{0}km", forecast.getVisibility()));
+        visibility.setText(MessageFormat.format("{0}km", forecast.getVisibility() / 1000));
         windData.setText(MessageFormat.format("{0}km/h", (int) Math.floor(forecast.getWind().getSpeed())));
     }
 
@@ -90,7 +90,7 @@ public class WeatherReportController {
 
     private void setTemperature(MainWeather mainWeather) {
         degree.setText(String.format(celsius, (int) Math.floor(mainWeather.getTemp())));
-        pressure.setText((MessageFormat.format("{0} hPa", mainWeather.getPressure())));
+        pressure.setText((MessageFormat.format("{0}hPa", mainWeather.getPressure())));
         humidity.setText(MessageFormat.format("{0}%", mainWeather.getHumidity()));
         lowTemp.setText(String.format(celsius, (int) Math.floor(mainWeather.getTemp_min())));
         highTemp.setText(String.format(celsius, (int) Math.floor(mainWeather.getTemp_max())));
