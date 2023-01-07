@@ -12,10 +12,10 @@ L'application est construite en utilisant:
 Ce projet a été créé à l'aide de l'SDK Java 17 et utilise le multithreading pour améliorer les performances.
 
 # Table des matières
-- [Vue d'ensemble](#Vue d'ensemble)
+- [Vue d'ensemble](#Vue-d'ensemble)
 - [Installation](#Installation)
 - [Utilisation](#Utilisation)
-- [Mises à jour actuelles](#Mises à jour actuelles)
+- [Mises à jour actuelles](#Mises-à-jour-actuelles)
 - [Crédits](#Crédits)
 
 
