@@ -1,5 +1,4 @@
-# Générateur de météo et de citations
-Bienvenue sur le Générateur de météo et de citations!
+# Application de météo et générateur d'images inspirantes aléatoire
 
 Cette application vous permet de connaître la météo actuelle d'un lieu spécifique,de générer une citation aléatoire,
 d'afficher une image de fond correspondante et de partager les images par e-mail.
@@ -120,7 +119,7 @@ Pour utiliser le Générateur de météo et de citations, suivez ces étapes:
 # Utilisation
 Pour connaître la météo d'un lieu spécifique, entrez la ville et le pays dans la barre de recherche et appuyez sur entrée. L'application affichera la météo actuelle pour l'emplacement sélectionné.
 
-Pour générer une nouvelle citation et afficher une image de fond correspondante, cliquez sur l'onglet "Quotes" puis sur le bouton "Generate". 
+Pour générer une nouvelle citation, cliquez sur l'onglet "Quotes" puis sur le bouton "Generate". 
 L'application affichera une citation aléatoire et une image de fond correspondante. Vous pouvez partager l'image actuelle par e-mail en cliquant sur le bouton "Share" ou enregistrer l'image sur votre appareil en cliquant sur le bouton "Save".
 
 
