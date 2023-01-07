@@ -1,6 +1,4 @@
 package com.weatherreport.weatherreport.controllers;
-
-import com.weatherreport.weatherreport.WeatherReportApplication;
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import com.weatherreport.weatherreport.model.meteorology.MainWeather;
 import com.weatherreport.weatherreport.model.meteorology.Meteorology;
