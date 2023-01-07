@@ -131,7 +131,7 @@ L'application affichera une citation aléatoire et une image de fond corresponda
 
 # Crédits
 
-- Données météorologiques fournies par [**OpenWeatherMap**](#https://openweathermap.org)
+- Données météorologiques fournies par [OpenWeatherMap](#https://openweathermap.org)
 - Images de fond fournies par [**Unsplash**](#https://unsplash.com)
 - Citations générées à l'aide de l'API [**ZenQuotes**](#https://zenquotes.io)
 - Fonctionnalité e-mail fournie par la bibliothèque [**Jakarta Mail**](#https://commons.apache.org/proper/commons-email/)
