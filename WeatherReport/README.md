@@ -118,5 +118,22 @@ Pour utiliser le Générateur de météo et de citations, suivez ces étapes:
     </dependencies>
    ```
 # Utilisation
+Pour connaître la météo d'un lieu spécifique, entrez la ville et le pays dans la barre de recherche et appuyez sur entrée. L'application affichera la météo actuelle pour l'emplacement sélectionné.
+
+Pour générer une nouvelle citation et afficher une image de fond correspondante, cliquez sur l'onglet "Quotes" puis sur le bouton "Generate". 
+L'application affichera une citation aléatoire et une image de fond correspondante. Vous pouvez partager l'image actuelle par e-mail en cliquant sur le bouton "Share" ou enregistrer l'image sur votre appareil en cliquant sur le bouton "Save".
+
+
 # Mises à jour actuelles
+- Filtres d'image et résolution d'image améliorée
+- Plus de variations d'image
+- Possibilité pour l'utilisateur de sélectionner leur propre image
+
 # Crédits
+
+- Données météorologiques fournies par [**OpenWeatherMap**](#https://openweathermap.org)
+- Images de fond fournies par [**Unsplash**](#https://unsplash.com)
+- Citations générées à l'aide de l'API [**ZenQuotes**](#https://zenquotes.io)
+- Fonctionnalité e-mail fournie par la bibliothèque [**Jakarta Mail**](#https://commons.apache.org/proper/commons-email/)
+- Analyse de données JSON fournie par [**Google Gson**](#https://github.com/google/gson)
+- Génération de code fournie par [**Project Lombok**](#https://projectlombok.org)
