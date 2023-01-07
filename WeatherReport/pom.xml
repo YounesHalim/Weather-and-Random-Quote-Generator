@@ -95,7 +95,6 @@
             <artifactId>javafx-web</artifactId>
             <version>19</version>
         </dependency>
-
     </dependencies>
 
     <build>
