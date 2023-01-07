@@ -14,7 +14,7 @@ public class WeatherReportApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WeatherReportApplication.class.getResource("MainScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Weather report");
+        stage.setTitle("Weather and motivational quote generator");
         stage.setScene(scene);
         stage.show();
     }
