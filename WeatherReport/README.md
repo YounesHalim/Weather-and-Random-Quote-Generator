@@ -32,6 +32,8 @@ Pour utiliser le Générateur de météo et de citations, suivez ces étapes:
     ```
    API_OPEN_WEATHER = [YOUR-API-KEY-HERE]
    APIKEY_UNSPLASH = [YOUR-API-KEY-HERE]
+   EMAIL = your_email@gmail.com
+   PASSWORD = your_email_application_password
    ```
 4. Si vous utilisez Maven pour gérer les dépendances, ajoutez les dépendances suivantes à votre fichier pom.xml:
     ```xml
@@ -122,7 +124,46 @@ Pour connaître la météo d'un lieu spécifique, entrez la ville et le pays dan
 Pour générer une nouvelle citation, cliquez sur l'onglet "Quotes" puis sur le bouton "Generate". 
 L'application affichera une citation aléatoire et une image de fond correspondante. Vous pouvez partager l'image actuelle par e-mail en cliquant sur le bouton "Share" ou enregistrer l'image sur votre appareil en cliquant sur le bouton "Save".
 
+<mark>Note: Pour utiliser la fonctionnalité de partage par e-mail, vous devez ajouter votre email et votre mot de passe d'application dans le fichier .env, cela est mentionné dans la section d'installation. Le serveur SMTP de Jakarta a été programmé pour utiliser Gmail. Si vous souhaitez envoyer des e-mails via un autre fournisseur, vous devez mettre à jour cette section en conséquence.
+Vous devez également vous rendre dans l'interface EmailProperties et mettre à jour les propriétés par défaut gmailProperties() { Properties props = new Properties(); props.put("mail.smtp.auth", "true"); props.put("mail.smtp.starttls.enable", "true"); props.put("mail.smtp.host", "smtp.gmail.com"); props.put("mail.smtp.port", "587"); return props;} ou utilisez la méthode setProperties pour ajouter une nouvelle propriété.</mark>
 
+```java
+public interface EmailProperties {
+   default Properties gmailProperties() {
+      Properties props = new Properties();
+      props.put("mail.smtp.auth", "true");
+      props.put("mail.smtp.starttls.enable", "true");
+      props.put("mail.smtp.host", "smtp.gmail.com");
+      props.put("mail.smtp.port", "587");
+      return props;
+   }
+}
+```
+Sinon allez dans la classe EmailSenderService, et vous pouvez faire par exemple : 
+```java
+import java.util.Properties;import java.util.function.Function;public class EmailSenderService implements EmailProperties {
+    
+    @Override
+    public Properties setProperties() {
+        Properties props = new Properties();
+        // Update this section with the required configuration
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.example.com");
+        props.put("mail.smtp.port", "587");
+        return props;
+    }
+    // Then update this method. Example:
+    @SneakyThrows
+    public Message defaultSender(EmailProps email) {
+       Properties myNewProps = setProperties(); 
+       Message message = new MimeMessage(setSession(myNewProps)); // Set a new session with the new properties.  
+       message.setFrom(new InternetAddress(Objects.requireNonNullElseGet(email, EmailProps::new).getEmail()));
+       return message;
+    }
+}
+
+```
 # Mises à jour actuelles
 - Filtres d'image et résolution d'image améliorée
 - Plus de variations d'image
