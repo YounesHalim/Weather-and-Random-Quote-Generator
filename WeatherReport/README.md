@@ -141,7 +141,7 @@ public interface EmailProperties {
 ```
 Sinon allez dans la classe EmailSenderService, et vous pouvez faire par exemple : 
 ```java
-import java.util.Properties;import java.util.function.Function;public class EmailSenderService implements EmailProperties {
+public class EmailSenderService implements EmailProperties {
     
     @Override
     public Properties setProperties() {
