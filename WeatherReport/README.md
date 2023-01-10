@@ -19,7 +19,7 @@ Ce projet a été créé à l'aide de l'SDK Java 17 et utilise le multithreading
 
 
 # Vue d'ensemble
-Le Générateur de météo et de citations est une application simple et facile à utiliser qui vous permet de connaître la météo actuelle d'un lieu spécifique, de générer une citation aléatoire, d'afficher une image de fond correspondante et de partager les images par e-mail. Il utilise l'API OpenWeatherMap pour les données météorologiques, l'API Unsplash pour les images de fond, l'API ZenQuotes pour la génération de citations, la bibliothèque Jakarta Mail pour la fonctionnalité e-mail, Lombok pour la génération de code et Google Gson pour l'analyse de données JSON.
+Cette application permet à l'utilisateur de consulter la météo de n'importe quelle ville du monde. En plus de cela, l'utilisateur peut également accéder à un générateur de citations qui génère une citation aléatoire accompagnée d'une image aléatoire générée à partir de deux API, en donnant une image en sortie. L'image peut également être partagée par e-mail avec plusieurs personnes. Dans les mises à jour futures, l'utilisateur pourra sélectionner la résolution de l'image et ajouter des filtres et la partager sur les réseaux sociaux.
 # Installation
 Pour utiliser le Générateur de météo et de citations, suivez ces étapes:
 
