@@ -1,4 +1,4 @@
-# Application de météo et générateur d'images inspirantes aléatoire
+# Application de météo et générateur de citations aléatoires avec une image de fond assortie
 
 Cette application vous permet de connaître la météo actuelle d'un lieu spécifique,de générer une citation aléatoire,
 d'afficher une image de fond correspondante et de partager les images par e-mail.
