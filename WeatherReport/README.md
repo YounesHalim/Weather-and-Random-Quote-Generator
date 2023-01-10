@@ -1,10 +1,10 @@
 # Application de météo et générateur de citations aléatoires avec une image de fond assortie
 
-Cette application vous permet de connaître la météo actuelle d'un lieu spécifique,de générer une citation aléatoire,
+Cette application vous permet de connaître la météo actuelle d'un lieu spécifique, de générer une citation aléatoire,
 d'afficher une image de fond correspondante et de partager les images par e-mail.
 
-L'application est construite en utilisant:
-- Multithreading pour ameliorér la performance.
+L'application est construite en utilisant :
+- Multithreading pour améliorer la performance.
 - Java et JavaFX et utilise la bibliothèque Jakarta Mail pour la fonctionnalité share.
 - Lombok pour la génération de code.
 - Google Gson pour l'analyse de données JSON.
@@ -13,7 +13,7 @@ L'application est construite en utilisant:
 - Données citations générées à l'aide de l'API [**ZenQuotes**](https://zenquotes.io)
 
 
-Ce projet a été créé à l'aide de l'SDK Java 17 et utilise le multithreading pour améliorer les performances.
+Ce projet a été créé à l'aide de le SDK Java 17 et utilise le multithreading pour améliorer les performances.
 
 # Table des matières
 - [Vue d'ensemble](#Vue-d'ensemble)
@@ -24,23 +24,23 @@ Ce projet a été créé à l'aide de l'SDK Java 17 et utilise le multithreading
 
 
 # Vue d'ensemble
-Cette application permet à l'utilisateur de consulter la météo de n'importe quelle ville du monde. En plus de cela, l'utilisateur peut également accéder à un générateur de citations qui génère une citation aléatoire accompagnée d'une image aléatoire générée à partir de deux API, en donnant une image en sortie. L'image peut également être partagée par e-mail avec plusieurs personnes. Dans les mises à jour futures, l'utilisateur pourra sélectionner la résolution de l'image et ajouter des filtres et la partager sur les réseaux sociaux.
+Cette application permet à l'utilisateur de consulter la météo de n'importe quelle ville du monde. En plus de cela, l'utilisateur peut également accéder à un générateur de citations qui génère une citation aléatoire accompagnée d'une image aléatoire générée à partir de deux API, en donnant une image en sortie. L'image peut aussi être partagée par e-mail avec plusieurs personnes. Dans les mises à jour futures, l'utilisateur pourra sélectionner la résolution de l'image et ajouter des filtres et la partager sur les réseaux sociaux.
 # Installation
-Pour utiliser le Générateur de météo et de citations, suivez ces étapes:
+Pour utiliser le Générateur de météo et de citations, suivez ces étapes :
 
-1. Clonez le répertoire:
+1. Clonez le répertoire :
     ```
     git clone https://github.com/youneshalim/Weather-app
     ```
 2. Obtenez des clés API pour l'API OpenWeatherMap et l'API Unsplash.
-3. Allez dans le fichier appelé .env dans le répertoire racine du projet et ajoutez les lignes suivantes, en remplaçant YOUR-API-KEY-HERE par vos clés API réelles:
+3. Allez dans le fichier appelé .env dans le répertoire racine du projet et ajoutez les lignes suivantes, en remplaçant YOUR-API-KEY-HERE par vos clés API réelles :
     ```
    API_OPEN_WEATHER = [YOUR-API-KEY-HERE]
    APIKEY_UNSPLASH = [YOUR-API-KEY-HERE]
    EMAIL = your_email@gmail.com
    PASSWORD = your_email_application_password
    ```
-4. Si vous utilisez Maven pour gérer les dépendances, ajoutez les dépendances suivantes à votre fichier pom.xml:
+4. Si vous utilisez Maven pour gérer les dépendances, ajoutez les dépendances suivantes à votre fichier pom.xml :
     ```xml
    <dependencies>
         <dependency>
@@ -135,7 +135,7 @@ __Note__: <mark> Pour utiliser la fonctionnalité de partage par e-mail, vous de
 
 Vous devez également vous rendre dans l'interface EmailProperties et mettre à jour les propriétés par défaut gmailProperties() { Properties props = new Properties(); props.put("mail.smtp.auth", "true"); props.put("mail.smtp.starttls.enable", "true"); props.put("mail.smtp.host", "smtp.gmail.com"); props.put("mail.smtp.port", "587"); return props;} ou utilisez la méthode setProperties pour ajouter une nouvelle propriété.
 
-Mettre à jour directement la methode par défaut:
+Mettre à jour directement la methode par défaut :
 ```java
 public interface EmailProperties {
    default Properties gmailProperties() {
@@ -149,7 +149,7 @@ public interface EmailProperties {
    }
 }
 ```
-Sinon allez dans la classe EmailSenderService, et vous pouvez faire par exemple : 
+Sinon, allez dans la classe EmailSenderService, et vous pouvez faire par exemple : 
 ```java
 public class EmailSenderService implements EmailProperties {
     
