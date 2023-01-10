@@ -4,9 +4,14 @@ Cette application vous permet de connaître la météo actuelle d'un lieu spéci
 d'afficher une image de fond correspondante et de partager les images par e-mail.
 
 L'application est construite en utilisant:
+- Multithreading pour ameliorér la performance.
 - Java et JavaFX et utilise la bibliothèque Jakarta Mail pour la fonctionnalité share.
 - Lombok pour la génération de code.
 - Google Gson pour l'analyse de données JSON.
+- Données météorologiques fournies par [**OpenWeatherMap**](https://openweathermap.org)
+- Données images de fond fournies par [**Unsplash**](https://unsplash.com)
+- Données citations générées à l'aide de l'API [**ZenQuotes**](https://zenquotes.io)
+
 
 Ce projet a été créé à l'aide de l'SDK Java 17 et utilise le multithreading pour améliorer les performances.
 
@@ -124,8 +129,9 @@ Pour connaître la météo d'un lieu spécifique, entrez la ville et le pays dan
 Pour générer une nouvelle citation, cliquez sur l'onglet "Quotes" puis sur le bouton "Generate". 
 L'application affichera une citation aléatoire et une image de fond correspondante. Vous pouvez partager l'image actuelle par e-mail en cliquant sur le bouton "Share" ou enregistrer l'image sur votre appareil en cliquant sur le bouton "Save".
 
-<mark>Note: Pour utiliser la fonctionnalité de partage par e-mail, vous devez ajouter votre email et votre mot de passe d'application dans le fichier .env, cela est mentionné dans la section d'installation. Le serveur SMTP de Jakarta a été programmé pour utiliser Gmail. Si vous souhaitez envoyer des e-mails via un autre fournisseur, vous devez mettre à jour cette section en conséquence.
-Vous devez également vous rendre dans l'interface EmailProperties et mettre à jour les propriétés par défaut gmailProperties() { Properties props = new Properties(); props.put("mail.smtp.auth", "true"); props.put("mail.smtp.starttls.enable", "true"); props.put("mail.smtp.host", "smtp.gmail.com"); props.put("mail.smtp.port", "587"); return props;} ou utilisez la méthode setProperties pour ajouter une nouvelle propriété.</mark>
+__Note__: <mark>Pour utiliser la fonctionnalité de partage par e-mail, vous devez ajouter votre email et votre mot de passe d'application dans le fichier .env, cela est mentionné dans la section d'installation. Le serveur SMTP de Jakarta a été programmé pour utiliser Gmail. Si vous souhaitez envoyer des e-mails via un autre fournisseur, vous devez mettre à jour cette section en conséquence. </mark>
+
+Vous devez également vous rendre dans l'interface EmailProperties et mettre à jour les propriétés par défaut gmailProperties() { Properties props = new Properties(); props.put("mail.smtp.auth", "true"); props.put("mail.smtp.starttls.enable", "true"); props.put("mail.smtp.host", "smtp.gmail.com"); props.put("mail.smtp.port", "587"); return props;} ou utilisez la méthode setProperties pour ajouter une nouvelle propriété.
 
 Mettre à jour directement la methode par défaut:
 ```java
