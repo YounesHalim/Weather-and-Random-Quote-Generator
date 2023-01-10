@@ -25,7 +25,7 @@ Pour utiliser le Générateur de météo et de citations, suivez ces étapes:
 
 1. Clonez le répertoire:
     ```
-    git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+    git clone https://github.com/youneshalim/Weather-app
     ```
 2. Obtenez des clés API pour l'API OpenWeatherMap et l'API Unsplash.
 3. Allez dans le fichier appelé .env dans le répertoire racine du projet et ajoutez les lignes suivantes, en remplaçant YOUR-API-KEY-HERE par vos clés API réelles:
