@@ -127,6 +127,7 @@ L'application affichera une citation aléatoire et une image de fond corresponda
 - Filtres d'image et résolution d'image améliorée
 - Plus de variations d'image
 - Possibilité pour l'utilisateur de sélectionner leur propre image
+- Ajout d'une option de partage direct (Direct Share) (partage direct sur les réseaux sociaux, par exemple)
 
 # Crédits
 
