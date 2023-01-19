@@ -43,7 +43,7 @@
                   <Font name="Arial" size="13.0" />
                </font>
             </Label>
-            <ColorPicker fx:id="textColorPicker" focusTraversable="false" prefHeight="25.0" prefWidth="60.0">
+            <ColorPicker fx:id="textColorPicker" focusTraversable="false" prefHeight="25.0" prefWidth="50.0">
                <value>
                   <Color />
                </value>
@@ -51,7 +51,14 @@
             <Button fx:id="generateQuote" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Generate" />
             <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Save" />
             <Button fx:id="shareButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Share" textAlignment="CENTER" />
-            <Button fx:id="directShare" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Direct Share" />
+            <Button fx:id="filterButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Filters" textAlignment="CENTER" />
+         </children>
+      </HBox>
+      <HBox fx:id="filterBar" alignment="CENTER" layoutX="-1.0" layoutY="373.0" prefHeight="30.0" prefWidth="600.0" style="-fx-spacing: 5;" visible="false">
+         <children>
+            <Button fx:id="grayscaleFilter" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="Grayscale" textAlignment="CENTER" />
+            <Button fx:id="bwFilter" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="BW" />
+            <Button fx:id="backButton" focusTraversable="false" mnemonicParsing="false" text="Back" />
          </children>
       </HBox>
    </children>
