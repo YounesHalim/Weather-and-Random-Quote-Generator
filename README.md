@@ -184,7 +184,6 @@ L'application comporte maintenant une fonctionnalité permettant d'ajouter des f
 
 Pour utiliser cette fonctionnalité, cliquez sur le bouton "Filters" dans l'interface Quotes, sélectionnez le filtre souhaité.
 
-![Imgur](https://imgur.com/eHb2ppZ.jpg)
 # Mises à jour actuelles
 - Résolution d'image améliorée
 - Plus de variations d'image
