@@ -56,7 +56,7 @@ public class QuoteController implements Initializable {
     @FXML
     private Label authorName;
     @FXML
-    private Button generateQuote, saveButton, shareButton, filterButton, backButton, grayscaleFilter, bwFilter;
+    private Button generateQuote, saveButton, shareButton, filterButton, backButton, grayscaleFilter, invertedButton, originalButton;
     @FXML
     private ColorPicker textColorPicker;
     @FXML
@@ -79,14 +79,17 @@ public class QuoteController implements Initializable {
         switchToMainBar();
         setInvertedFilter();
         setGrayScaleFilter();
+        revertToOriginal();
     }
 
     private void generateQuoteButtonHandler() {
         generateQuote.setOnAction(actionEvent -> new Thread(this::getRandomQuote).start());
     }
+
     private void shareButtonHandler() {
         shareButton.setOnAction(actionEvent -> Platform.runLater(this::shareLayoutOpener));
     }
+
     private void saveButtonHandler() {
         saveButton.setOnAction(actionEvent -> {
             try {
@@ -96,6 +99,7 @@ public class QuoteController implements Initializable {
             }
         });
     }
+
     private void getRandomQuote() {
         Quote[] quotes = getQuotes();
         int randPOS = new Random().nextInt(0, quotes.length);
@@ -105,10 +109,12 @@ public class QuoteController implements Initializable {
         setRandomBG();
         textColorPicker.setOnAction(actionEvent -> Platform.runLater(this::setQuoteColor));
     }
+
     private void setRandomQuote(Quote quotes) {
         quoteTextField.setText(quotes.getQ());
         authorName.setText(quotes.getA());
     }
+
     protected static String setFormattedHTMLQuote(Quote quotes) {
         Optional<String> html = getQuotesInstance().getHTML(quotes.getH());
         return html.orElse(null);
@@ -187,17 +193,19 @@ public class QuoteController implements Initializable {
         int height = (int) fetchedImage.getHeight(), width = (int) fetchedImage.getWidth();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                new ImageProcessingController().applyFilter(filter,pixelWriter,pixelReader,i,j);
+                new ImageProcessingController().applyFilter(filter, pixelWriter, pixelReader, i, j);
             }
         }
         imageContainer.setImage(filteredImage);
     }
+
     private void switchToFiltersBar() {
         filterButton.setOnAction(actionEvent -> {
             filterBar.setVisible(true);
             optionBar.setVisible(false);
         });
     }
+
     private void switchToMainBar() {
         backButton.setOnAction(actionEvent -> {
             filterBar.setVisible(false);
@@ -206,6 +214,10 @@ public class QuoteController implements Initializable {
 
     }
     private void setGrayScaleFilter(){grayscaleFilter.setOnAction(actionEvent -> Platform.runLater(()->setFilter(Filters.GRAYSCALE)));}
-    private void setInvertedFilter() {bwFilter.setOnAction(actionEvent -> Platform.runLater(()->setFilter(Filters.INVERTED)));}
+    private void setInvertedFilter() {invertedButton.setOnAction(actionEvent -> Platform.runLater(()->setFilter(Filters.INVERTED)));}
 
+
+    private void revertToOriginal() {
+        originalButton.setOnAction(actionEvent -> Platform.runLater(()->imageContainer.setImage(fetchedImage)));
+    }
 }
