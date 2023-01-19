@@ -13,6 +13,7 @@ public class ImageProcessingController {
     protected void applyFilter(Filters filter, PixelWriter pixelWriter, PixelReader pixelReader, int i, int j) {
         switch (filter) {
             case GRAYSCALE -> grayscale(pixelWriter, pixelReader, i, j);
+            case INVERTED -> inverted(pixelWriter, pixelReader,i,j);
         }
     }
     private void grayscale(PixelWriter pixelWriter, PixelReader pixelReader, int i, int j) {
@@ -22,8 +23,9 @@ public class ImageProcessingController {
         pixelWriter.setColor(j, i, color);
     }
 
-    private void invert(PixelWriter pixelWriter, PixelReader pixelReader, int i, int j) {
+    private void inverted(PixelWriter pixelWriter, PixelReader pixelReader, int i, int j) {
         Color color = pixelReader.getColor(j, i);
         color = new Color(1 - color.getRed(), 1 - color.getGreen(), 1 - color.getBlue(), color.getOpacity());
+        pixelWriter.setColor(j, i, color);
     }
 }
