@@ -36,7 +36,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <HBox fx:id="optionBar" alignment="CENTER" layoutY="373.0" prefHeight="30.0" prefWidth="600.0" style="-fx-spacing: 5;" visible="false">
+      <HBox fx:id="optionBar" alignment="CENTER" layoutY="373.0" prefHeight="30.0" prefWidth="600.0" style="-fx-spacing: 5;">
          <children>
             <Label prefHeight="16.0" prefWidth="33.0" text="Text" textFill="#e1e1e1">
                <font>
@@ -54,11 +54,11 @@
             <Button fx:id="filterButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Filters" textAlignment="CENTER" />
          </children>
       </HBox>
-      <HBox fx:id="filterBar" alignment="CENTER" layoutX="-1.0" layoutY="373.0" prefHeight="30.0" prefWidth="600.0" style="-fx-spacing: 5;">
+      <HBox fx:id="filterBar" alignment="CENTER" layoutX="-1.0" layoutY="373.0" prefHeight="30.0" prefWidth="600.0" style="-fx-spacing: 5;" visible="false">
          <children>
             <Button fx:id="grayscaleFilter" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="Grayscale" textAlignment="CENTER" />
             <Button fx:id="bwFilter" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="Inverted" />
-            <Button fx:id="BWFilterButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="BW" />
+            <Button fx:id="BWFilterButton" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="BW" />
             <Button fx:id="backButton" focusTraversable="false" mnemonicParsing="false" text="Back" />
          </children>
       </HBox>
