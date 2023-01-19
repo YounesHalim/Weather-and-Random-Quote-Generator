@@ -24,7 +24,8 @@ Ce projet a été créé à l'aide de le SDK Java 17 et utilise le multithreadin
 
 
 # Vue d'ensemble
-Cette application permet à l'utilisateur de consulter la météo de n'importe quelle ville du monde. En plus de cela, l'utilisateur peut également accéder à un générateur de citations qui génère une citation aléatoire accompagnée d'une image aléatoire générée à partir de deux API, en donnant une image en sortie. L'image peut aussi être partagée par e-mail avec plusieurs personnes. Dans les mises à jour futures, l'utilisateur pourra sélectionner la résolution de l'image et ajouter des filtres et la partager sur les réseaux sociaux.
+Cette application permet à l'utilisateur de consulter la météo de n'importe quelle ville du monde. En plus de cela, l'utilisateur peut également accéder à un générateur de citations qui génère une citation aléatoire accompagnée d'une image aléatoire générée à partir de deux API, en donnant une image en sortie. L'image peut aussi être partagée par e-mail avec plusieurs personnes. 
+De plus, l'utilisateur peut maintenant ajouter des filtres à l'image générée. Dans les mises à jour futures, l'utilisateur pourra sélectionner la résolution de l'image et ajouter des filtres et la partager sur les réseaux sociaux.
 # Installation
 Pour utiliser le Générateur de météo et de citations, suivez ces étapes :
 
@@ -174,8 +175,18 @@ public class EmailSenderService implements EmailProperties {
 }
 
 ```
+
+# Fonctionnalités
+L'application comporte maintenant une fonctionnalité permettant d'ajouter des filtres à l'image générée. Les utilisateurs peuvent sélectionner parmi une variété de filtres, tels que :
+- Grayscale
+- Inverted
+- BW
+
+Pour utiliser cette fonctionnalité, cliquez sur le bouton "Filters" dans l'interface Quotes, sélectionnez le filtre souhaité.
+
+![Imgur](https://imgur.com/eHb2ppZ.jpg)
 # Mises à jour actuelles
-- Filtres d'image et résolution d'image améliorée
+- Résolution d'image améliorée
 - Plus de variations d'image
 - Possibilité pour l'utilisateur de sélectionner leur propre image
 - Ajout d'une option de partage direct (Direct Share) (partage direct sur les réseaux sociaux, par exemple)
