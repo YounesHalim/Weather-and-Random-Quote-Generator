@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 public class ImageProcessingController {
     public enum Filters {
-        GRAYSCALE, SEPIA, BLACK_WHITE, INVERTED
+        GRAYSCALE, SEPIA, INVERTED, ORIGINAL
     }
 
     protected void applyFilter(Filters filter, PixelWriter pixelWriter, PixelReader pixelReader, int i, int j) {
