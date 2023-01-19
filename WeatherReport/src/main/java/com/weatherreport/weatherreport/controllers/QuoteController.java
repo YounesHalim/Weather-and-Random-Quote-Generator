@@ -16,9 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
+import javafx.scene.image.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -42,6 +40,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static com.weatherreport.weatherreport.controllers.ImageProcessingController.*;
 import static com.weatherreport.weatherreport.controllers.MainController.interfaceLoader;
 import static com.weatherreport.weatherreport.service.ZenQuotesService.*;
 
@@ -50,20 +49,45 @@ import static com.weatherreport.weatherreport.service.ZenQuotesService.*;
 @AllArgsConstructor
 @Builder
 public class QuoteController implements Initializable {
-    @FXML private AnchorPane rootQuoteAnchorPane;
-    @FXML private Text quoteTextField, imagePath;
-    @FXML private Label authorName;
-    @FXML private Button generateQuote, saveButton, shareButton, directShare;
-    @FXML private ColorPicker textColorPicker;
-    @FXML private ImageView imageContainer;
-    @FXML private AnchorPane imagePane;
-    @FXML private HBox optionBar;
+    @FXML
+    private AnchorPane rootQuoteAnchorPane;
+    @FXML
+    private Text quoteTextField, imagePath;
+    @FXML
+    private Label authorName;
+    @FXML
+    private Button generateQuote, saveButton, shareButton, filterButton, backButton, grayscaleFilter, bwFilter;
+    @FXML
+    private ColorPicker textColorPicker;
+    @FXML
+    private ImageView imageContainer;
+    @FXML
+    private AnchorPane imagePane;
+    @FXML
+    private HBox optionBar, filterBar;
     protected static int POS;
+    private Image fetchedImage;
+
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        generateQuoteButtonHandler();
+        saveButtonHandler();
+        shareButtonHandler();
         applyCursor();
-        generateQuote.setOnAction(actionEvent -> execution());
+        switchToFiltersBar();
+        switchToMainBar();
+        setInvertedFilter();
+        setGrayScaleFilter();
+    }
+
+    private void generateQuoteButtonHandler() {
+        generateQuote.setOnAction(actionEvent -> new Thread(this::getRandomQuote).start());
+    }
+    private void shareButtonHandler() {
+        shareButton.setOnAction(actionEvent -> Platform.runLater(this::shareLayoutOpener));
+    }
+    private void saveButtonHandler() {
         saveButton.setOnAction(actionEvent -> {
             try {
                 savePicture();
@@ -71,29 +95,20 @@ public class QuoteController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
-        shareButton.setOnAction(actionEvent -> Platform.runLater(this::shareLayoutOpener));
     }
-
-    private void execution() {
-        new Thread(this::getRandomQuote).start();
-        optionBar.getChildren().forEach((button) -> button.setVisible(true));
-    }
-
     private void getRandomQuote() {
         Quote[] quotes = getQuotes();
         int randPOS = new Random().nextInt(0, quotes.length);
         POS = randPOS;
-        new Thread(()-> setFormattedHTMLQuote(quotes[randPOS])).start();
+        new Thread(() -> setFormattedHTMLQuote(quotes[randPOS])).start();
         Platform.runLater(() -> setRandomQuote(quotes[randPOS]));
         setRandomBG();
         textColorPicker.setOnAction(actionEvent -> Platform.runLater(this::setQuoteColor));
     }
-
     private void setRandomQuote(Quote quotes) {
         quoteTextField.setText(quotes.getQ());
         authorName.setText(quotes.getA());
     }
-
     protected static String setFormattedHTMLQuote(Quote quotes) {
         Optional<String> html = getQuotesInstance().getHTML(quotes.getH());
         return html.orElse(null);
@@ -108,7 +123,8 @@ public class QuoteController implements Initializable {
         List<String> urls = UnsplashService.getListOfURLs();
         int size = urls.size();
         int rand = new Random().nextInt(0, size);
-        Platform.runLater(() -> imageContainer.setImage(new Image(urls.get(rand), 574, 349, false, false)));
+        fetchedImage = new Image(urls.get(rand), 574, 349, false, false);
+        Platform.runLater(() -> imageContainer.setImage(fetchedImage));
     }
 
     @SneakyThrows
@@ -152,6 +168,7 @@ public class QuoteController implements Initializable {
         ObservableList<Node> list = optionBar.getChildren();
         list.forEach((button) -> button.setCursor(Cursor.HAND));
     }
+
     @SneakyThrows
     private void shareLayoutOpener() {
         FXMLLoader loader = new FXMLLoader();
@@ -162,5 +179,33 @@ public class QuoteController implements Initializable {
         stage.setScene(new Scene(parent));
         stage.show();
     }
+
+    private void setFilter(Filters filter) {
+        WritableImage filteredImage = new WritableImage((int) fetchedImage.getWidth(), (int) fetchedImage.getHeight());
+        PixelWriter pixelWriter = filteredImage.getPixelWriter();
+        PixelReader pixelReader = fetchedImage.getPixelReader();
+        int height = (int) fetchedImage.getHeight(), width = (int) fetchedImage.getWidth();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                new ImageProcessingController().applyFilter(filter,pixelWriter,pixelReader,i,j);
+            }
+        }
+        imageContainer.setImage(filteredImage);
+    }
+    private void switchToFiltersBar() {
+        filterButton.setOnAction(actionEvent -> {
+            filterBar.setVisible(true);
+            optionBar.setVisible(false);
+        });
+    }
+    private void switchToMainBar() {
+        backButton.setOnAction(actionEvent -> {
+            filterBar.setVisible(false);
+            optionBar.setVisible(true);
+        });
+
+    }
+    private void setGrayScaleFilter(){grayscaleFilter.setOnAction(actionEvent -> Platform.runLater(()->setFilter(Filters.GRAYSCALE)));}
+    private void setInvertedFilter() {bwFilter.setOnAction(actionEvent -> Platform.runLater(()->setFilter(Filters.INVERTED)));}
 
 }
