@@ -130,6 +130,11 @@ Pour connaître la météo d'un lieu spécifique, entrez la ville et le pays dan
 Pour générer une nouvelle citation, cliquez sur l'onglet "Quotes" puis sur le bouton "Generate". 
 L'application affichera une citation aléatoire et une image de fond correspondante. Vous pouvez partager l'image actuelle par e-mail en cliquant sur le bouton "Share" ou enregistrer l'image sur votre appareil en cliquant sur le bouton "Save".
 
+L'application comporte maintenant une fonctionnalité permettant d'ajouter des filtres à l'image générée. Les utilisateurs peuvent sélectionner parmi une variété de filtres, tels que :
+- Grayscale
+- Inverted
+
+Pour utiliser cette fonctionnalité, cliquez sur le bouton "Filters" dans l'interface Quotes, sélectionnez le filtre souhaité.
 
 __Note__: <mark> Pour utiliser la fonctionnalité de partage par e-mail, vous devez ajouter votre email et votre mot de passe d'application dans le fichier .env, cela est mentionné dans la section d'installation. Le serveur SMTP de Jakarta a été programmé pour utiliser Gmail. Si vous souhaitez envoyer des e-mails via un autre fournisseur, vous devez mettre à jour cette section en conséquence.
 
@@ -175,14 +180,6 @@ public class EmailSenderService implements EmailProperties {
 }
 
 ```
-
-# Fonctionnalités
-L'application comporte maintenant une fonctionnalité permettant d'ajouter des filtres à l'image générée. Les utilisateurs peuvent sélectionner parmi une variété de filtres, tels que :
-- Grayscale
-- Inverted
-
-Pour utiliser cette fonctionnalité, cliquez sur le bouton "Filters" dans l'interface Quotes, sélectionnez le filtre souhaité.
-
 
 # Mises à jour actuelles
 - Résolution d'image améliorée
