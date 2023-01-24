@@ -127,6 +127,7 @@ public class WeatherReportController {
                         initialize();
                     }
                 }
+                case BACK_SPACE -> searchBar.setText("");
             }
         });
     }
