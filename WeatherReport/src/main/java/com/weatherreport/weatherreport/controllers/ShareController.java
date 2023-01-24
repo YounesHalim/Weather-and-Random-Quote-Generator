@@ -75,12 +75,16 @@ public class ShareController implements Initializable {
             for (String email : emailArray) {
                 email = email.toLowerCase().trim();
                 if (!email.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$")) {
-                    System.out.println("false");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Invalid email address");
+                    alert.setContentText("Please enter a valid email address");
+                    alert.showAndWait();
                 } else {
                     Thread thread = new Thread(() -> getEmailSenderInstance().shareByEmail(emailArray, pathBuilder.toString(), editor.getHtmlText()));
                     thread.start();
-                    thread.join();
                     successMessage();
+                    thread.join();
                 }
             }
         }
