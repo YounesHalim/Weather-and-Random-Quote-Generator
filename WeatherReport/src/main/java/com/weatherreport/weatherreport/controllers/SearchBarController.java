@@ -15,7 +15,7 @@ import java.util.function.Function;
 public class SearchBarController{
     public static List<String> worldCitiesList = new ArrayList<>();
     public static void fetchJSONData() {
-        String path = "src/main/resources/com/weatherreport/weatherreport/cities.json";
+        String path = "WeatherReport/src/main/resources/com/weatherreport/weatherreport/cities.json";
         Gson gson = new Gson();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
             GeographicLocation data = gson.fromJson(bufferedReader, GeographicLocation.class);
