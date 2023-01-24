@@ -20,6 +20,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -62,7 +63,8 @@ public class WeatherReportController {
         String icon = new Weather().getWeatherAttributes(forecast, Weather::getIcon);
         try {
             String iconPath = getWeatherServiceInstance().getAppropriateWeatherIcon(icon).toString();
-            weatherIcon.setFill(new ImagePattern(new Image(Objects.requireNonNull(iconPath), 32, 32, false, false)));
+            CompletableFuture<Image> imageCompletableFuture = CompletableFuture.supplyAsync(()-> new Image(Objects.requireNonNull(iconPath), 32, 32, false, false));
+            weatherIcon.setFill(new ImagePattern(imageCompletableFuture.join()));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -128,7 +130,6 @@ public class WeatherReportController {
                     }
                 }
                 case BACK_SPACE -> searchBar.setText("");
-
             }
         });
     }
