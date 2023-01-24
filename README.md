@@ -29,9 +29,15 @@ De plus, l'utilisateur peut maintenant ajouter des filtres à l'image générée
 # Installation
 Pour utiliser le Générateur de météo et de citations, suivez ces étapes :
 
+### __Important__: 
+-  l'application utilise control FX11 pour la complétion automatique lors de la recherche de villes. Cependant, il faut ajouter cette ligne aux options VM
+   ```
+   --add-exports javafx.base/com.sun.javafx.event=org.controlsfx.controls
+   ```
+
 1. Clonez le répertoire :
     ```
-    git clone https://github.com/youneshalim/Weather-app
+    https://github.com/YounesHalim/Weather-and-Random-Quote-Generator.git
     ```
 2. Obtenez des clés API pour l'API OpenWeatherMap et l'API Unsplash.
 3. Allez dans le fichier appelé .env dans le répertoire racine du projet et ajoutez les lignes suivantes, en remplaçant YOUR-API-KEY-HERE par vos clés API réelles :
