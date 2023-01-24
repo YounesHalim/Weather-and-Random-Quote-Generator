@@ -129,9 +129,12 @@ public class QuoteController implements Initializable {
         List<String> urls = UnsplashService.getListOfURLs();
         int size = urls.size();
         int rand = new Random().nextInt(0, size);
-        fetchedImage = new Image(urls.get(rand), 574, 349, false, false);
-        Platform.runLater(() -> imageContainer.setImage(fetchedImage));
+        Platform.runLater(() -> {
+            fetchedImage = new Image(urls.get(rand), 574, 349, false, false);
+            imageContainer.setImage(fetchedImage);
+        });
     }
+
 
     @SneakyThrows
     private void saveImage(String path) {
@@ -211,7 +214,6 @@ public class QuoteController implements Initializable {
             filterBar.setVisible(false);
             optionBar.setVisible(true);
         });
-
     }
     private void setGrayScaleFilter(){grayscaleFilter.setOnAction(actionEvent -> Platform.runLater(()->setFilter(Filters.GRAYSCALE)));}
     private void setInvertedFilter() {invertedButton.setOnAction(actionEvent -> Platform.runLater(()->setFilter(Filters.INVERTED)));}
