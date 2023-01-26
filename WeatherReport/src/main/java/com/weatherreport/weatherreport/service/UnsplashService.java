@@ -2,10 +2,11 @@ package com.weatherreport.weatherreport.service;
 
 import com.google.gson.Gson;
 import com.weatherreport.weatherreport.model.apicall.ApiCall;
-import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import com.weatherreport.weatherreport.model.unsplash.Unsplash;
 import io.github.cdimascio.dotenv.Dotenv;
+import javafx.scene.image.Image;
 import lombok.SneakyThrows;
+
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ import java.util.concurrent.Future;
 
 public class UnsplashService implements ApiCall {
     private static UnsplashService unsplashService;
-    public static List<String> listOfURLs = new ArrayList<>();
+    public static List<Image> listOfImageObjects = new ArrayList<>();
+
     public UnsplashService() {
     }
     public static synchronized UnsplashService getApiUnsplashService() {
@@ -29,16 +31,18 @@ public class UnsplashService implements ApiCall {
     }
 
 
-    public void setListOfURLs() {
+
+    public void fetchImagesAsObjects() {
         Unsplash unsplashObject = deserializedJSONObject();
-        listOfURLs = unsplashObject
+        listOfImageObjects =  unsplashObject
                 .getResults()
                 .parallelStream()
-                .map((results -> results.getUrls().getRegular()+".jpeg"))
+                .map((image)-> new Image(image.getUrls().getRegular()+ ".jpeg"))
                 .toList();
     }
-    public static List<String> getListOfURLs() {
-        return listOfURLs;
+
+    public static List<Image> getListOfImageObjects() {
+        return listOfImageObjects;
     }
 
     public void flushData() {
@@ -60,7 +64,7 @@ public class UnsplashService implements ApiCall {
     @SneakyThrows
     @Override
     public <T> T deserializedJSONObject() {
-        String url = MessageFormat.format("https://api.unsplash.com/search/photos?page=10&query=outer-space&client_id={0}", Dotenv.load().get("APIKEY_UNSPLASH"));
+        String url = MessageFormat.format("https://api.unsplash.com/search/photos?page=10&query=outer-space&client_id={0}&w={1}&h={2}", Dotenv.load().get("APIKEY_UNSPLASH"),"574","349");
         Gson gson = new Gson();
         Callable<Unsplash> unsplashCallable = () -> gson.fromJson(serializedJSONObject(url), Unsplash.class);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
