@@ -10,6 +10,7 @@ module com.weatherreport.weatherreport {
     requires jakarta.mail;
     requires jakarta.activation;
     requires javafx.web;
+    requires java.sql;
 
     opens com.weatherreport.weatherreport to javafx.fxml;
     opens com.weatherreport.weatherreport.controllers to javafx.fxml;
@@ -23,4 +24,6 @@ module com.weatherreport.weatherreport {
     exports com.weatherreport.weatherreport.model.location;
     exports com.weatherreport.weatherreport.model.Quotes;
     exports com.weatherreport.weatherreport.model.unsplash;
+    exports com.weatherreport.weatherreport.service;
+    opens com.weatherreport.weatherreport.service to com.google.gson;
 }
