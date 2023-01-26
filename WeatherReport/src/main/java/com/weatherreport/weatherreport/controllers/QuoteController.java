@@ -126,11 +126,14 @@ public class QuoteController implements Initializable {
     }
 
     private void setRandomBG() {
-        List<String> urls = UnsplashService.getListOfURLs();
+        List<Image> urls = UnsplashService.getListOfImageObjects();
         int size = urls.size();
         int rand = new Random().nextInt(0, size);
         Platform.runLater(() -> {
-            fetchedImage = new Image(urls.get(rand), 574, 349, false, false);
+            fetchedImage = urls.get(rand);
+            imageContainer.setFitHeight(574);
+            imageContainer.setFitHeight(349);
+            imageContainer.setPreserveRatio(false);
             imageContainer.setImage(fetchedImage);
         });
     }
@@ -139,6 +142,7 @@ public class QuoteController implements Initializable {
     @SneakyThrows
     private void saveImage(String path) {
         WritableImage writableImage = imagePane.snapshot(null, null);
+
         File file = new File(path);
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
         ImageIO.write(bufferedImage, "png", file);
