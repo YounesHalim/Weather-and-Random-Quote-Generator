@@ -20,7 +20,7 @@ public class WeatherReportApplication extends Application {
     }
     public static void main(String[] args) {
         new Thread(SearchBarController::fetchJSONData).start();
-        new Thread(()-> new UnsplashService().setListOfURLs()).start();
+        new Thread(()-> new UnsplashService().fetchImagesAsObjects()).start();
         launch();
     }
 }
