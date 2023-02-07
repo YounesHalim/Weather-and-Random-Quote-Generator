@@ -5,19 +5,14 @@ import com.weatherreport.weatherreport.model.Quotes.Quote;
 import com.weatherreport.weatherreport.model.apicall.ApiCall;
 import lombok.SneakyThrows;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
+
 public class ZenQuotesService implements ApiCall {
     private static ZenQuotesService quotesServiceInstance;
     private static final Quote[] quotes = getQuotesInstance().deserializedJSONObject();
-
-    public enum Type{
-        QUOTE, AUTHOR, COUNT_CHAR, FORMATTED_HTML
-    }
     private ZenQuotesService() {}
 
     public static synchronized ZenQuotesService getQuotesInstance() {
@@ -29,7 +24,6 @@ public class ZenQuotesService implements ApiCall {
     public static Quote[] getQuotes() {
         return quotes;
     }
-
     @Override
     public <T> T serializedJSONObject(T url) {
         return ApiCall.super.serializedJSONObject(url);
@@ -37,17 +31,20 @@ public class ZenQuotesService implements ApiCall {
     @SneakyThrows
     @Override
     public <T> T  deserializedJSONObject() {
-        Gson gson  = new Gson();
-        Callable<Quote[]> quotesObject = () -> gson.fromJson(serializedJSONObject(new URL("https://zenquotes.io/api/quotes/").toString()), Quote[].class);
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<Quote[]> quoteFuture = executorService.submit(quotesObject);
-        executorService.shutdown();
-        return (T) quoteFuture.get();
+        return (T) CompletableFuture.supplyAsync(()-> {
+            try {
+                return new Gson().fromJson(serializedJSONObject(new URL("https://zenquotes.io/api/quotes/").toString()),Quote[].class);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        }).exceptionally((error) -> {
+            System.out.println(error.getMessage());
+            return null;
+        }).get();
     }
 
     public Optional<String> getHTML(String quote) {
-        Optional<String> formattedHTMLQuote = quote.describeConstable();
-        return formattedHTMLQuote.isPresent() ? formattedHTMLQuote : Optional.empty();
+        return quote.describeConstable();
     }
 
 }
