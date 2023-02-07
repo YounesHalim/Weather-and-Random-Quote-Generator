@@ -34,7 +34,7 @@ Pour utiliser le Générateur de météo et de citations, suivez ces étapes :
    ```
    --add-exports javafx.base/com.sun.javafx.event=org.controlsfx.controls
    ```
-
+   
 1. Clonez le répertoire :
     ```
     https://github.com/YounesHalim/Weather-and-Random-Quote-Generator.git
@@ -42,8 +42,6 @@ Pour utiliser le Générateur de météo et de citations, suivez ces étapes :
 2. Obtenez des clés API pour l'API OpenWeatherMap et l'API Unsplash.
 3. Allez dans le fichier appelé .env dans le répertoire racine du projet et ajoutez les lignes suivantes, en remplaçant YOUR-API-KEY-HERE par vos clés API réelles :
     ```
-   API_OPEN_WEATHER = [YOUR-API-KEY-HERE]
-   APIKEY_UNSPLASH = [YOUR-API-KEY-HERE]
    EMAIL = your_email@gmail.com
    PASSWORD = your_email_application_password
    ```
@@ -187,18 +185,6 @@ public class EmailSenderService implements EmailProperties {
 
 ```
 
-# Mises à jour futures
-Je travaille actuellement sur les fonctionnalités suivantes pour les prochaines mises à jour :
-- Amélioration de la performance
-- Résolution d'image améliorée
-- Plus de variations d'image
-- Possibilité pour l'utilisateur de sélectionner leur propre image
-- Ajout d'une option de partage direct (Direct Share) (partage direct sur les réseaux sociaux, par exemple)
-### Statut
-
-Je suis actuellement engagé dans mes études et mes examens, et en conséquence, les mises à jour peuvent prendre plus de temps que d'habitude.
-Je ferai de mon mieux pour maintenir les choses en ordre, veuillez me pardonner s'il y a des retards.
-Je m'attends à être pleinement disponible à nouveau à partir du 15 juin. Merci de votre patience et de votre compréhension.
 
 
 # Crédits

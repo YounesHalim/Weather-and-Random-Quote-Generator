@@ -3,7 +3,6 @@ package com.weatherreport.weatherreport.service;
 import com.google.gson.Gson;
 import com.weatherreport.weatherreport.model.apicall.ApiCall;
 import com.weatherreport.weatherreport.model.unsplash.Unsplash;
-import io.github.cdimascio.dotenv.Dotenv;
 import javafx.scene.image.Image;
 import lombok.SneakyThrows;
 
@@ -12,33 +11,18 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class UnsplashService implements ApiCall {
     private static UnsplashService unsplashService;
     public static List<Image> listOfImageObjects = new ArrayList<>();
-
-    public UnsplashService() {
+    private UnsplashService() {
     }
-    public static synchronized UnsplashService getApiUnsplashService() {
-        if(unsplashService == null) {
+    public static synchronized UnsplashService getUnsplashInstance() {
+        if (unsplashService == null) {
             unsplashService = new UnsplashService();
         }
         return unsplashService;
-    }
-
-
-
-    public void fetchImagesAsObjects() {
-        Unsplash unsplashObject = deserializedJSONObject();
-        listOfImageObjects =  unsplashObject
-                .getResults()
-                .parallelStream()
-                .map((image)-> new Image(image.getUrls().getRegular()+ ".jpeg"))
-                .toList();
     }
 
     public static List<Image> getListOfImageObjects() {
@@ -47,12 +31,12 @@ public class UnsplashService implements ApiCall {
 
     public void flushData() {
         File dir = new File("src/main/resources/com/weatherreport/weatherreport/thumbnail");
-        if(Objects.requireNonNull(dir.listFiles()).length == 0) {
+        if (Objects.requireNonNull(dir.listFiles()).length == 0) {
             return;
         }
         File[] files = dir.listFiles();
         assert files != null;
-        for(File file: files) {
+        for (File file : files) {
             file.delete();
         }
     }
@@ -64,13 +48,21 @@ public class UnsplashService implements ApiCall {
     @SneakyThrows
     @Override
     public <T> T deserializedJSONObject() {
-        String url = MessageFormat.format("https://api.unsplash.com/search/photos?page=10&query=outer-space&client_id={0}&w={1}&h={2}", Dotenv.load().get("APIKEY_UNSPLASH"),"574","349");
-        Gson gson = new Gson();
-        Callable<Unsplash> unsplashCallable = () -> gson.fromJson(serializedJSONObject(url), Unsplash.class);
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<Unsplash> unsplashFuture = executorService.submit(unsplashCallable);
-        executorService.shutdown();
-        return (T) unsplashFuture.get();
+        return (T) CompletableFuture.supplyAsync(() -> {
+                    String url = MessageFormat.format("https://api.unsplash.com/search/photos?page=10&query=outer-space&client_id={0}&w={1}&h={2}", "Ez8EluKzO3ikTDUlfh8qQIBEXyWg63taNul6fryrxD0", "574", "349");
+                    return new Gson().fromJson(serializedJSONObject(url), Unsplash.class);
+                })
+                .thenApply(unsplashMappedObject -> {
+                    listOfImageObjects = unsplashMappedObject.
+                            getResults()
+                            .parallelStream()
+                            .map((image) -> new Image(image.getUrls().getRegular() + "jpeg"))
+                            .toList();
+                    return listOfImageObjects;
+                }).exceptionally(error -> {
+                    error.printStackTrace();
+                    return null;
+                }).get();
     }
 
 
