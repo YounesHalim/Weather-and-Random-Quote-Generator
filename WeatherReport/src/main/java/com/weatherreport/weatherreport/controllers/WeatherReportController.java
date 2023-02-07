@@ -1,4 +1,5 @@
 package com.weatherreport.weatherreport.controllers;
+
 import com.weatherreport.weatherreport.model.location.GeographicLocation;
 import com.weatherreport.weatherreport.model.meteorology.MainWeather;
 import com.weatherreport.weatherreport.model.meteorology.Meteorology;
@@ -11,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -38,8 +40,8 @@ public class WeatherReportController {
     private Label lowTemp, highTemp, newsTitle, feelsLike, sunsetHour, sunriseHour, degree, countryLocation, weatherDescription, mainDescription;
     @FXML
     private Label pressure, humidity, visibility, windData;
-    @FXML
-    private Circle weatherIcon, sunsetIcon, sunriseIcon, visibilityIcon, humidityIcon, pressureIcon, windIcon, minTempIcon, maxTempIcon;
+    @FXML private Rectangle bgImage;
+    @FXML private Circle weatherIcon, sunsetIcon, sunriseIcon, visibilityIcon, humidityIcon, pressureIcon, windIcon, minTempIcon, maxTempIcon;
     public static GeographicLocation defaultLocation = GeographicLocation.builder().country("CA").name("Montreal").lng("45.5019").lat("73.5674").build();
     private String celsius = "%d°C";
 
@@ -71,10 +73,11 @@ public class WeatherReportController {
     }
 
     private void setHeliosTime(String firstOrLastLight, long sunriseSunsetTime) {
-        Date convertedDate = new Date(sunriseSunsetTime * 1000);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(sunriseSunsetTime * 1000);
         switch (firstOrLastLight) {
-            case "LAST" -> sunsetHour.setText(convertedDate.getHours() + ":" + convertedDate.getMinutes());
-            case "FIRST" -> sunriseHour.setText(convertedDate.getHours() + ":" + convertedDate.getMinutes());
+            case "LAST" -> sunsetHour.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
+            case "FIRST" -> sunriseHour.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
         }
     }
 
@@ -110,7 +113,7 @@ public class WeatherReportController {
         weatherDescription.setText(description);
     }
 
-    protected Meteorology setWeatherApiCall(GeographicLocation news) {
+    private Meteorology setWeatherApiCall(GeographicLocation news) {
         return getWeatherServiceInstance().weatherApiCall(news);
     }
 
@@ -118,7 +121,7 @@ public class WeatherReportController {
         WeatherReportController.defaultLocation = defaultLocation;
     }
 
-    protected void searchBarFunction() {
+    private void searchBarFunction() {
         searchBar.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
                 case ENTER -> {
