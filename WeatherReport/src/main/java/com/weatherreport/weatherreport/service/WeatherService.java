@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 public class WeatherService implements ApiCall{
     private static WeatherService weatherService;
     public WeatherService() {}
-    public static WeatherService getWeatherServiceInstance() {
+    public static synchronized WeatherService getWeatherServiceInstance() {
         if (weatherService == null) {
             weatherService = new WeatherService();
         }

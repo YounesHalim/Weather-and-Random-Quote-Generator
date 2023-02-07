@@ -11,56 +11,68 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootQuoteAnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #201932;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.QuoteController">
-   <children>
-      <AnchorPane fx:id="imagePane" layoutX="19.0" layoutY="18.0" prefHeight="349.0" prefWidth="557.0">
-         <children>
-            <ImageView fx:id="imageContainer" fitHeight="349.0" fitWidth="574.0" layoutX="-6.0" pickOnBounds="true" preserveRatio="true" />
-            <HBox fx:id="imageNode" alignment="CENTER" layoutX="27.0" layoutY="10.0" prefHeight="330.0" prefWidth="515.0">
-               <children>
-                  <VBox alignment="CENTER" prefHeight="316.0" prefWidth="287.0">
-                     <children>
-                        <Text fx:id="quoteTextField" fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on generate " textAlignment="CENTER" wrappingWidth="287.0">
-                           <font>
-                              <Font name="PT Serif" size="23.0" />
-                           </font>
-                        </Text>
-                        <Label fx:id="authorName" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="17.0" prefWidth="290.0" textAlignment="CENTER" textFill="#e4e4e4">
-                           <font>
-                              <Font name="PT Serif" size="12.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-      <HBox fx:id="optionBar" alignment="CENTER" layoutY="373.0" prefHeight="30.0" prefWidth="600.0" style="-fx-spacing: 5;">
-         <children>
-            <Label prefHeight="16.0" prefWidth="33.0" text="Text" textFill="#e1e1e1">
-               <font>
-                  <Font name="Arial" size="13.0" />
-               </font>
-            </Label>
-            <ColorPicker fx:id="textColorPicker" focusTraversable="false" prefHeight="25.0" prefWidth="50.0">
-               <value>
-                  <Color />
-               </value>
-            </ColorPicker>
-            <Button fx:id="generateQuote" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Generate" />
-            <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Save" />
-            <Button fx:id="shareButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Share" textAlignment="CENTER" />
-            <Button fx:id="filterButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Filters" textAlignment="CENTER" />
-         </children>
-      </HBox>
-      <HBox fx:id="filterBar" alignment="CENTER" layoutX="-1.0" layoutY="373.0" prefHeight="30.0" prefWidth="600.0" style="-fx-spacing: 5;" visible="false">
-         <children>
-            <Button fx:id="originalButton" mnemonicParsing="false" text="Original" />
-            <Button fx:id="grayscaleFilter" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="Grayscale" textAlignment="CENTER" />
-            <Button fx:id="invertedButton" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="Inverted" />
-            <Button fx:id="backButton" focusTraversable="false" mnemonicParsing="false" text="Back" />
-         </children>
-      </HBox>
-   </children>
+<AnchorPane fx:id="rootQuoteAnchorPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #1C1C1C;"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.weatherreport.weatherreport.controllers.QuoteController">
+   <AnchorPane fx:id="imagePane" layoutX="16.0" layoutY="39.0" prefHeight="349.0" prefWidth="557.0">
+      <children>
+         <ImageView fx:id="imageContainer" fitHeight="349.0" fitWidth="574.0" layoutX="-3.0" pickOnBounds="true"
+                    preserveRatio="true"/>
+         <HBox fx:id="imageNode" alignment="CENTER" layoutX="27.0" layoutY="10.0" prefHeight="330.0" prefWidth="515.0">
+            <children>
+               <VBox alignment="CENTER" prefHeight="316.0" prefWidth="287.0">
+                  <children>
+                     <Text fx:id="quoteTextField" fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0"
+                           text="Click on generate " textAlignment="CENTER" wrappingWidth="287.0">
+                        <font>
+                           <Font name="PT Serif" size="23.0"/>
+                        </font>
+                     </Text>
+                     <Label fx:id="authorName" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false"
+                            prefHeight="17.0" prefWidth="290.0" textAlignment="CENTER" textFill="#e4e4e4">
+                        <font>
+                           <Font name="PT Serif" size="12.0"/>
+                        </font>
+                     </Label>
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
+      </children>
+   </AnchorPane>
+   <HBox fx:id="optionBar" alignment="CENTER" layoutX="-1.0" layoutY="403.0" prefHeight="30.0" prefWidth="600.0"
+         style="-fx-spacing: 5;">
+      <children>
+         <Label prefHeight="16.0" prefWidth="33.0" text="Text" textFill="#e1e1e1">
+            <font>
+               <Font name="Arial" size="13.0"/>
+            </font>
+         </Label>
+         <ColorPicker fx:id="textColorPicker" focusTraversable="false" prefHeight="25.0" prefWidth="50.0">
+            <value>
+               <Color/>
+            </value>
+         </ColorPicker>
+         <Button fx:id="generateQuote" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false"
+                 prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Generate"/>
+         <Button fx:id="saveButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0"
+                 style="-fx-background-radius: 4;" text="Save"/>
+         <Button fx:id="shareButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false"
+                 prefHeight="25.0" prefWidth="86.0" style="-fx-background-radius: 4;" text="Share"
+                 textAlignment="CENTER"/>
+         <Button fx:id="filterButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0"
+                 prefWidth="86.0" style="-fx-background-radius: 4;" text="Filters" textAlignment="CENTER"/>
+      </children>
+   </HBox>
+   <HBox fx:id="filterBar" alignment="CENTER" layoutX="-1.0" layoutY="403.0" prefHeight="30.0" prefWidth="600.0"
+         style="-fx-spacing: 5;" visible="false">
+      <children>
+         <Button fx:id="originalButton" mnemonicParsing="false" text="Original"/>
+         <Button fx:id="grayscaleFilter" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false"
+                 mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="Grayscale" textAlignment="CENTER"/>
+         <Button fx:id="invertedButton" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0"
+                 prefWidth="86.0" text="Inverted"/>
+         <Button fx:id="backButton" focusTraversable="false" mnemonicParsing="false" text="Back"/>
+      </children>
+   </HBox>
 </AnchorPane>
