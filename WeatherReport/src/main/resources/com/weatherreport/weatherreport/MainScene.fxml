@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="mainApplicationLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  style="-fx-background-color: #f0f8fc;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.MainController">
+<BorderPane fx:id="mainApplicationLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="720.0" style="-fx-background-color: #f0f8fc;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.weatherreport.weatherreport.controllers.MainController">
     <center>
-        <fx:include source="fxml/weatherScene.fxml" />
+        <fx:include source="fxml/weatherScene.fxml" BorderPane.alignment="CENTER" />
     </center>
 
    <left>
-      <AnchorPane prefHeight="400.0" prefWidth="126.0" style="-fx-background-color: #1b1b1b;" BorderPane.alignment="CENTER">
-         <children>
-            <VBox layoutX="9.0" layoutY="94.0" prefHeight="60.0" prefWidth="109.0" style="-fx-spacing: 10;">
-               <children>
-                  <Button fx:id="weather" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-radius: 10; -fx-background-color: dodgerblue;" text="Weather">
-                     <font>
-                        <Font name="PT Serif" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="quotes" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-radius: 10; -fx-background-color: dodgerblue;" text="Quotes">
-                     <font>
-                        <Font name="PT Serif" size="13.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
-         </children>
+      <AnchorPane prefHeight="500.0" prefWidth="120.0" style="-fx-background-color: #1b1b1b;" BorderPane.alignment="CENTER">
+         <VBox fx:id="vboxOptionMenu" alignment="CENTER" layoutX="6.0" layoutY="108.0" prefHeight="60.0" prefWidth="109.0" style="-fx-spacing: 10;">
+            <Circle fx:id="weather" fill="DODGERBLUE" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
+            <Text fill="#fffefe" strokeType="OUTSIDE" strokeWidth="0.0" text="Weather" />
+            <Circle fx:id="quotes" fill="DODGERBLUE" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Quotes" />
+         </VBox>
       </AnchorPane>
    </left>
 </BorderPane>
