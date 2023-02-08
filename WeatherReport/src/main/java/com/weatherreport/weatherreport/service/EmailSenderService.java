@@ -23,7 +23,7 @@ public class EmailSenderService implements EmailProperties {
     private static EmailSenderService emailSender;
 
     private EmailSenderService() {}
-    public static EmailSenderService getEmailSenderInstance() {
+    public static synchronized EmailSenderService getEmailSenderInstance() {
         if(emailSender == null) {
             emailSender = new EmailSenderService();
         }
