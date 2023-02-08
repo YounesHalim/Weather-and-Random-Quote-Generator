@@ -16,7 +16,7 @@ module com.weatherreport.weatherreport {
     opens com.weatherreport.weatherreport.controllers to javafx.fxml;
     opens com.weatherreport.weatherreport.model.meteorology to com.google.gson;
     opens com.weatherreport.weatherreport.model.unsplash to com.google.gson;
-    opens com.weatherreport.weatherreport.model.location to com.google.gson;
+    opens com.weatherreport.weatherreport.model.location to com.google.gson, javafx.graphics;
     opens com.weatherreport.weatherreport.model.Quotes to com.google.gson;
 
     exports com.weatherreport.weatherreport;
