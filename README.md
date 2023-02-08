@@ -27,9 +27,8 @@ Ce projet a été créé à l'aide de le SDK Java 17 et utilise le multithreadin
 Cette application permet à l'utilisateur de consulter la météo de n'importe quelle ville du monde. En plus de cela, l'utilisateur peut également accéder à un générateur de citations qui génère une citation aléatoire accompagnée d'une image aléatoire générée à partir de deux API, en donnant une image en sortie. L'image peut aussi être partagée par e-mail avec plusieurs personnes.
 De plus, l'utilisateur peut maintenant ajouter des filtres à l'image générée. Dans les mises à jour futures, l'utilisateur pourra sélectionner la résolution de l'image et ajouter des filtres et la partager sur les réseaux sociaux.
 # Installation
-Pour utiliser le Générateur de météo et de citations, suivez ces étapes :
 
-### __Important__: 
+   ### __Important__: 
 -  l'application utilise control FX11 pour la complétion automatique lors de la recherche de villes. Cependant, il faut ajouter cette ligne aux options VM
    ```
    --add-exports javafx.base/com.sun.javafx.event=org.controlsfx.controls
@@ -39,15 +38,15 @@ Pour utiliser le Générateur de météo et de citations, suivez ces étapes :
     ```
     https://github.com/YounesHalim/Weather-and-Random-Quote-Generator.git
     ```
-2. Obtenez des clés API pour l'API OpenWeatherMap et l'API Unsplash.
-3. Allez dans le fichier appelé .env dans le répertoire racine du projet et ajoutez les lignes suivantes, en remplaçant YOUR-API-KEY-HERE par vos clés API réelles :
+2. Allez dans le fichier appelé .env dans le répertoire racine du projet et ajoutez les lignes suivantes : 
     ```
-   API_OPEN_WEATHER = [YOUR-API-KEY-HERE]
-   APIKEY_UNSPLASH = [YOUR-API-KEY-HERE]
    EMAIL = your_email@gmail.com
    PASSWORD = your_email_application_password
    ```
-4. Si vous utilisez Maven pour gérer les dépendances, ajoutez les dépendances suivantes à votre fichier pom.xml :
+   Si votre compte Google utilise la vérification en deux étapes, vous devrez [**cliquer ici**](https://support.google.com/accounts/answer/185833?hl=en) pour plus d'informations afin de générer votre mot de passe d'application.
+
+
+3. Si vous utilisez Maven pour gérer les dépendances, ajoutez les dépendances suivantes à votre fichier pom.xml :
     ```xml
    <dependencies>
         <dependency>
@@ -186,20 +185,6 @@ public class EmailSenderService implements EmailProperties {
 }
 
 ```
-
-# Mises à jour futures
-Je travaille actuellement sur les fonctionnalités suivantes pour les prochaines mises à jour :
-- Amélioration de la performance
-- Résolution d'image améliorée
-- Plus de variations d'image
-- Possibilité pour l'utilisateur de sélectionner leur propre image
-- Ajout d'une option de partage direct (Direct Share) (partage direct sur les réseaux sociaux, par exemple)
-### Statut
-
-Je suis actuellement engagé dans mes études et mes examens, et en conséquence, les mises à jour peuvent prendre plus de temps que d'habitude.
-Je ferai de mon mieux pour maintenir les choses en ordre, veuillez me pardonner s'il y a des retards.
-Je m'attends à être pleinement disponible à nouveau à partir du 15 juin. Merci de votre patience et de votre compréhension.
-
 
 # Crédits
 
